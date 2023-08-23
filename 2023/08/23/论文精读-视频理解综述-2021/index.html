@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-flash.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"milkyfun0.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"buttons","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="介绍2014年至2021年间视频领域的发展，分4阶段着重介绍了代表性的模型的演变">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文精读-视频理解综述-2021">
+<meta property="og:url" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/index.html">
+<meta property="og:site_name" content="Qxc&#39;s blog">
+<meta property="og:description" content="介绍2014年至2021年间视频领域的发展，分4阶段着重介绍了代表性的模型的演变">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/17419fc1a483496b95d7c3befa1e09f2.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/356339da9c9342fd9a7310b4f66b5472.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0c5ae0bbb1ab4b4988b6b2888fa716cc.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/cfad261fe34944ceb7ce2a679ed6c198.png">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.3">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e2cd961902be4bc9bb8a3bf3912cd0f5.png">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.2.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.3">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.4.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.1.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.3">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.1.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.2.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/5.1">
+<meta property="article:published_time" content="2023-08-23T15:32:20.000Z">
+<meta property="article:modified_time" content="2023-08-23T15:41:55.893Z">
+<meta property="article:author" content="404">
+<meta property="article:tag" content="论文精读">
+<meta property="article:tag" content="视频理解">
+<meta property="article:tag" content="3D卷积">
+<meta property="article:tag" content="双流网络">
+<meta property="article:tag" content="Transformer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/17419fc1a483496b95d7c3befa1e09f2.png">
+
+
+<link rel="canonical" href="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/","path":"2023/08/23/论文精读-视频理解综述-2021/","title":"论文精读-视频理解综述-2021"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>论文精读-视频理解综述-2021 | Qxc's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Qxc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">逃げちゃダメだ</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-%E7%BB%BC%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">0. 综述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Hand-Crafted-CNN"><span class="nav-number">2.</span> <span class="nav-text">1. Hand-Crafted- &gt;CNN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-DeepVideo"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 DeepVideo</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Two-Stream"><span class="nav-number">3.</span> <span class="nav-text">2. Two-Stream</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Two-Stream-Networks"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 Two-Stream Networks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Beyond-Short-Snippets"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 Beyond Short Snippets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-Convolutional-Fusion"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 Convolutional Fusion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-TSN"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 TSN</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-3D-ConvNet"><span class="nav-number">4.</span> <span class="nav-text">3. 3D ConvNet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-C3D"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 C3D</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-I3D-Inflated"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 I3D-Inflated</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-Non-local"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 Non-local</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-R2-1D"><span class="nav-number">4.4.</span> <span class="nav-text">3.4 R2+1D</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-SlowFast"><span class="nav-number">4.5.</span> <span class="nav-text">3.5 SlowFast</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Video-Transformer"><span class="nav-number">5.</span> <span class="nav-text">4. Video Transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-Space-Time-Attention"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 Space-Time Attention</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">5. 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="404"
+      src="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F2.webp">
+  <p class="site-author-name" itemprop="name">404</p>
+  <div class="site-description" itemprop="description">总之，能做什么就该去做，否则日后后悔就不好了吧。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/milkyfun0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;milkyfun0" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cao2573943723@163.com" title="E-Mail → mailto:cao2573943723@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F2.webp">
+      <meta itemprop="name" content="404">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qxc's blog">
+      <meta itemprop="description" content="总之，能做什么就该去做，否则日后后悔就不好了吧。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="论文精读-视频理解综述-2021 | Qxc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          论文精读-视频理解综述-2021
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-08-23 23:32:20 / 修改时间：23:41:55" itemprop="dateCreated datePublished" datetime="2023-08-23T23:32:20+08:00">2023-08-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文精读</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="0-综述"><a href="#0-综述" class="headerlink" title="0. 综述"></a>0. <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2012.06567">综述</a></h1><p><img src="https://img-blog.csdnimg.cn/17419fc1a483496b95d7c3befa1e09f2.png"></p>
+<h1 id="1-Hand-Crafted-CNN"><a href="#1-Hand-Crafted-CNN" class="headerlink" title="1. Hand-Crafted- &gt;CNN"></a>1. Hand-Crafted- &gt;CNN</h1><h2 id="1-1-DeepVideo"><a href="#1-1-DeepVideo" class="headerlink" title="1.1 DeepVideo"></a>1.1 <a target="_blank" rel="noopener" href="http://vision.stanford.edu/pdf/karpathy14.pdf">DeepVideo</a></h2><p> **&emsp;**<strong>探索可以用在视频上使用的各种神经网络：</strong>各种方法都差不多，第四种方法好些</p>
+<p><img src="https://img-blog.csdnimg.cn/356339da9c9342fd9a7310b4f66b5472.png"></p>
+<p><strong>&emsp;开始讲故事</strong></p>
+<p> <strong>&emsp;多分辨率神经网络</strong>：两个权值共享的网络，一个处理低分辨率的图像，一个处理高分辨率的图像（图片的中心区域），人为提高了注意力</p>
+<p><img src="https://img-blog.csdnimg.cn/0c5ae0bbb1ab4b4988b6b2888fa716cc.png"></p>
+<h1 id="2-Two-Stream"><a href="#2-Two-Stream" class="headerlink" title="2. Two-Stream"></a>2. Two-Stream</h1><p>&emsp;双流网络在这里指的是同时使用光流抽取的特征和图片（视频帧）本身的特征进行网络训练；经测试这种方法可以很大地提高网络捕捉动态效果的能力</p>
+<h2 id="2-1-Two-Stream-Networks"><a href="#2-1-Two-Stream-Networks" class="headerlink" title="2.1 Two-Stream Networks"></a>2.1 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1406.2199">Two-Stream Networks</a></h2><p><img src="https://img-blog.csdnimg.cn/cfad261fe34944ceb7ce2a679ed6c198.png"></p>
+<p>&emsp;late fusion-&gt;early fusion; AlexNet-&gt;Resnet Vgg;  加入</p>
+<p>![image-20230811154121029](C:\Users\alice\Desktop\ShuJia\论文精读\day14 视频理解论文串讲\pictures\2.1.2)</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.3" alt="image-20230811154214236"></p>
+<h2 id="2-2-Beyond-Short-Snippets"><a href="#2-2-Beyond-Short-Snippets" class="headerlink" title="2.2 Beyond Short Snippets"></a>2.2 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1503.08909">Beyond Short Snippets</a></h2><p>&emsp;想办法适应更长时间的视频、动作特征的提取等等。<strong>Pooling ，Lstm提取时序信息</strong>，但是LSTM效果不明显，可能是一个短的时序信息变化不大，内容相似，Lstm学习不到有用的信息，需要长视频&#x2F;变化大</p>
+<p><img src="https://img-blog.csdnimg.cn/e2cd961902be4bc9bb8a3bf3912cd0f5.png"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.2.2" alt="image-20230811154751109"></p>
+<h2 id="2-3-Convolutional-Fusion"><a href="#2-3-Convolutional-Fusion" class="headerlink" title="2.3 Convolutional Fusion"></a>2.3 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1604.06573">Convolutional Fusion</a></h2><p>&emsp;当有时间流和空间流两个网路之后，如何保证时间和空间的特征图在同样的位置上他们产生的通道respones是差不多能联系起来的。</p>
+<p>通常对于一个具有三个维度特征的数据而言我们有很多的探究方向：</p>
+<ol>
+<li>Spatial fusion ： 空间特征融合</li>
+<li>Time fusion ： 时间维度特征融合</li>
+<li>在网络的一层进行特征融合</li>
+</ol>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.1" alt="image-20230811155528639"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.3" alt="image-20230812093737912"></p>
+<p>&emsp;时间维度上的融合</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.2" alt="image-20230811155626303"></p>
+<p>&emsp;蓝：空间 绿：时间</p>
+<h2 id="2-4-TSN"><a href="#2-4-TSN" class="headerlink" title="2.4 TSN"></a>2.4 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1608.00859">TSN</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.4.1" alt="image-20230811155948188"></p>
+<p><strong>步骤</strong></p>
+<ol>
+<li>将视频分为多个段，从每段中抽取一帧的RGB图片，然后对这个图片进行光流计算</li>
+<li>重复工作，对不同段进行相同工作</li>
+<li>如果段分得比较小，那么抽取的特征在理论上是描述的同一个物体的运动特征</li>
+<li>最后进行一个特征融合，进行分类工作</li>
+</ol>
+<p><strong>技巧：</strong></p>
+<ol>
+<li>视频分段 </li>
+<li>ImageNet训练的模型应用到光流</li>
+<li>partial BN</li>
+<li>数据增强 专门对边角裁剪 改变长宽比 {256 224 192 168}</li>
+</ol>
+<h1 id="3-3D-ConvNet"><a href="#3-3D-ConvNet" class="headerlink" title="3. 3D ConvNet"></a>3. 3D ConvNet</h1><h2 id="3-1-C3D"><a href="#3-1-C3D" class="headerlink" title="3.1 C3D"></a>3.1 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1412.0767v3">C3D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.1.1" alt="image-20230811161145952"></p>
+<p>&emsp;C3D主要是提供了一种抽取特征做其他任务的方法（因为训练一个大型的3D网络非常昂贵，很多研究者无法训练），C3D作者将训练好的模型的接口提供给其他人，其他人只需要输入视频就可以得到抽取的特征（4096序列），这样就可以根据抽取的特征进行后续处理了。</p>
+<h2 id="3-2-I3D-Inflated"><a href="#3-2-I3D-Inflated" class="headerlink" title="3.2 I3D-Inflated"></a>3.2 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.07750">I3D-Inflated</a></h2><p><strong>贡献：</strong></p>
+<ol>
+<li>可以方便地将2D网络扩张到3D之中-直接复制权重，可以用巧妙的方法利用预训练模型</li>
+<li>提出了kinetics数据集</li>
+</ol>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.1" alt="image-20230811161448871"></p>
+<p>&emsp;Two-Stream 3D-ConvNet效果最好</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.2" alt="image-20230811161620887"></p>
+<p>&emsp;<strong>在空间、时间和网络深度上对感受野的增长进行调整：对于图片的两个空间维度，我们通常使用相同的卷积长度&#x2F;池化长度，但是在时间维度上并不相同，时间维度的kernel长度取决于帧率和图片大小。如果在时域内变化太块，它可能会混淆不同物体的边缘，破坏早期的特征检测，而如果它增长得太慢，它可能无法很好地捕捉场景的动态。动态性。</strong></p>
+<h2 id="3-3-Non-local"><a href="#3-3-Non-local" class="headerlink" title="3.3 Non-local"></a>3.3 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.07971">Non-local</a></h2><p>&emsp;<strong>加入自注意力</strong>，<strong>即插即用</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.1" alt="image-20230811162201101"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.2" alt="image-20230811162305487"></p>
+<h2 id="3-4-R2-1D"><a href="#3-4-R2-1D" class="headerlink" title="3.4 R2+1D"></a>3.4 <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2018/CameraReady/2648.pdf">R2+1D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.1" alt="image-20230811163007150"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.2" alt="image-20230811163038972"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.3" alt="image-20230811163124035"></p>
+<h2 id="3-5-SlowFast"><a href="#3-5-SlowFast" class="headerlink" title="3.5 SlowFast"></a>3.5 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.03982">SlowFast</a></h2><p>&emsp;讲故事：慢的分支网络学习视频中的静态特征，快分支学习视频中的动态特征。</p>
+<ul>
+<li>慢分支使用小输入，大网络</li>
+<li>快分支使用大输入，小网络</li>
+<li>中间使用natural connection进行特征融合</li>
+</ul>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.1" alt="image-20230811163321352"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.2" alt="image-20230811163354776"></p>
+<h1 id="4-Video-Transformer"><a href="#4-Video-Transformer" class="headerlink" title="4. Video Transformer"></a>4. Video Transformer</h1><h2 id="4-1-Space-Time-Attention"><a href="#4-1-Space-Time-Attention" class="headerlink" title="4.1 Space-Time Attention"></a>4.1 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2102.05095">Space-Time Attention</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.1.1" alt="image-20230811163530398"></p>
+<ul>
+<li>直接将Attention应用到图片的方法迁移到视频之中（空间注意力）</li>
+<li>在时间上和空间上分别做三个自注意力机制，进行融合</li>
+<li><strong>拆分为空间和时间上分别进行注意力机制计算（时间-&gt; 空间）</strong>文章提出</li>
+<li>local global拆分（在局部进行注意力计算）</li>
+<li>沿着特定的轴进行注意力计算（将三维拆分为三个一维进行注意力机制计算）</li>
+</ul>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.2.1" alt="image-20230811163643822"></p>
+<p>&emsp;想法简单、效果好、容易迁移、可以用于处理超过1min的视频</p>
+<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/5.1"></p>
+<p><strong>对于时间和空间相结合的一些策略可以借鉴</strong></p>
+<ol>
+<li>3D卷积怎么做：最新的方法都是做一些拆分，将3D卷积分为时间和空间分别的卷积</li>
+<li>特征融合的方法：early fusion、latent fusion</li>
+<li>三维网络中一些关键层（如BN）如何设置：只要第一层的BN？</li>
+<li>3D网络中的时间维度尽量不要做下采样</li>
+<li>Vision Transformer降维打击，提高精度、减小计算消耗、加大处理时长（看到更长的时序信息)</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" rel="tag"># 论文精读</a>
+              <a href="/tags/%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3/" rel="tag"># 视频理解</a>
+              <a href="/tags/3D%E5%8D%B7%E7%A7%AF/" rel="tag"># 3D卷积</a>
+              <a href="/tags/%E5%8F%8C%E6%B5%81%E7%BD%91%E7%BB%9C/" rel="tag"># 双流网络</a>
+              <a href="/tags/Transformer/" rel="tag"># Transformer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/" rel="prev" title="论文精读 对比学习综述 2021">
+                  <i class="fa fa-angle-left"></i> 论文精读 对比学习综述 2021
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">404</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">10k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">18 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"milkyfun0","repo":"milkyfun0.github.io","client_id":"a540c0226afd0cfc0698","client_secret":"0e244c51f27b32172ffe9addb8667272608c1907","admin_user":"milkyfun0","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"1b1aaf4eabc7513fe7f9527291a4c06b"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

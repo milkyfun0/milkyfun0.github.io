@@ -1,3 +1,4 @@
+https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/
 https://milkyfun0.github.io/2023/08/22/hello-world/
 https://milkyfun0.github.io/categories/index.html
 https://milkyfun0.github.io/tags/index.html
@@ -11,4 +12,8 @@ https://milkyfun0.github.io/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/
 https://milkyfun0.github.io/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/
 https://milkyfun0.github.io/tags/MoCo/
 https://milkyfun0.github.io/tags/SimCLR/
+https://milkyfun0.github.io/tags/%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3/
+https://milkyfun0.github.io/tags/3D%E5%8D%B7%E7%A7%AF/
+https://milkyfun0.github.io/tags/%E5%8F%8C%E6%B5%81%E7%BD%91%E7%BB%9C/
+https://milkyfun0.github.io/tags/Transformer/
 https://milkyfun0.github.io/categories/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/

@@ -112,4 +112,104 @@
         <tag>SimCLR</tag>
       </tags>
   </entry>
+  <entry>
+    <title>论文精读-视频理解综述-2021</title>
+    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/</url>
+    <content><![CDATA[<h1 id="0-综述"><a href="#0-综述" class="headerlink" title="0. 综述"></a>0. <a href="https://arxiv.org/abs/2012.06567">综述</a></h1><p><img src="https://img-blog.csdnimg.cn/17419fc1a483496b95d7c3befa1e09f2.png"></p>
+<h1 id="1-Hand-Crafted-CNN"><a href="#1-Hand-Crafted-CNN" class="headerlink" title="1. Hand-Crafted- &gt;CNN"></a>1. Hand-Crafted- &gt;CNN</h1><h2 id="1-1-DeepVideo"><a href="#1-1-DeepVideo" class="headerlink" title="1.1 DeepVideo"></a>1.1 <a href="http://vision.stanford.edu/pdf/karpathy14.pdf">DeepVideo</a></h2><p> **&emsp;**<strong>探索可以用在视频上使用的各种神经网络：</strong>各种方法都差不多，第四种方法好些</p>
+<p><img src="https://img-blog.csdnimg.cn/356339da9c9342fd9a7310b4f66b5472.png"></p>
+<p><strong>&emsp;开始讲故事</strong></p>
+<p> <strong>&emsp;多分辨率神经网络</strong>：两个权值共享的网络，一个处理低分辨率的图像，一个处理高分辨率的图像（图片的中心区域），人为提高了注意力</p>
+<p><img src="https://img-blog.csdnimg.cn/0c5ae0bbb1ab4b4988b6b2888fa716cc.png"></p>
+<h1 id="2-Two-Stream"><a href="#2-Two-Stream" class="headerlink" title="2. Two-Stream"></a>2. Two-Stream</h1><p>&emsp;双流网络在这里指的是同时使用光流抽取的特征和图片（视频帧）本身的特征进行网络训练；经测试这种方法可以很大地提高网络捕捉动态效果的能力</p>
+<h2 id="2-1-Two-Stream-Networks"><a href="#2-1-Two-Stream-Networks" class="headerlink" title="2.1 Two-Stream Networks"></a>2.1 <a href="https://arxiv.org/abs/1406.2199">Two-Stream Networks</a></h2><p><img src="https://img-blog.csdnimg.cn/cfad261fe34944ceb7ce2a679ed6c198.png"></p>
+<p>&emsp;late fusion-&gt;early fusion; AlexNet-&gt;Resnet Vgg;  加入</p>
+<p>![image-20230811154121029](C:\Users\alice\Desktop\ShuJia\论文精读\day14 视频理解论文串讲\pictures\2.1.2)</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.3" alt="image-20230811154214236"></p>
+<h2 id="2-2-Beyond-Short-Snippets"><a href="#2-2-Beyond-Short-Snippets" class="headerlink" title="2.2 Beyond Short Snippets"></a>2.2 <a href="https://arxiv.org/abs/1503.08909">Beyond Short Snippets</a></h2><p>&emsp;想办法适应更长时间的视频、动作特征的提取等等。<strong>Pooling ，Lstm提取时序信息</strong>，但是LSTM效果不明显，可能是一个短的时序信息变化不大，内容相似，Lstm学习不到有用的信息，需要长视频&#x2F;变化大</p>
+<p><img src="https://img-blog.csdnimg.cn/e2cd961902be4bc9bb8a3bf3912cd0f5.png"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.2.2" alt="image-20230811154751109"></p>
+<h2 id="2-3-Convolutional-Fusion"><a href="#2-3-Convolutional-Fusion" class="headerlink" title="2.3 Convolutional Fusion"></a>2.3 <a href="https://arxiv.org/abs/1604.06573">Convolutional Fusion</a></h2><p>&emsp;当有时间流和空间流两个网路之后，如何保证时间和空间的特征图在同样的位置上他们产生的通道respones是差不多能联系起来的。</p>
+<p>通常对于一个具有三个维度特征的数据而言我们有很多的探究方向：</p>
+<ol>
+<li>Spatial fusion ： 空间特征融合</li>
+<li>Time fusion ： 时间维度特征融合</li>
+<li>在网络的一层进行特征融合</li>
+</ol>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.1" alt="image-20230811155528639"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.3" alt="image-20230812093737912"></p>
+<p>&emsp;时间维度上的融合</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.2" alt="image-20230811155626303"></p>
+<p>&emsp;蓝：空间 绿：时间</p>
+<h2 id="2-4-TSN"><a href="#2-4-TSN" class="headerlink" title="2.4 TSN"></a>2.4 <a href="https://arxiv.org/abs/1608.00859">TSN</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.4.1" alt="image-20230811155948188"></p>
+<p><strong>步骤</strong></p>
+<ol>
+<li>将视频分为多个段，从每段中抽取一帧的RGB图片，然后对这个图片进行光流计算</li>
+<li>重复工作，对不同段进行相同工作</li>
+<li>如果段分得比较小，那么抽取的特征在理论上是描述的同一个物体的运动特征</li>
+<li>最后进行一个特征融合，进行分类工作</li>
+</ol>
+<p><strong>技巧：</strong></p>
+<ol>
+<li>视频分段 </li>
+<li>ImageNet训练的模型应用到光流</li>
+<li>partial BN</li>
+<li>数据增强 专门对边角裁剪 改变长宽比 {256 224 192 168}</li>
+</ol>
+<h1 id="3-3D-ConvNet"><a href="#3-3D-ConvNet" class="headerlink" title="3. 3D ConvNet"></a>3. 3D ConvNet</h1><h2 id="3-1-C3D"><a href="#3-1-C3D" class="headerlink" title="3.1 C3D"></a>3.1 <a href="https://arxiv.org/abs/1412.0767v3">C3D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.1.1" alt="image-20230811161145952"></p>
+<p>&emsp;C3D主要是提供了一种抽取特征做其他任务的方法（因为训练一个大型的3D网络非常昂贵，很多研究者无法训练），C3D作者将训练好的模型的接口提供给其他人，其他人只需要输入视频就可以得到抽取的特征（4096序列），这样就可以根据抽取的特征进行后续处理了。</p>
+<h2 id="3-2-I3D-Inflated"><a href="#3-2-I3D-Inflated" class="headerlink" title="3.2 I3D-Inflated"></a>3.2 <a href="https://arxiv.org/abs/1705.07750">I3D-Inflated</a></h2><p><strong>贡献：</strong></p>
+<ol>
+<li>可以方便地将2D网络扩张到3D之中-直接复制权重，可以用巧妙的方法利用预训练模型</li>
+<li>提出了kinetics数据集</li>
+</ol>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.1" alt="image-20230811161448871"></p>
+<p>&emsp;Two-Stream 3D-ConvNet效果最好</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.2" alt="image-20230811161620887"></p>
+<p>&emsp;<strong>在空间、时间和网络深度上对感受野的增长进行调整：对于图片的两个空间维度，我们通常使用相同的卷积长度&#x2F;池化长度，但是在时间维度上并不相同，时间维度的kernel长度取决于帧率和图片大小。如果在时域内变化太块，它可能会混淆不同物体的边缘，破坏早期的特征检测，而如果它增长得太慢，它可能无法很好地捕捉场景的动态。动态性。</strong></p>
+<h2 id="3-3-Non-local"><a href="#3-3-Non-local" class="headerlink" title="3.3 Non-local"></a>3.3 <a href="https://arxiv.org/abs/1711.07971">Non-local</a></h2><p>&emsp;<strong>加入自注意力</strong>，<strong>即插即用</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.1" alt="image-20230811162201101"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.2" alt="image-20230811162305487"></p>
+<h2 id="3-4-R2-1D"><a href="#3-4-R2-1D" class="headerlink" title="3.4 R2+1D"></a>3.4 <a href="https://openaccess.thecvf.com/content_cvpr_2018/CameraReady/2648.pdf">R2+1D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.1" alt="image-20230811163007150"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.2" alt="image-20230811163038972"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.3" alt="image-20230811163124035"></p>
+<h2 id="3-5-SlowFast"><a href="#3-5-SlowFast" class="headerlink" title="3.5 SlowFast"></a>3.5 <a href="https://arxiv.org/abs/1812.03982">SlowFast</a></h2><p>&emsp;讲故事：慢的分支网络学习视频中的静态特征，快分支学习视频中的动态特征。</p>
+<ul>
+<li>慢分支使用小输入，大网络</li>
+<li>快分支使用大输入，小网络</li>
+<li>中间使用natural connection进行特征融合</li>
+</ul>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.1" alt="image-20230811163321352"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.2" alt="image-20230811163354776"></p>
+<h1 id="4-Video-Transformer"><a href="#4-Video-Transformer" class="headerlink" title="4. Video Transformer"></a>4. Video Transformer</h1><h2 id="4-1-Space-Time-Attention"><a href="#4-1-Space-Time-Attention" class="headerlink" title="4.1 Space-Time Attention"></a>4.1 <a href="https://arxiv.org/abs/2102.05095">Space-Time Attention</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.1.1" alt="image-20230811163530398"></p>
+<ul>
+<li>直接将Attention应用到图片的方法迁移到视频之中（空间注意力）</li>
+<li>在时间上和空间上分别做三个自注意力机制，进行融合</li>
+<li><strong>拆分为空间和时间上分别进行注意力机制计算（时间-&gt; 空间）</strong>文章提出</li>
+<li>local global拆分（在局部进行注意力计算）</li>
+<li>沿着特定的轴进行注意力计算（将三维拆分为三个一维进行注意力机制计算）</li>
+</ul>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.2.1" alt="image-20230811163643822"></p>
+<p>&emsp;想法简单、效果好、容易迁移、可以用于处理超过1min的视频</p>
+<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/5.1"></p>
+<p><strong>对于时间和空间相结合的一些策略可以借鉴</strong></p>
+<ol>
+<li>3D卷积怎么做：最新的方法都是做一些拆分，将3D卷积分为时间和空间分别的卷积</li>
+<li>特征融合的方法：early fusion、latent fusion</li>
+<li>三维网络中一些关键层（如BN）如何设置：只要第一层的BN？</li>
+<li>3D网络中的时间维度尽量不要做下采样</li>
+<li>Vision Transformer降维打击，提高精度、减小计算消耗、加大处理时长（看到更长的时序信息)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>论文精读</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>视频理解</tag>
+        <tag>3D卷积</tag>
+        <tag>双流网络</tag>
+        <tag>Transformer</tag>
+      </tags>
+  </entry>
 </search>
