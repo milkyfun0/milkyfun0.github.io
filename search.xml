@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hello World</title>
+    <url>/2023/08/22/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>论文精读 对比学习综述 2021</title>
     <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/</url>
     <content><![CDATA[<h1 id="1-百花齐放"><a href="#1-百花齐放" class="headerlink" title="1. 百花齐放"></a>1. 百花齐放</h1><p>&emsp;在第一阶段上，方法模型都没有统一，目标函数,代理任务也没有统一，所以说是一个百花齐放的年代</p>
@@ -95,39 +113,21 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2023/08/22/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>论文精读-视频理解综述-2021</title>
     <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/</url>
-    <content><![CDATA[<h1 id="0-综述"><a href="#0-综述" class="headerlink" title="0. 综述"></a>0. <a href="https://arxiv.org/abs/2012.06567">综述</a></h1><p><img src="https://img-blog.csdnimg.cn/17419fc1a483496b95d7c3befa1e09f2.png"></p>
-<h1 id="1-Hand-Crafted-CNN"><a href="#1-Hand-Crafted-CNN" class="headerlink" title="1. Hand-Crafted- &gt;CNN"></a>1. Hand-Crafted- &gt;CNN</h1><h2 id="1-1-DeepVideo"><a href="#1-1-DeepVideo" class="headerlink" title="1.1 DeepVideo"></a>1.1 <a href="http://vision.stanford.edu/pdf/karpathy14.pdf">DeepVideo</a></h2><p> **&emsp;**<strong>探索可以用在视频上使用的各种神经网络：</strong>各种方法都差不多，第四种方法好些</p>
-<p><img src="https://img-blog.csdnimg.cn/356339da9c9342fd9a7310b4f66b5472.png"></p>
+    <content><![CDATA[<h1 id="0-综述"><a href="#0-综述" class="headerlink" title="0. 综述"></a>0. <a href="https://arxiv.org/abs/2012.06567">综述</a></h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/17419fc1a483496b95d7c3befa1e09f2.png"></p>
+<h1 id="1-Hand-Crafted-CNN"><a href="#1-Hand-Crafted-CNN" class="headerlink" title="1. Hand-Crafted- &gt;CNN"></a>1. Hand-Crafted- &gt;CNN</h1><h2 id="1-1-DeepVideo"><a href="#1-1-DeepVideo" class="headerlink" title="1.1 DeepVideo"></a>1.1 <a href="http://vision.stanford.edu/pdf/karpathy14.pdf">DeepVideo</a></h2><p> **&emsp;**探索可以用在视频上使用的各种神经网络：各种方法都差不多，第四种方法好些</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/356339da9c9342fd9a7310b4f66b5472.png"></p>
 <p><strong>&emsp;开始讲故事</strong></p>
 <p> <strong>&emsp;多分辨率神经网络</strong>：两个权值共享的网络，一个处理低分辨率的图像，一个处理高分辨率的图像（图片的中心区域），人为提高了注意力</p>
-<p><img src="https://img-blog.csdnimg.cn/0c5ae0bbb1ab4b4988b6b2888fa716cc.png"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/0c5ae0bbb1ab4b4988b6b2888fa716cc.png"></p>
 <h1 id="2-Two-Stream"><a href="#2-Two-Stream" class="headerlink" title="2. Two-Stream"></a>2. Two-Stream</h1><p>&emsp;双流网络在这里指的是同时使用光流抽取的特征和图片（视频帧）本身的特征进行网络训练；经测试这种方法可以很大地提高网络捕捉动态效果的能力</p>
-<h2 id="2-1-Two-Stream-Networks"><a href="#2-1-Two-Stream-Networks" class="headerlink" title="2.1 Two-Stream Networks"></a>2.1 <a href="https://arxiv.org/abs/1406.2199">Two-Stream Networks</a></h2><p><img src="https://img-blog.csdnimg.cn/cfad261fe34944ceb7ce2a679ed6c198.png"></p>
+<h2 id="2-1-Two-Stream-Networks"><a href="#2-1-Two-Stream-Networks" class="headerlink" title="2.1 Two-Stream Networks"></a>2.1 <a href="https://arxiv.org/abs/1406.2199">Two-Stream Networks</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/cfad261fe34944ceb7ce2a679ed6c198.png"></p>
 <p>&emsp;late fusion-&gt;early fusion; AlexNet-&gt;Resnet Vgg;  加入</p>
-<p>![image-20230811154121029](C:\Users\alice\Desktop\ShuJia\论文精读\day14 视频理解论文串讲\pictures\2.1.2)</p>
+<p><img src="/%5C2.1.2" alt="image-20230811154121029"></p>
 <p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.3" alt="image-20230811154214236"></p>
 <h2 id="2-2-Beyond-Short-Snippets"><a href="#2-2-Beyond-Short-Snippets" class="headerlink" title="2.2 Beyond Short Snippets"></a>2.2 <a href="https://arxiv.org/abs/1503.08909">Beyond Short Snippets</a></h2><p>&emsp;想办法适应更长时间的视频、动作特征的提取等等。<strong>Pooling ，Lstm提取时序信息</strong>，但是LSTM效果不明显，可能是一个短的时序信息变化不大，内容相似，Lstm学习不到有用的信息，需要长视频&#x2F;变化大</p>
-<p><img src="https://img-blog.csdnimg.cn/e2cd961902be4bc9bb8a3bf3912cd0f5.png"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/e2cd961902be4bc9bb8a3bf3912cd0f5.png"></p>
 <p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.2.2" alt="image-20230811154751109"></p>
 <h2 id="2-3-Convolutional-Fusion"><a href="#2-3-Convolutional-Fusion" class="headerlink" title="2.3 Convolutional Fusion"></a>2.3 <a href="https://arxiv.org/abs/1604.06573">Convolutional Fusion</a></h2><p>&emsp;当有时间流和空间流两个网路之后，如何保证时间和空间的特征图在同样的位置上他们产生的通道respones是差不多能联系起来的。</p>
 <p>通常对于一个具有三个维度特征的数据而言我们有很多的探究方向：</p>
