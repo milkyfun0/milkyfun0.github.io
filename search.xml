@@ -124,7 +124,7 @@
 <h1 id="2-Two-Stream"><a href="#2-Two-Stream" class="headerlink" title="2. Two-Stream"></a>2. Two-Stream</h1><p>&emsp;双流网络在这里指的是同时使用光流抽取的特征和图片（视频帧）本身的特征进行网络训练；经测试这种方法可以很大地提高网络捕捉动态效果的能力</p>
 <h2 id="2-1-Two-Stream-Networks"><a href="#2-1-Two-Stream-Networks" class="headerlink" title="2.1 Two-Stream Networks"></a>2.1 <a href="https://arxiv.org/abs/1406.2199">Two-Stream Networks</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/cfad261fe34944ceb7ce2a679ed6c198.png"></p>
 <p>&emsp;late fusion-&gt;early fusion; AlexNet-&gt;Resnet Vgg;  加入</p>
-<p><img src="/%5C2.1.2" alt="image-20230811154121029"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.2" alt="image-20230811154121029"></p>
 <p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.3" alt="image-20230811154214236"></p>
 <h2 id="2-2-Beyond-Short-Snippets"><a href="#2-2-Beyond-Short-Snippets" class="headerlink" title="2.2 Beyond Short Snippets"></a>2.2 <a href="https://arxiv.org/abs/1503.08909">Beyond Short Snippets</a></h2><p>&emsp;想办法适应更长时间的视频、动作特征的提取等等。<strong>Pooling ，Lstm提取时序信息</strong>，但是LSTM效果不明显，可能是一个短的时序信息变化不大，内容相似，Lstm学习不到有用的信息，需要长视频&#x2F;变化大</p>
 <p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/e2cd961902be4bc9bb8a3bf3912cd0f5.png"></p>
