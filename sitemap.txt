@@ -1,3 +1,4 @@
+https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/
 https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/
 https://milkyfun0.github.io/about/index.html
 https://milkyfun0.github.io/categories/index.html
@@ -8,12 +9,16 @@ https://milkyfun0.github.io/schedule/index.html
 https://milkyfun0.github.io/archives/index.html
 https://milkyfun0.github.io/home/index.html
 https://milkyfun0.github.io/
-https://milkyfun0.github.io/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/
+https://milkyfun0.github.io/tags/%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B/
 https://milkyfun0.github.io/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/
-https://milkyfun0.github.io/tags/MoCo/
-https://milkyfun0.github.io/tags/SimCLR/
+https://milkyfun0.github.io/tags/%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8/
+https://milkyfun0.github.io/tags/Clip/
+https://milkyfun0.github.io/tags/%E7%94%9F%E6%88%90%E5%9B%BE%E5%83%8F/
 https://milkyfun0.github.io/tags/%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3/
 https://milkyfun0.github.io/tags/3D%E5%8D%B7%E7%A7%AF/
 https://milkyfun0.github.io/tags/%E5%8F%8C%E6%B5%81%E7%BD%91%E7%BB%9C/
 https://milkyfun0.github.io/tags/Transformer/
+https://milkyfun0.github.io/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/
+https://milkyfun0.github.io/tags/MoCo/
+https://milkyfun0.github.io/tags/SimCLR/
 https://milkyfun0.github.io/categories/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-flash.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"milkyfun0.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"buttons","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"manual","top_n_per_article":5,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="以DELL·E2为例介绍了前人所做的工作及DELL·E2的工作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文精读-DELL·E2-2022">
+<meta property="og:url" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/index.html">
+<meta property="og:site_name" content="Qxc&#39;s blog">
+<meta property="og:description" content="以DELL·E2为例介绍了前人所做的工作及DELL·E2的工作">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2e470107269d4e44a8e352fc87dd49ce.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/60fd506454ac4280a0d015385d25944a.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0879f80567c94e0892037517d797b997.png">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-df06f2d1471615dae76b1e09488091b5_720w.webp">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE-2">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9a09c6f4ab7c42d6b1fafd9695559e2e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/316d832ce0a14e518e0aea30c5afee0b.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/441e5fb6708b405183fbda1ad3b64c01.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/8bad0b6ededd4d8f8149d4bd0881c514.png">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/image-20230820125542764.png">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/IMG_20230827_111312.jpg">
+<meta property="article:published_time" content="2023-08-27T03:32:15.000Z">
+<meta property="article:modified_time" content="2023-08-27T03:50:15.211Z">
+<meta property="article:author" content="404">
+<meta property="article:tag" content="扩散模型">
+<meta property="article:tag" content="论文精读">
+<meta property="article:tag" content="自编码器">
+<meta property="article:tag" content="Clip">
+<meta property="article:tag" content="生成图像">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/2e470107269d4e44a8e352fc87dd49ce.png">
+
+
+<link rel="canonical" href="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/","path":"2023/08/27/论文精读-DELL·E2-2022/","title":"论文精读-DELL·E2-2022"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>论文精读-DELL·E2-2022 | Qxc's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Qxc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">逃げちゃダメだ</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E4%BA%BA%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">前人工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GANs"><span class="nav-number">1.1.</span> <span class="nav-text">GANs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AE"><span class="nav-number">1.2.</span> <span class="nav-text">AE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VAE"><span class="nav-number">1.3.</span> <span class="nav-text">VAE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VQ-VAE"><span class="nav-number">1.4.</span> <span class="nav-text">VQ-VAE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VQ-VAE-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">VQ-VAE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VQ-VAE-2"><span class="nav-number">1.4.2.</span> <span class="nav-text">VQ-VAE 2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.5.</span> <span class="nav-text">扩散模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DDPM"><span class="nav-number">1.5.1.</span> <span class="nav-text">DDPM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Improved-DDPM"><span class="nav-number">1.5.2.</span> <span class="nav-text">Improved DDPM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ADM-Nets"><span class="nav-number">1.5.3.</span> <span class="nav-text">ADM Nets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Classifier-free-guidance"><span class="nav-number">1.5.4.</span> <span class="nav-text">Classifier free guidance</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DALL%C2%B7E2"><span class="nav-number">2.</span> <span class="nav-text">DALL·E2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#decoder"><span class="nav-number">2.1.</span> <span class="nav-text">decoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#prior"><span class="nav-number">2.2.</span> <span class="nav-text">prior</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A%E5%A4%A7%E5%8A%9B%E5%87%BA%E5%A5%87%E8%BF%B9"><span class="nav-number">3.</span> <span class="nav-text">总结：大力出奇迹</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="404"
+      src="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F2.webp">
+  <p class="site-author-name" itemprop="name">404</p>
+  <div class="site-description" itemprop="description">总之，能做什么就该去做，否则日后后悔就不好了吧。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/milkyfun0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;milkyfun0" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cao2573943723@163.com" title="E-Mail → mailto:cao2573943723@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F2.webp">
+      <meta itemprop="name" content="404">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qxc's blog">
+      <meta itemprop="description" content="总之，能做什么就该去做，否则日后后悔就不好了吧。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="论文精读-DELL·E2-2022 | Qxc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          论文精读-DELL·E2-2022
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-08-27 11:32:15 / 修改时间：11:50:15" itemprop="dateCreated datePublished" datetime="2023-08-27T11:32:15+08:00">2023-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">论文精读</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="https://img-blog.csdnimg.cn/2e470107269d4e44a8e352fc87dd49ce.png"></p>
+<p>   生成器<code>G</code>从给定噪声中（一般是指均匀分布或者正态分布）采样来合成数据，判别器<code>D</code>用于判别样本是真实样本还是G生成的样本。<code>G</code>的目标就是尽量生成真实的图片去欺骗判别网络<code>D</code>，使<code>D</code>犯错；而<code>D</code>的目标就是尽量把<code>G</code>生成的图片和真实的图片分别开来</p>
+<p>局限性：</p>
+<ol>
+<li>训练不够稳定</li>
+<li>GANs生成的多样性不够好</li>
+<li>GANs是隐式生成，不够优美</li>
+</ol>
+<h2 id="AE"><a href="#AE" class="headerlink" title="AE"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/method/autoencoder">AE</a></h2><p><img src="https://img-blog.csdnimg.cn/60fd506454ac4280a0d015385d25944a.png#pic_center"></p>
+<p>​    Auto-Encoder，中文称作自编码器<br>​    <code>   DAE</code>（Denoising Autoencoder），就是先把原图$x$进行一定程度的打乱</p>
+<h2 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/auto-encoding-variational-bayes">VAE</a></h2><p><img src="https://img-blog.csdnimg.cn/0879f80567c94e0892037517d797b997.png" alt="在这里插入图片描述"></p>
+<p><img src="https://pic2.zhimg.com/80/v2-df06f2d1471615dae76b1e09488091b5_720w.webp" alt="img"></p>
+<p>​      VAE（Variational Auto-Encoder-变分自编码器）就是借助了这种encoder-decoder的结构去做生成，和AE最主要的区别就是不再去学习中间的bottleneck特征了，而是去学习一种分布。</p>
+<p>  作者假设中间的分布是一个高斯分布（用均值μ 和方差σ 来描述）。具体来说，就是将输入x进行编码得到特征之后，再接一些FC层，去预测中间分布的μ 和σ 。</p>
+<p>   μ 和σ 训练好之后，就可以扔掉encoder了。推理时直接从训练好的分布去采样一些z 出来（ $z&#x3D;\mu +\sigma \cdot \varepsilon$），然后进行解码，这样VAE就可以用来做生成了</p>
+<p><a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/5253">变分自编码器（一）：原来是这么一回事</a></p>
+<h2 id="VQ-VAE"><a href="#VQ-VAE" class="headerlink" title="VQ-VAE"></a>VQ-VAE</h2><h3 id="VQ-VAE-1"><a href="#VQ-VAE-1" class="headerlink" title="VQ-VAE"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/neural-discrete-representation-learning">VQ-VAE</a></h3><p>​    如果还是之前VAE的模式，就不好把模型做大，分布也不好学。取而代之的不是去直接预测分布z，而是用一个codebook代替。codebook可以理解为聚类的中心，大小一般是K*D（K&#x3D;8192，Dim&#x3D;512&#x2F;768），也就是有8192个长为D的向量（聚类中心）</p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE" alt="image-20230824173457718"></p>
+<p>​     $x$输入编码器得到高宽分别为$( h , w )$ 的特征图f，然后计算特征图里的向量和codebook里的向量（聚类中心）的相似性。接着把和特征图最接近的聚类中心向量的编号（1-8192）存到矩阵z里面。训练完成之后，不再需要编码特征f ff，而是取出矩阵z中的编号对应的codebook里面的向量，生成一个新的特征图q（量化特征quantised feature）。最后和之前一样，使用q解码重构原图。此时这个量化特征就非常可控了，因为它们永远都是从codebook里面来的，而非随机生成，这样优化起来相对容易。</p>
+<p>​    编码器输出$z ( x )$ 会mapped到最相近（nearest）的点$e 2$ 。红色线的梯度$\triangledown _{z}$L，迫使encoder在下一次forword时改变其输出（参数更新）</p>
+<p>​    VQ-VAE也可以用来做CV领域的自监督学习，比如BEIT就是把<strong>DALL·E训练好的codebook拿来用。将图片经过上面同样的过程quantise成的特征图作为ground truth</strong>，自监督模型来训练一个网络。后续还有VL-BEIT（vision language BEIT）的工作，也是类似的思路，只不过是用一个Transformer编码器来做多模态的任务。</p>
+<p><strong>局限性：</strong></p>
+<p> 如果想让VA-VAE做生成，就需要单独训练一个<code>prior</code>网络，在论文里，作者就是训练了一个<code>pixcl-CNN</code>（利用训练好的codebook去做生成）。</p>
+<h3 id="VQ-VAE-2"><a href="#VQ-VAE-2" class="headerlink" title="VQ-VAE 2"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/190600446">VQ-VAE 2</a></h3><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE-2" alt="image-20230824173625860"></p>
+<p>​    本身是对VQ-VAE的简单改进，是一个层级式的结构。VQ-VAE2不仅做局部的建模，而且还做全局的建模（加入attention），所以模型的表达能力更强了。同时根据codebook学了一个prior，所以生成的效果非常好。总体来说VQ-VAE2是一个两阶段的过程：</p>
+<ul>
+<li><p>训练编解码器，使其能够很好的复现图像</p>
+</li>
+<li><p>训练PixelCNN自回归模型，使其能够拟合编码表分布，从而通过随机采样，生成图片</p>
+</li>
+</ul>
+<p>​    stage1：训练一个分层的VQ-VAE用于图像编码到离散隐空间</p>
+<p>​    输入图像 x，通过编码器生成向量$E ( x )$ ，然后采用最近邻重构，将$E ( x )$ 替换为codebook的中的一个nearest prototype vector。codebook可以理解为离散的编码表，举一张人脸图像为例codebook就包括头发颜色，脸型，表情和肤色等等。因此，量化就是通过编码表，把自编码器生成的向量$E ( x ) $离散化：</p>
+<p><img src="https://img-blog.csdnimg.cn/9a09c6f4ab7c42d6b1fafd9695559e2e.png" alt="在这里插入图片描述"></p>
+<p>​    stage2：在离散隐空间上拟合一个PixelCNN先验</p>
+<ul>
+<li>经过Stage1，将图片编码为了整数矩阵，所以在Stage2用自回归模型PixelCNN，来对编码矩阵进行拟合（即建模先验分布）</li>
+<li>通过PixelCNN得到编码分布后，就可以随机生成一个新的编码矩阵，然后通过编码表E EE映射为浮点数矩阵，最后经过deocder重构得到一张图片</li>
+</ul>
+<p>​    原文中还有再加<code>middle level</code>，实验结果表明加了middle level之后，生成的图像清晰度更高）</p>
+<p><a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/6760">VQ-VAE的简明介绍：量子化自编码器</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/461693342">生成模型之PixelCNN</a></p>
+<h2 id="扩散模型"><a href="#扩散模型" class="headerlink" title="扩散模型"></a>扩散模型</h2><p>扩散模型包含两个过程：前向扩散过程（forword）和反向生成过程（reverse）：</p>
+<ul>
+<li>前向扩散过程：对数据逐渐增加高斯噪音直至数据变成随机噪音的过程（噪音化）</li>
+<li>反向生成过程：从随机噪音开始逐步去噪音直至生成一张图像（去噪）</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/316d832ce0a14e518e0aea30c5afee0b.png#pic_center" alt="在这里插入图片描述"></p>
+<p><strong>BackBone（大部分扩散模型选用<code>U-Net</code>）</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/441e5fb6708b405183fbda1ad3b64c01.png#pic_center" alt="在这里插入图片描述"></p>
+<p>​    <code>  U-Net</code>里还有一些<code>skip connection</code>的操作，可以直接将前面的信息传递给后面，以恢复更多的细节。后续还有一些改进，比如在<code>U-Net</code>里加一些attention操作，可以使图像生成的更好，共享参数。</p>
+<p><strong>局限性：</strong>训练推理慢</p>
+<h3 id="DDPM"><a href="#DDPM" class="headerlink" title="DDPM"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/denoising-diffusion-probabilistic-models">DDPM</a></h3><p><strong>贡献 ：</strong></p>
+<ol>
+<li><p>从预测转换图像改进为预测噪声，每次直接从$x_{t}$预测$x_{t-1}$，这种图像到图像的转化不太好优化。所以作者考虑直接去预测从$x_{t}$<br>到$x_{t-1}$ 这一步所添加的噪声$\varepsilon$，这样就简化了问题。</p>
+</li>
+<li><p>time embedding：U-Net模型输入，除了当前时刻的$x_{t}$ ，还有一个输入time embedding（类似transformer里的正弦位置编码），主要用于告诉 U-Net模型，现在到了反向过程的第几步。</p>
+</li>
+<li><p>目标函数：DDPM采用了一个U-Net 结构的Autoencoder来对t时刻的高斯噪声z进行预测。训练目标即希望预测的噪声和真实的噪声一致，所以目标函数为预测噪声和z 的L1 Loss：$ p(\mathbf{x}<em>{t-1} \vert \mathbf{x}<em>t)&#x3D;\left | z-f</em>{\theta }(x</em>{t},t) \right |$， t为时间</p>
+</li>
+<li><p>只预测正态分布的均值</p>
+<p>正态分布由均值和方差决定。作者在这里发现，其实模型不需要学方差，只需要学习均值就行。</p>
+</li>
+</ol>
+<h3 id="Improved-DDPM"><a href="#Improved-DDPM" class="headerlink" title="Improved DDPM"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2102.09672">Improved DDPM</a></h3><p>​    <code>improved DDPM</code>作者就觉得如果方差效果应该会更好，改了之后果然取样和生成效果都好了很多。</p>
+<p><code>DDPM</code>添加噪声时采用的线性的<code>variance schedule</code>改为余弦schedule，效果更好（类似学习率从线性改为余弦）</p>
+<h3 id="ADM-Nets"><a href="#ADM-Nets" class="headerlink" title="ADM Nets"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/diffusion-models-beat-gans-on-image-synthesis">ADM Nets</a></h3><ul>
+<li><p>使用大模型：加大加宽网络、使用更多的自注意力头attention head，加大自注意力scale（single-scale attention改为multi-scale attention）</p>
+</li>
+<li><p>提出了新的归一化方式——<code>Adaptive Group Normalization</code>，在文章就是根据步数进行<strong>自适应的归一化</strong>。这个方法是对group归一化的一个改进：</p>
+<p><img src="https://img-blog.csdnimg.cn/8bad0b6ededd4d8f8149d4bd0881c514.png" alt="在这里插入图片描述"></p>
+<p>$AdaGN(h,y&#x3D;[y_s,y_b])&#x3D;y_s*GroupNorm(h)+y_b$</p>
+<p>上面公式中的$h$是残差块激活函数的输出，$y$是一个线性层对时步和后面用到的类别信息的嵌入。组归一化是对输入的通道方向进行分组归一化的归一化方法.</p>
+</li>
+<li><p>使用<code>classifier guidance</code>的方法，引导模型进行采样和生成。这样不仅使生成的图片更逼真，而且加速了反向采样过程。论文中，只需要25次采样，就可以从噪声生成图片。</p>
+<ul>
+<li>训练一个简单是图片分类器</li>
+<li>CLIP guidance：将简单的分类器换成CLIP之后，文本和图像就联系起来了</li>
+<li>image侧引导：除了利用图像重建进行像素级别的引导，还可以做图像特征和风格层面的引导，只需要一个gram matrix就行。</li>
+<li>text侧：可以用训练好的NLP大模型做引导</li>
+</ul>
+</li>
+</ul>
+<p>更新后的损失 ： $p(x_{t−1}∣x_t)&#x3D;∥z−f_θ*(x_t,t,y)∥$</p>
+<h3 id="Classifier-free-guidance"><a href="#Classifier-free-guidance" class="headerlink" title="Classifier free guidance"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2207.12598">Classifier free guidance</a></h3><p>​    classifier free guidance的方式，只是改变了模型输入的内容，除了 conditional输入外（随机高斯噪声输入加引导信息）还有 unconditional 的 采样输入。两种输入都会被送到同一个 diffusion model 从而让其能够具有无条件和有条件生成的能力。得到有条件输出$f_{\theta }(x_{t},t,y)$和无条件输出$f_{\theta }(x_{t},t,\phi )$f后，就可以用前者监督后者，来引导扩散模型进行训练了。最后反向扩散做生成时，我们用无条件的生成,然后加上之前训练的偏移，也能达到类似有条件生成的效果。这样一来就摆脱了分类器的限制</p>
+<h1 id="DALL·E2"><a href="#DALL·E2" class="headerlink" title="DALL·E2"></a><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2204.13807">DALL·E2</a></h1><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/image-20230820125542764.png" alt="image-20230820125542764"></p>
+<p>​    prior：先验模型$P(z_i|y)$ ,根据标题$y$生成CLIP的图像特征$z_i$。</p>
+<p>​    decoder ：解码器$P(x|z_i,y)$，生成以CLIP图像特征$z_i$ （和可选的文本标题 $y$）为条件的图像$x$</p>
+<p>​    跟上面讲的一样，prior模型的输入就是CLIP编码的文本特征，其ground truth就是CLIP编码的图片特征，因为是图文对输入模型，CLIP是都能编码的。</p>
+<h2 id="decoder"><a href="#decoder" class="headerlink" title="decoder"></a>decoder</h2><p>​     decoder就是使用扩散模型，生成以CLIP图形特征（和可选标题$y$）为条件的图像，这部分就是在GLIDE基础上改进的。利用了<code>CLIP guidance</code>和<code>classifier-free guidance</code></p>
+<p>​     其次，为了提高分辨率，DALL·E2还用了层级式的生成，也就是训练了两个上采样扩散模型。一个将图像的分辨率从64×64上采样到256×256，另一个接着上采样的1024×1024。同时，为了提高上采样器的鲁棒性，还添加了噪声（第一个上采样阶段使用高斯模糊，对于第二个阶段，使用更多样化的BSR退化）。</p>
+<h2 id="prior"><a href="#prior" class="headerlink" title="prior"></a>prior</h2><p>​    <code>   prior</code>用于从文本特征生成图像特征，这部分作者试验了两种模型，两种模型都用了classifier-free guidance，因 为效果好。</p>
+<ul>
+<li>AR（自回归模型）</li>
+<li>扩散模型：使用的是<code>Transformer decoder</code>处理序列。因为这里输入输出都是embedding序列，所以使用U-Net不太合适。</li>
+</ul>
+<h1 id="总结：大力出奇迹"><a href="#总结：大力出奇迹" class="headerlink" title="总结：大力出奇迹"></a>总结：大力出奇迹</h1><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/IMG_20230827_111312.jpg" alt="IMG_20230827_111312"></p>
+<p>  图像生成这一块的技巧很多，经常连一个模型总览图都很难画出来。但是讲完这么多之后，会发现这些技巧有的时候有用，有的时候没用。</p>
+<ul>
+<li>DDPM提出将直接预测图像改为预测噪声，可以简化优化过程。但是DALL·E2这里又没有沿袭这种预测噪声的做法。</li>
+<li>DALL·E2提出如果有显式的生成图片特征的过程，模型效果会好很多，所以采用了两阶段生成方式。但是Imagen直接上一个U-Net就解决了，更简单，效果也很好。</li>
+<li>CLIP和DALL·E2都说自回归模型训练太贵了，训练太不高效了。但是在7月左右，谷歌又推出了Parti，用pathways模型做自回归的文本图像生成，效果直接超越了DALL·E2和Imagen。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B/" rel="tag"># 扩散模型</a>
+              <a href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" rel="tag"># 论文精读</a>
+              <a href="/tags/%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8/" rel="tag"># 自编码器</a>
+              <a href="/tags/Clip/" rel="tag"># Clip</a>
+              <a href="/tags/%E7%94%9F%E6%88%90%E5%9B%BE%E5%83%8F/" rel="tag"># 生成图像</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/" rel="prev" title="论文精读-视频理解综述-2021">
+                  <i class="fa fa-angle-left"></i> 论文精读-视频理解综述-2021
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">404</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">14k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">26 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"milkyfun0","repo":"milkyfun0.github.io","client_id":"a540c0226afd0cfc0698","client_secret":"0e244c51f27b32172ffe9addb8667272608c1907","admin_user":"milkyfun0","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"9998d53e8d4c1ec6436875e05b2c6843"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
