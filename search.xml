@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hello World</title>
+    <url>/2023/08/22/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>论文精读-DELL·E2-2022</title>
     <url>/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/</url>
-    <content><![CDATA[<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="D:\myBlog\hexoblog\source_posts\2e470107269d4e44a8e352fc87dd49ce.png"></p>
+    <content><![CDATA[<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/2e470107269d4e44a8e352fc87dd49ce.png"></p>
 <p>   生成器<code>G</code>从给定噪声中（一般是指均匀分布或者正态分布）采样来合成数据，判别器<code>D</code>用于判别样本是真实样本还是G生成的样本。<code>G</code>的目标就是尽量生成真实的图片去欺骗判别网络<code>D</code>，使<code>D</code>犯错；而<code>D</code>的目标就是尽量把<code>G</code>生成的图片和真实的图片分别开来</p>
 <p>局限性：</p>
 <ol>
@@ -11,7 +29,7 @@
 <li>GANs生成的多样性不够好</li>
 <li>GANs是隐式生成，不够优美</li>
 </ol>
-<h2 id="AE"><a href="#AE" class="headerlink" title="AE"></a><a href="https://paperswithcode.com/method/autoencoder">AE</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/60fd506454ac4280a0d015385d25944a.png#pic_center"></p>
+<h2 id="AE"><a href="#AE" class="headerlink" title="AE"></a><a href="https://paperswithcode.com/method/autoencoder">AE</a></h2><p><img src="/60fd506454ac4280a0d015385d25944a.png"></p>
 <p>​    Auto-Encoder，中文称作自编码器<br>​    <code>   DAE</code>（Denoising Autoencoder），就是先把原图$x$进行一定程度的打乱</p>
 <h2 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a><a href="https://paperswithcode.com/paper/auto-encoding-variational-bayes">VAE</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0879f80567c94e0892037517d797b997.png" alt="在这里插入图片描述"></p>
 <p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/v2-df06f2d1471615dae76b1e09488091b5_720w.webp" alt="img"></p>
@@ -50,10 +68,10 @@
 <li>前向扩散过程：对数据逐渐增加高斯噪音直至数据变成随机噪音的过程（噪音化）</li>
 <li>反向生成过程：从随机噪音开始逐步去噪音直至生成一张图像（去噪）</li>
 </ul>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png#pic_center" alt="在这里插入图片描述"></p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/316d832ce0a14e518e0aea30c5afee0b.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png" alt="在这里插入图片描述"></p>
+<p><img src="/316d832ce0a14e518e0aea30c5afee0b.png" alt="在这里插入图片描述"></p>
 <p><strong>BackBone（大部分扩散模型选用<code>U-Net</code>）</strong></p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/441e5fb6708b405183fbda1ad3b64c01.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="/441e5fb6708b405183fbda1ad3b64c01.png" alt="在这里插入图片描述"></p>
 <p>​    <code>  U-Net</code>里还有一些<code>skip connection</code>的操作，可以直接将前面的信息传递给后面，以恢复更多的细节。后续还有一些改进，比如在<code>U-Net</code>里加一些attention操作，可以使图像生成的更好，共享参数。</p>
 <p><strong>局限性：</strong>训练推理慢</p>
 <h3 id="DDPM"><a href="#DDPM" class="headerlink" title="DDPM"></a><a href="https://paperswithcode.com/paper/denoising-diffusion-probabilistic-models">DDPM</a></h3><p><strong>贡献 ：</strong></p>
@@ -117,6 +135,100 @@
         <tag>自编码器</tag>
         <tag>Clip</tag>
         <tag>生成图像</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>论文精读 对比学习综述 2021</title>
+    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/</url>
+    <content><![CDATA[<h1 id="1-百花齐放"><a href="#1-百花齐放" class="headerlink" title="1. 百花齐放"></a>1. 百花齐放</h1><p>&emsp;在第一阶段上，方法模型都没有统一，目标函数,代理任务也没有统一，所以说是一个百花齐放的年代</p>
+<h2 id="1-1-InstDisc"><a href="#1-1-InstDisc" class="headerlink" title="1.1 InstDisc"></a>1.1 <a href="https://arxiv.org/pdf/1805.01978.pdf">InstDisc</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.1" alt="image-20230731101249802"></p>
+<p>&emsp;<strong>基本思想：</strong>图片聚集在一起的原因，并不是这些图片有相似的语义标签信息，而是因为这些图片长得比较像。通过一个卷积神经网络来将图片进行编码成一个低维特征，然后使得这些特征在特征空间上都尽可能的区分开，因为个体判别认为每张图片都是自成一类，<strong>提出了个体判别任务</strong>。</p>
+<p>&emsp;<strong>Forward：</strong>假设模型的batchsize是256，有256张图片进入CNN网络，将256张图片编码为128维的向量。因为batchsize是256，因此有256个正样本。负样本来自memory bank，每次从memory bank中随机采样出4096个负数样本，利用 InfoNCE loss去更新CNN的参数。本次更新结束后，会将CNN编码得到的向量替换掉memory bank中原有的存储。就这样循环往复的更新CNN和memory bank，最后让模型收敛，就训练好一个CNN encoder了。</p>
+<h2 id="1-2-InvaSpread"><a href="#1-2-InvaSpread" class="headerlink" title="1.2 InvaSpread"></a>1.2 <a href="https://arxiv.org/pdf/1904.03436.pdf">InvaSpread</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.2" alt="image-20230731103807221"></p>
+<p>&emsp;<strong>基本思想：</strong>用mini batch中的数据作为负样本，使用一个编码器进行端到端的学习，所选取的字典长度不够大。</p>
+<p>&emsp;<strong>Forward：</strong>首先利用数据增广，将每个图片增广一次，也就是将256张图片变为512个图片了。之后将512张图片通过CNN编码为向量，并使用一个全连接层将数据的维度降低。之后将$x{i}$和其经过增广后的图$\widetilde{x}{i}$作为正样本，其余的512-2张图片都认为是负样本。所以总计有256个正例，有2×（256-1）张负例。之后的在特征空间中$x{i}$ 与$\widetilde{x}{i}$的距离应该尽可能相近，而$x{i}$与$\widetilde{x}_{j}$的距离应该尽可能相远。</p>
+<p>&emsp;<strong>以上两篇工作都是使用个体判别 Instance Discrimination 作为代理任务的</strong></p>
+<h2 id="1-3-CPC"><a href="#1-3-CPC" class="headerlink" title="1.3 CPC"></a>1.3 <a href="https://arxiv.org/pdf/1807.03748.pdf">CPC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.3" alt="image-20230731112441320"></p>
+<p>&emsp;<strong>基本思想：</strong>有一个持续的序列，把之前时刻的输入喂给编码器，返回的特征再喂给一个自回归模型gar（auto-regressive，一般的自回归模型是RNN或LSTM），然后得到一个context representation，这是一个代表上下文的特征表示。如果context representation足够好，那么其应该可以做出一些合理的预测，所以可以用$c_{t}$预测未来时刻的特征输出$z_{t+i}$</p>
+<p>&emsp;<strong>生成式的代理任务</strong></p>
+<h2 id="1-4-CMC"><a href="#1-4-CMC" class="headerlink" title="1.4 CMC"></a>1.4 <a href="https://arxiv.org/pdf/1906.05849.pdf">CMC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.4" alt="image-20230731113140008"></p>
+<p>&emsp;<strong>基本思想：</strong>CMC想学一个非常强大的特征，其具有视角的不变性（不管是看见了一只狗，还是听到了狗叫声，都能判断出这是个狗）。所以，CMC的工作目的就是去增大这个互信息，就是所有视角之间的互信息。如果能学到一种特征，能够抓住所有视角下的这个关键的因素，那么这个特征就比较好。<strong>最大化互信息</strong></p>
+<p>&emsp;<strong>方法：</strong>输入view来自于不同的传感器，或者说是不同的模态，但是这些所有的输入其实对应的都是一整的图片，一个东西，那么它们就应该互为正样本，相互配对。而这些相互配对的视角在特征空间中应该尽可能的相近，而与其他的视角尽可能的远离。Teacher和student编码得到的相同图片的向量互为正例，不同图片得到的输出作为负例，利用对比学习的思路进行知识蒸馏。</p>
+<p>&emsp;<strong>问题：</strong>在于multi view的工作可能需要多个编码器进行编码，训练代价可能有点高。比如CLIP，就是用大型的语言编码器BERT对语言模型进行编码，用视觉模型VIT对视觉信息进行编码。</p>
+<p>InfoMin是CMC的作者做的一个分析型的延伸性工作，要是提出了一个InfoMin的原则，InfoMin的本意是不能一味的最大化这个互信息，而是要不多不少刚刚好，去选择合适的数据增强与合适的对比学习的视角。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>&emsp;可以看到以上的工作代理任务不尽相同，其中有个体判别，有预测未来，还有多视角多模态。使用的目标函数也不尽相同，有NCE，infoNCE以及其变体。使用的模型也可以是不同的，比如InvaSpread使用的是相同的编码器对key和query进行编码，CMC对key和query使用的是不同的编码，是百花齐放的。</p>
+<h1 id="2-CV双雄"><a href="#2-CV双雄" class="headerlink" title="2. CV双雄"></a>2. CV双雄</h1><h2 id="2-1-MoCo-v1"><a href="#2-1-MoCo-v1" class="headerlink" title="2.1 MoCo v1"></a>2.1 <a href="https://arxiv.org/pdf/1911.05722.pdf">MoCo v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1" alt="image-20230731142805835"></p>
+<p>&emsp;<strong>基本思想：</strong>将一系列的对比学习方法归纳为一个字典查询的问题building dynamic dictionaries。将负样本图片通过编码器后所得的输出看成是一个特征key，将正样本图片通过另外一个编码器所得到的输出看成是一个query。对比学习本质上，就是希望在字典中找到与query最匹配的那个key，而这个key是正样本通过一些列的数据增强变化获得，所以语义信息应该相同，在特征空间上也应该类似，而与其他的负样本的特征key应该尽可能的远离，损失函数InfoNEC</p>
+<p>&emsp;<strong>贡献：</strong></p>
+<ol>
+<li>queue 数据结构</li>
+<li>Momentum Encoder  $θ_k←mθ{_k}+(1−m)θq$</li>
+<li>Shuffling BN -　BN可能导致信息泄露</li>
+</ol>
+<p><strong>对比：</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1-2" alt="image-20230731144205429"></p>
+<p><strong>方法：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Algorithm 1 Pseudocode of MoCo in a PyTorch-like style</span></span><br><span class="line"><span class="comment"># f_q, f_k: encoder networks for query and key</span></span><br><span class="line"><span class="comment"># queue: dictionary as a queue of K keys (CxK)</span></span><br><span class="line"><span class="comment"># m: momentum</span></span><br><span class="line"><span class="comment"># t: temperature</span></span><br><span class="line">f_k.params = f_q.params <span class="comment"># initialize</span></span><br><span class="line">	<span class="keyword">for</span> x <span class="keyword">in</span> loader: 	<span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">	x_q = aug(x)		<span class="comment"># a randomly augmented version</span></span><br><span class="line">	x_k = aug(x)		<span class="comment"># another randomly augmented version</span></span><br><span class="line">	</span><br><span class="line">	q = f_q.forward(x_q) 	<span class="comment"># queries: NxC (256x128)</span></span><br><span class="line">	k = f_k.forward(x_k) 	<span class="comment"># keys: NxC (256x128)</span></span><br><span class="line">	k = k.detach() 			<span class="comment"># no gradient to keys</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># positive logits: Nx1 (256x1)</span></span><br><span class="line">	l_pos = bmm(q.view(N,<span class="number">1</span>,C), k.view(N,C,<span class="number">1</span>))	<span class="comment"># q·k+</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># negative logits: NxK (256x65536)</span></span><br><span class="line">	l_neg = mm(q.view(N,C), queue.view(C,K))	<span class="comment"># sum q·ki</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># logits: Nx(1+K) (256x65537)</span></span><br><span class="line">	logits = cat([l_pos, l_neg], dim=<span class="number">1</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># contrastive loss, Eqn.(1)</span></span><br><span class="line">	labels = zeros(N) <span class="comment"># positives are the 0-th；利用pytorch函数特性</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/t, labels)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># SGD update: query network</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	update(f_q.params)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># momentum update: key network</span></span><br><span class="line">	f_k.params = m * f_k.params+(<span class="number">1</span>-m) * f_q.params</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># update dictionary</span></span><br><span class="line">	enqueue(queue, k) 	<span class="comment"># enqueue the current minibatch</span></span><br><span class="line">	dequeue(queue) 		<span class="comment"># dequeue the earliest minibatch</span></span><br><span class="line"><span class="comment"># bmm: batch matrix multiplication; mm: matrix multiplication; cat: concatenation.</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-SimCLR-v1"><a href="#2-2-SimCLR-v1" class="headerlink" title="2.2 SimCLR v1"></a>2.2 <a href="https://arxiv.org/pdf/2002.05709.pdf">SimCLR v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2" alt="image-20230731144944108"></p>
+<p>&emsp;<strong>思路：</strong>假如有一个minibatch的图片，对整个minibatch的所有图片做数据增强，对图片x xx做不同的数据增强就会得$x_{i}$和$x_{j}$ 同一个图片延申得到的两个图片就是正样本，比如batchSize是n的话，那么正样本就是n，这个batchsize剩下的所有的样本以及其经过数据增强后得到的都是负样本，也就是2(n-1)。有了正负样本之后，对其进行编码，通过一个编码器$f ( ⋅ )$得到正负样本的编码结。SimCLR的创新点就是在得到数据的编码之后在后面加了一个编码层$g ( ⋅ )$函数，就是一个MLP层，得到较低维度的特征$z_{i}$和 $z_{j}$ ，用其进行对比学习，拉近正例之间的距离，拉远负例之间的距离。但是需要注意的一点就是投影函数仅仅在训练的时候才使用，在测试的时候是不使用的，测试的时候仅仅使用编码器$f(·)$ 。加上投影函数的目的也仅仅是想让模型训练的更好。</p>
+<p><strong>与InvaSpread相比：</strong></p>
+<ol>
+<li><p>SimCLR使用了更多的数据增强 其中随机的裁剪以及随机的色彩变换最重要</p>
+</li>
+<li><p>加入了投影的$g ( ⋅ )$ 函数</p>
+</li>
+<li><p>就是SimCLR用了更大的batchsize，且训练的时间更久</p>
+</li>
+</ol>
+<p>&emsp;<strong>损失函数：</strong>the normalized temperature-scaled cross entropy loss</p>
+<p><strong>方法：</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2-2" alt="image-20230731152831099"></p>
+<h2 id="2-3-MoCo-v2"><a href="#2-3-MoCo-v2" class="headerlink" title="2.3 MoCo v2"></a>2.3 <a href="https://arxiv.org/pdf/2003.04297.pdf">MoCo v2</a></h2><p><strong>改进：</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.3" alt="image-20230731153325242"></p>
+<p>更省钱！！</p>
+<h2 id="2-4-SimCLR-v2"><a href="#2-4-SimCLR-v2" class="headerlink" title="2.4 SimCLR v2"></a>2.4 <a href="https://arxiv.org/pdf/2006.10029.pdf">SimCLR v2</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.4" alt="image-20230731153856595"></p>
+<h2 id="2-5-SWaV"><a href="#2-5-SWaV" class="headerlink" title="2.5 SWaV"></a>2.5 <a href="https://arxiv.org/pdf/2006.09882.pdf">SWaV</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.5" alt="image-20230731154140013"></p>
+<p>&emsp;<strong>基本思想：</strong>给定同样的一张图片，如果去生成不同的视角（views），希望可以用一个视角得到的特征去预测另外一个视角的得到的特征，因为所有的这些视角的特征按道理来说都应该是非常接近的。然后SWaV将对比学习和之前的聚类的方法合在的一起，这样做也不是偶然，因为聚类也是无监督特征表示学习的方法，而且它也希望相似的物体都聚集在一个聚类中心附近，不相似的物体推到别的聚类中心</p>
+<p>&emsp;<strong>方法：</strong>聚类中心C CC就是Prototypes，作为一个矩阵维度是$d $$ *k$（d是特征的维度128维，k是聚类中心的数目3000）SwAV前向过程依旧是一个实例x通过两次数据增强变为 $x_{1}$ 和$x_{2}$ ，之后利用编码器对其进行编码，从而得到嵌入向量$z_{1}$ 和$z_{2}$ 。但是有了$z_{1}$和$z_{2}$ 之后，并不是直接在特征上去做对比学习的loss，而且让 $z_{1}$和$z_{2}$和聚类中心C进行聚类，从而得到ground truth的标签$Q_{1}$ 和$Q_{2}$ 。如果说两个特征比较相似或者是含有等量的信息，按道理来说应该是可以相互预测的。也就是说，用$z_{1}$ 和C作点乘按道理是可以去预测$Q_{2}$的，反过来用$z_{2}$ 和C作点乘按道理是可以去预测$Q_{1}$ 的，SwAV通过这种换位交叉预测的方法来对模型进行训练更新参数。</p>
+<p><strong>keys:</strong></p>
+<ol>
+<li>Multi-crop：两个160×160的crop去注意全局特征，选择四个96×96的crop去注意局部特征</li>
+<li>聚类</li>
+</ol>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>&emsp;到了第二阶段，其实很多细节都趋于统一了，比如目标函数都是使用infoNCE，模型都归一为用一个encoder+projection head了，大家都采用了一个更强的数据增强，都想用一个动量编码器，也都尝试训练更久，最后在ImageNet上的准确度也逐渐逼近于有监督的基线模型。</p>
+<h1 id="3-不用负样本"><a href="#3-不用负样本" class="headerlink" title="3. 不用负样本"></a>3. 不用负样本</h1><h2 id="3-1-BYOL"><a href="#3-1-BYOL" class="headerlink" title="3.1 BYOL"></a>3.1 <a href="https://arxiv.org/pdf/2006.07733.pdf">BYOL</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.1" alt="image-20230731161241934"></p>
+<p>&emsp;在之前的对比学习工作中，是让$z_{\theta}$和$z_{\xi}^{‘}$尽可能的相似，而在BYOL这里，又加了一层predictor的全连接层$q_{\theta}$ ，$q_{\theta}$ 的网络结构和$g_{\theta}$ 的网络结构是完全一样的$z_{\theta}$ 通过$q_{\theta}$又得到了一个新的特征$q_{\theta}(z_{\theta})$现在的目的是想让特征$q_{\theta}(z_{\theta})$与$z_{\xi}^{‘}$</p>
+<p>&emsp;图中的sg表示<code>stop gradient</code>，这里是没有梯度的。模型的上一支相当于<code>query</code>编码器，下面一支相当于<code>key</code>编码器，而<code>key</code>编码器都是通过<code>query</code>编码器来动量更新。不同是代理任务不一样，BYOL相当于是自己一个视角的特征去预测另外一个视角的特征，通过这种预测性的任务来完成模型的训练。</p>
+<p>&emsp;<strong>损失函数：</strong>MSE</p>
+<h2 id="3-2-SimSiam"><a href="#3-2-SimSiam" class="headerlink" title="3.2 SimSiam"></a>3.2 <a href="https://arxiv.org/pdf/2011.10566.pdf">SimSiam</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2" alt="image-20230731163008906"></p>
+<p>&emsp;<strong>基本思想：</strong>实例x xx经过数据增强变为$x_{1}$ 和$x_{2}$ ，之后经过孪生的编码器$f ( ⋅ )$ ，得到嵌入$z_{1}$和$z_{2}$  ，之后经过预测层得到$p_{1}$ 和$p_{2}$ ，之后让$p_{1}$ 预测$z_{2}$，用$ p_{2}$去预测$z_{1}$，进行模型的训练。</p>
+<p><strong>伪代码：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f: backbone + projection mlp</span></span><br><span class="line"><span class="comment"># h: prediction mlp</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># random augmentation</span></span><br><span class="line">	z1, z2 = f(x1), f(x2) <span class="comment"># projections, n-by-d</span></span><br><span class="line">	p1, p2 = h(z1), h(z2) <span class="comment"># predictions, n-by-d</span></span><br><span class="line">	</span><br><span class="line">	L = D(p1, z2)/<span class="number">2</span> + D(p2, z1)/<span class="number">2</span> <span class="comment"># loss</span></span><br><span class="line">	</span><br><span class="line">	L.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	update(f, h) <span class="comment"># SGD update</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">D</span>(<span class="params">p, z</span>): <span class="comment"># negative cosine similarity   负余弦相似性</span></span><br><span class="line">	z = z.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	</span><br><span class="line">	p = normalize(p, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	z = normalize(z, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	<span class="keyword">return</span> -(p*z).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;SimSiam能够成功训练的原因，不会发生模型坍塌，主要就是因为有<code>stop gradient</code>这个操作的存在。由于<code>stop gradient</code>，可以将SimSiam的结构看成是一个EM算法，相当于是在解决两个子问题，而模型更新也在交替进行，相当于不断的更新聚类中心。</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2-2" alt="image-20230731164336674"></p>
+<h1 id="4-Transformer"><a href="#4-Transformer" class="headerlink" title="4. Transformer"></a>4. Transformer</h1><p>&emsp;在vision transformer之后，因为其大大提升了encoder的效果，所以很多对比学习任务打算使用vision transformer作为backbone进行对比学习，涌现出了两篇工作，分别是MoCov3和DINO。</p>
+<h2 id="4-1-MoCo-v3"><a href="#4-1-MoCo-v3" class="headerlink" title="4.1 MoCo v3"></a>4.1 <a href="https://arxiv.org/pdf/2104.02057.pdf">MoCo v3</a></h2><p>骨干网络从ResNet 替换为 ViT</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f_q: encoder: backbone + proj mlp + pred mlp</span></span><br><span class="line"><span class="comment"># f_k: momentum encoder: backbone + proj mlp</span></span><br><span class="line"><span class="comment"># m: momentum coefficient</span></span><br><span class="line"><span class="comment"># tau: temperature</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># augmentation</span></span><br><span class="line">	q1, q2 = f_q(x1), f_q(x2) <span class="comment"># queries: [N, C] each</span></span><br><span class="line">	k1, k2 = f_k(x1), f_k(x2) <span class="comment"># keys: [N, C] each</span></span><br><span class="line">	</span><br><span class="line">	loss = ctr(q1, k2) + ctr(q2, k1) <span class="comment"># symmetrized</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	</span><br><span class="line">	update(f_q) <span class="comment"># optimizer update: f_q</span></span><br><span class="line">	f_k = m*f_k + (<span class="number">1</span>-m)*f_q <span class="comment"># momentum update: f_k</span></span><br><span class="line">	</span><br><span class="line"><span class="comment"># contrastive loss</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ctr</span>(<span class="params">q, k</span>):</span><br><span class="line">	logits = mm(q, k.t()) <span class="comment"># [N, N] pairs</span></span><br><span class="line">	labels = <span class="built_in">range</span>(N) <span class="comment"># positives are in diagonal</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/tau, labels)</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span> * tau * loss</span><br><span class="line">	</span><br><span class="line"><span class="comment"># Notes: mm is matrix multiplication. k.t() is k’s transpose. The prediction head is excluded from f k (and thus the momentum update).</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>第一阶段的Patch投影时冻住，有效解决梯度波动问题</p>
+<h2 id="4-2-DINO"><a href="#4-2-DINO" class="headerlink" title="4.2 DINO"></a>4.2 <a href="https://arxiv.org/pdf/2104.14294.pdf">DINO</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.1" alt="image-20230731165738061"></p>
+<p>&emsp;这里想表达的意思是一个完全不用任何标签信息训练出来的Vision Transformers，如果将其自注意力图拿出来进行可视化，可以发现其可以非常准确的抓住每个物体的轮廓，这个效果甚至可以直接匹配对这个物体作语义分割。</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.2" alt="image-20230731165935686"></p>
+<p>&emsp;DINO的前向过程都是类似的，当有一个图片x的两个视角$x_{1}$和$x_{2}$之后，$ x_{1}$和$x_{2}$分别通过学生网络编码器$g_{\theta s}$和教师网络编码器$g_{\theta t}$得到两个特征$p_{1}$和$p_{2}$，其中编码器结构中同样包含projection head和prediction head。而为了避免模型的坍塌，DINO做了一个额外的工作centering，这个操作就是把整个batch里的样本都算一个均值，然后减掉这个均值其实就是centering。最后也是有一个stop gradient的操作，然后用$p_{1}$预测$p_{2}$ </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># gs, gt: student and teacher networks</span></span><br><span class="line"><span class="comment"># C: center (K)</span></span><br><span class="line"><span class="comment"># tps, tpt: student and teacher temperatures</span></span><br><span class="line"><span class="comment"># l, m: network and center momentum rates</span></span><br><span class="line"></span><br><span class="line">gt.params = gs.params</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = augment(x), augment(x) <span class="comment"># random views</span></span><br><span class="line">	</span><br><span class="line">	s1, s2 = gs(x1), gs(x2) <span class="comment"># student output n-by-K</span></span><br><span class="line">	t1, t2 = gt(x1), gt(x2) <span class="comment"># teacher output n-by-K</span></span><br><span class="line">	</span><br><span class="line">	loss = H(t1, s2)/<span class="number">2</span> + H(t2, s1)/<span class="number">2</span></span><br><span class="line">	loss.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># student, teacher and center updates</span></span><br><span class="line">	update(gs) <span class="comment"># SGD</span></span><br><span class="line">	gt.params = l*gt.params + (<span class="number">1</span>-l)*gs.params</span><br><span class="line">	C = m*C + (<span class="number">1</span>-m)*cat([t1, t2]).mean(dim=<span class="number">0</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">H</span>(<span class="params">t, s</span>):</span><br><span class="line">	t = t.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	s = softmax(s / tps, dim=<span class="number">1</span>)</span><br><span class="line">	t = softmax((t - C) / tpt, dim=<span class="number">1</span>) <span class="comment"># center + sharpen</span></span><br><span class="line">	<span class="keyword">return</span> - (t * log(s)).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/5" alt="image-20230731222419004"></p>
+]]></content>
+      <categories>
+        <category>论文精读</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>对比学习</tag>
+        <tag>MoCo</tag>
+        <tag>SimCLR</tag>
       </tags>
   </entry>
   <entry>
@@ -218,117 +330,5 @@
         <tag>双流网络</tag>
         <tag>Transformer</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>论文精读 对比学习综述 2021</title>
-    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/</url>
-    <content><![CDATA[<h1 id="1-百花齐放"><a href="#1-百花齐放" class="headerlink" title="1. 百花齐放"></a>1. 百花齐放</h1><p>&emsp;在第一阶段上，方法模型都没有统一，目标函数,代理任务也没有统一，所以说是一个百花齐放的年代</p>
-<h2 id="1-1-InstDisc"><a href="#1-1-InstDisc" class="headerlink" title="1.1 InstDisc"></a>1.1 <a href="https://arxiv.org/pdf/1805.01978.pdf">InstDisc</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.1" alt="image-20230731101249802"></p>
-<p>&emsp;<strong>基本思想：</strong>图片聚集在一起的原因，并不是这些图片有相似的语义标签信息，而是因为这些图片长得比较像。通过一个卷积神经网络来将图片进行编码成一个低维特征，然后使得这些特征在特征空间上都尽可能的区分开，因为个体判别认为每张图片都是自成一类，<strong>提出了个体判别任务</strong>。</p>
-<p>&emsp;<strong>Forward：</strong>假设模型的batchsize是256，有256张图片进入CNN网络，将256张图片编码为128维的向量。因为batchsize是256，因此有256个正样本。负样本来自memory bank，每次从memory bank中随机采样出4096个负数样本，利用 InfoNCE loss去更新CNN的参数。本次更新结束后，会将CNN编码得到的向量替换掉memory bank中原有的存储。就这样循环往复的更新CNN和memory bank，最后让模型收敛，就训练好一个CNN encoder了。</p>
-<h2 id="1-2-InvaSpread"><a href="#1-2-InvaSpread" class="headerlink" title="1.2 InvaSpread"></a>1.2 <a href="https://arxiv.org/pdf/1904.03436.pdf">InvaSpread</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.2" alt="image-20230731103807221"></p>
-<p>&emsp;<strong>基本思想：</strong>用mini batch中的数据作为负样本，使用一个编码器进行端到端的学习，所选取的字典长度不够大。</p>
-<p>&emsp;<strong>Forward：</strong>首先利用数据增广，将每个图片增广一次，也就是将256张图片变为512个图片了。之后将512张图片通过CNN编码为向量，并使用一个全连接层将数据的维度降低。之后将$x{i}$和其经过增广后的图$\widetilde{x}{i}$作为正样本，其余的512-2张图片都认为是负样本。所以总计有256个正例，有2×（256-1）张负例。之后的在特征空间中$x{i}$ 与$\widetilde{x}{i}$的距离应该尽可能相近，而$x{i}$与$\widetilde{x}_{j}$的距离应该尽可能相远。</p>
-<p>&emsp;<strong>以上两篇工作都是使用个体判别 Instance Discrimination 作为代理任务的</strong></p>
-<h2 id="1-3-CPC"><a href="#1-3-CPC" class="headerlink" title="1.3 CPC"></a>1.3 <a href="https://arxiv.org/pdf/1807.03748.pdf">CPC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.3" alt="image-20230731112441320"></p>
-<p>&emsp;<strong>基本思想：</strong>有一个持续的序列，把之前时刻的输入喂给编码器，返回的特征再喂给一个自回归模型gar（auto-regressive，一般的自回归模型是RNN或LSTM），然后得到一个context representation，这是一个代表上下文的特征表示。如果context representation足够好，那么其应该可以做出一些合理的预测，所以可以用$c_{t}$预测未来时刻的特征输出$z_{t+i}$</p>
-<p>&emsp;<strong>生成式的代理任务</strong></p>
-<h2 id="1-4-CMC"><a href="#1-4-CMC" class="headerlink" title="1.4 CMC"></a>1.4 <a href="https://arxiv.org/pdf/1906.05849.pdf">CMC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.4" alt="image-20230731113140008"></p>
-<p>&emsp;<strong>基本思想：</strong>CMC想学一个非常强大的特征，其具有视角的不变性（不管是看见了一只狗，还是听到了狗叫声，都能判断出这是个狗）。所以，CMC的工作目的就是去增大这个互信息，就是所有视角之间的互信息。如果能学到一种特征，能够抓住所有视角下的这个关键的因素，那么这个特征就比较好。<strong>最大化互信息</strong></p>
-<p>&emsp;<strong>方法：</strong>输入view来自于不同的传感器，或者说是不同的模态，但是这些所有的输入其实对应的都是一整的图片，一个东西，那么它们就应该互为正样本，相互配对。而这些相互配对的视角在特征空间中应该尽可能的相近，而与其他的视角尽可能的远离。Teacher和student编码得到的相同图片的向量互为正例，不同图片得到的输出作为负例，利用对比学习的思路进行知识蒸馏。</p>
-<p>&emsp;<strong>问题：</strong>在于multi view的工作可能需要多个编码器进行编码，训练代价可能有点高。比如CLIP，就是用大型的语言编码器BERT对语言模型进行编码，用视觉模型VIT对视觉信息进行编码。</p>
-<p>InfoMin是CMC的作者做的一个分析型的延伸性工作，要是提出了一个InfoMin的原则，InfoMin的本意是不能一味的最大化这个互信息，而是要不多不少刚刚好，去选择合适的数据增强与合适的对比学习的视角。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>&emsp;可以看到以上的工作代理任务不尽相同，其中有个体判别，有预测未来，还有多视角多模态。使用的目标函数也不尽相同，有NCE，infoNCE以及其变体。使用的模型也可以是不同的，比如InvaSpread使用的是相同的编码器对key和query进行编码，CMC对key和query使用的是不同的编码，是百花齐放的。</p>
-<h1 id="2-CV双雄"><a href="#2-CV双雄" class="headerlink" title="2. CV双雄"></a>2. CV双雄</h1><h2 id="2-1-MoCo-v1"><a href="#2-1-MoCo-v1" class="headerlink" title="2.1 MoCo v1"></a>2.1 <a href="https://arxiv.org/pdf/1911.05722.pdf">MoCo v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1" alt="image-20230731142805835"></p>
-<p>&emsp;<strong>基本思想：</strong>将一系列的对比学习方法归纳为一个字典查询的问题building dynamic dictionaries。将负样本图片通过编码器后所得的输出看成是一个特征key，将正样本图片通过另外一个编码器所得到的输出看成是一个query。对比学习本质上，就是希望在字典中找到与query最匹配的那个key，而这个key是正样本通过一些列的数据增强变化获得，所以语义信息应该相同，在特征空间上也应该类似，而与其他的负样本的特征key应该尽可能的远离，损失函数InfoNEC</p>
-<p>&emsp;<strong>贡献：</strong></p>
-<ol>
-<li>queue 数据结构</li>
-<li>Momentum Encoder  $θ_k←mθ{_k}+(1−m)θq$</li>
-<li>Shuffling BN -　BN可能导致信息泄露</li>
-</ol>
-<p><strong>对比：</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1-2" alt="image-20230731144205429"></p>
-<p><strong>方法：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Algorithm 1 Pseudocode of MoCo in a PyTorch-like style</span></span><br><span class="line"><span class="comment"># f_q, f_k: encoder networks for query and key</span></span><br><span class="line"><span class="comment"># queue: dictionary as a queue of K keys (CxK)</span></span><br><span class="line"><span class="comment"># m: momentum</span></span><br><span class="line"><span class="comment"># t: temperature</span></span><br><span class="line">f_k.params = f_q.params <span class="comment"># initialize</span></span><br><span class="line">	<span class="keyword">for</span> x <span class="keyword">in</span> loader: 	<span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">	x_q = aug(x)		<span class="comment"># a randomly augmented version</span></span><br><span class="line">	x_k = aug(x)		<span class="comment"># another randomly augmented version</span></span><br><span class="line">	</span><br><span class="line">	q = f_q.forward(x_q) 	<span class="comment"># queries: NxC (256x128)</span></span><br><span class="line">	k = f_k.forward(x_k) 	<span class="comment"># keys: NxC (256x128)</span></span><br><span class="line">	k = k.detach() 			<span class="comment"># no gradient to keys</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># positive logits: Nx1 (256x1)</span></span><br><span class="line">	l_pos = bmm(q.view(N,<span class="number">1</span>,C), k.view(N,C,<span class="number">1</span>))	<span class="comment"># q·k+</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># negative logits: NxK (256x65536)</span></span><br><span class="line">	l_neg = mm(q.view(N,C), queue.view(C,K))	<span class="comment"># sum q·ki</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># logits: Nx(1+K) (256x65537)</span></span><br><span class="line">	logits = cat([l_pos, l_neg], dim=<span class="number">1</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># contrastive loss, Eqn.(1)</span></span><br><span class="line">	labels = zeros(N) <span class="comment"># positives are the 0-th；利用pytorch函数特性</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/t, labels)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># SGD update: query network</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	update(f_q.params)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># momentum update: key network</span></span><br><span class="line">	f_k.params = m * f_k.params+(<span class="number">1</span>-m) * f_q.params</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># update dictionary</span></span><br><span class="line">	enqueue(queue, k) 	<span class="comment"># enqueue the current minibatch</span></span><br><span class="line">	dequeue(queue) 		<span class="comment"># dequeue the earliest minibatch</span></span><br><span class="line"><span class="comment"># bmm: batch matrix multiplication; mm: matrix multiplication; cat: concatenation.</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-2-SimCLR-v1"><a href="#2-2-SimCLR-v1" class="headerlink" title="2.2 SimCLR v1"></a>2.2 <a href="https://arxiv.org/pdf/2002.05709.pdf">SimCLR v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2" alt="image-20230731144944108"></p>
-<p>&emsp;<strong>思路：</strong>假如有一个minibatch的图片，对整个minibatch的所有图片做数据增强，对图片x xx做不同的数据增强就会得$x_{i}$和$x_{j}$ 同一个图片延申得到的两个图片就是正样本，比如batchSize是n的话，那么正样本就是n，这个batchsize剩下的所有的样本以及其经过数据增强后得到的都是负样本，也就是2(n-1)。有了正负样本之后，对其进行编码，通过一个编码器$f ( ⋅ )$得到正负样本的编码结。SimCLR的创新点就是在得到数据的编码之后在后面加了一个编码层$g ( ⋅ )$函数，就是一个MLP层，得到较低维度的特征$z_{i}$和 $z_{j}$ ，用其进行对比学习，拉近正例之间的距离，拉远负例之间的距离。但是需要注意的一点就是投影函数仅仅在训练的时候才使用，在测试的时候是不使用的，测试的时候仅仅使用编码器$f(·)$ 。加上投影函数的目的也仅仅是想让模型训练的更好。</p>
-<p><strong>与InvaSpread相比：</strong></p>
-<ol>
-<li><p>SimCLR使用了更多的数据增强 其中随机的裁剪以及随机的色彩变换最重要</p>
-</li>
-<li><p>加入了投影的$g ( ⋅ )$ 函数</p>
-</li>
-<li><p>就是SimCLR用了更大的batchsize，且训练的时间更久</p>
-</li>
-</ol>
-<p>&emsp;<strong>损失函数：</strong>the normalized temperature-scaled cross entropy loss</p>
-<p><strong>方法：</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2-2" alt="image-20230731152831099"></p>
-<h2 id="2-3-MoCo-v2"><a href="#2-3-MoCo-v2" class="headerlink" title="2.3 MoCo v2"></a>2.3 <a href="https://arxiv.org/pdf/2003.04297.pdf">MoCo v2</a></h2><p><strong>改进：</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.3" alt="image-20230731153325242"></p>
-<p>更省钱！！</p>
-<h2 id="2-4-SimCLR-v2"><a href="#2-4-SimCLR-v2" class="headerlink" title="2.4 SimCLR v2"></a>2.4 <a href="https://arxiv.org/pdf/2006.10029.pdf">SimCLR v2</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.4" alt="image-20230731153856595"></p>
-<h2 id="2-5-SWaV"><a href="#2-5-SWaV" class="headerlink" title="2.5 SWaV"></a>2.5 <a href="https://arxiv.org/pdf/2006.09882.pdf">SWaV</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.5" alt="image-20230731154140013"></p>
-<p>&emsp;<strong>基本思想：</strong>给定同样的一张图片，如果去生成不同的视角（views），希望可以用一个视角得到的特征去预测另外一个视角的得到的特征，因为所有的这些视角的特征按道理来说都应该是非常接近的。然后SWaV将对比学习和之前的聚类的方法合在的一起，这样做也不是偶然，因为聚类也是无监督特征表示学习的方法，而且它也希望相似的物体都聚集在一个聚类中心附近，不相似的物体推到别的聚类中心</p>
-<p>&emsp;<strong>方法：</strong>聚类中心C CC就是Prototypes，作为一个矩阵维度是$d $$ *k$（d是特征的维度128维，k是聚类中心的数目3000）SwAV前向过程依旧是一个实例x通过两次数据增强变为 $x_{1}$ 和$x_{2}$ ，之后利用编码器对其进行编码，从而得到嵌入向量$z_{1}$ 和$z_{2}$ 。但是有了$z_{1}$和$z_{2}$ 之后，并不是直接在特征上去做对比学习的loss，而且让 $z_{1}$和$z_{2}$和聚类中心C进行聚类，从而得到ground truth的标签$Q_{1}$ 和$Q_{2}$ 。如果说两个特征比较相似或者是含有等量的信息，按道理来说应该是可以相互预测的。也就是说，用$z_{1}$ 和C作点乘按道理是可以去预测$Q_{2}$的，反过来用$z_{2}$ 和C作点乘按道理是可以去预测$Q_{1}$ 的，SwAV通过这种换位交叉预测的方法来对模型进行训练更新参数。</p>
-<p><strong>keys:</strong></p>
-<ol>
-<li>Multi-crop：两个160×160的crop去注意全局特征，选择四个96×96的crop去注意局部特征</li>
-<li>聚类</li>
-</ol>
-<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>&emsp;到了第二阶段，其实很多细节都趋于统一了，比如目标函数都是使用infoNCE，模型都归一为用一个encoder+projection head了，大家都采用了一个更强的数据增强，都想用一个动量编码器，也都尝试训练更久，最后在ImageNet上的准确度也逐渐逼近于有监督的基线模型。</p>
-<h1 id="3-不用负样本"><a href="#3-不用负样本" class="headerlink" title="3. 不用负样本"></a>3. 不用负样本</h1><h2 id="3-1-BYOL"><a href="#3-1-BYOL" class="headerlink" title="3.1 BYOL"></a>3.1 <a href="https://arxiv.org/pdf/2006.07733.pdf">BYOL</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.1" alt="image-20230731161241934"></p>
-<p>&emsp;在之前的对比学习工作中，是让$z_{\theta}$和$z_{\xi}^{‘}$尽可能的相似，而在BYOL这里，又加了一层predictor的全连接层$q_{\theta}$ ，$q_{\theta}$ 的网络结构和$g_{\theta}$ 的网络结构是完全一样的$z_{\theta}$ 通过$q_{\theta}$又得到了一个新的特征$q_{\theta}(z_{\theta})$现在的目的是想让特征$q_{\theta}(z_{\theta})$与$z_{\xi}^{‘}$</p>
-<p>&emsp;图中的sg表示<code>stop gradient</code>，这里是没有梯度的。模型的上一支相当于<code>query</code>编码器，下面一支相当于<code>key</code>编码器，而<code>key</code>编码器都是通过<code>query</code>编码器来动量更新。不同是代理任务不一样，BYOL相当于是自己一个视角的特征去预测另外一个视角的特征，通过这种预测性的任务来完成模型的训练。</p>
-<p>&emsp;<strong>损失函数：</strong>MSE</p>
-<h2 id="3-2-SimSiam"><a href="#3-2-SimSiam" class="headerlink" title="3.2 SimSiam"></a>3.2 <a href="https://arxiv.org/pdf/2011.10566.pdf">SimSiam</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2" alt="image-20230731163008906"></p>
-<p>&emsp;<strong>基本思想：</strong>实例x xx经过数据增强变为$x_{1}$ 和$x_{2}$ ，之后经过孪生的编码器$f ( ⋅ )$ ，得到嵌入$z_{1}$和$z_{2}$  ，之后经过预测层得到$p_{1}$ 和$p_{2}$ ，之后让$p_{1}$ 预测$z_{2}$，用$ p_{2}$去预测$z_{1}$，进行模型的训练。</p>
-<p><strong>伪代码：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f: backbone + projection mlp</span></span><br><span class="line"><span class="comment"># h: prediction mlp</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># random augmentation</span></span><br><span class="line">	z1, z2 = f(x1), f(x2) <span class="comment"># projections, n-by-d</span></span><br><span class="line">	p1, p2 = h(z1), h(z2) <span class="comment"># predictions, n-by-d</span></span><br><span class="line">	</span><br><span class="line">	L = D(p1, z2)/<span class="number">2</span> + D(p2, z1)/<span class="number">2</span> <span class="comment"># loss</span></span><br><span class="line">	</span><br><span class="line">	L.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	update(f, h) <span class="comment"># SGD update</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">D</span>(<span class="params">p, z</span>): <span class="comment"># negative cosine similarity   负余弦相似性</span></span><br><span class="line">	z = z.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	</span><br><span class="line">	p = normalize(p, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	z = normalize(z, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	<span class="keyword">return</span> -(p*z).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;SimSiam能够成功训练的原因，不会发生模型坍塌，主要就是因为有<code>stop gradient</code>这个操作的存在。由于<code>stop gradient</code>，可以将SimSiam的结构看成是一个EM算法，相当于是在解决两个子问题，而模型更新也在交替进行，相当于不断的更新聚类中心。</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2-2" alt="image-20230731164336674"></p>
-<h1 id="4-Transformer"><a href="#4-Transformer" class="headerlink" title="4. Transformer"></a>4. Transformer</h1><p>&emsp;在vision transformer之后，因为其大大提升了encoder的效果，所以很多对比学习任务打算使用vision transformer作为backbone进行对比学习，涌现出了两篇工作，分别是MoCov3和DINO。</p>
-<h2 id="4-1-MoCo-v3"><a href="#4-1-MoCo-v3" class="headerlink" title="4.1 MoCo v3"></a>4.1 <a href="https://arxiv.org/pdf/2104.02057.pdf">MoCo v3</a></h2><p>骨干网络从ResNet 替换为 ViT</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f_q: encoder: backbone + proj mlp + pred mlp</span></span><br><span class="line"><span class="comment"># f_k: momentum encoder: backbone + proj mlp</span></span><br><span class="line"><span class="comment"># m: momentum coefficient</span></span><br><span class="line"><span class="comment"># tau: temperature</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># augmentation</span></span><br><span class="line">	q1, q2 = f_q(x1), f_q(x2) <span class="comment"># queries: [N, C] each</span></span><br><span class="line">	k1, k2 = f_k(x1), f_k(x2) <span class="comment"># keys: [N, C] each</span></span><br><span class="line">	</span><br><span class="line">	loss = ctr(q1, k2) + ctr(q2, k1) <span class="comment"># symmetrized</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	</span><br><span class="line">	update(f_q) <span class="comment"># optimizer update: f_q</span></span><br><span class="line">	f_k = m*f_k + (<span class="number">1</span>-m)*f_q <span class="comment"># momentum update: f_k</span></span><br><span class="line">	</span><br><span class="line"><span class="comment"># contrastive loss</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ctr</span>(<span class="params">q, k</span>):</span><br><span class="line">	logits = mm(q, k.t()) <span class="comment"># [N, N] pairs</span></span><br><span class="line">	labels = <span class="built_in">range</span>(N) <span class="comment"># positives are in diagonal</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/tau, labels)</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span> * tau * loss</span><br><span class="line">	</span><br><span class="line"><span class="comment"># Notes: mm is matrix multiplication. k.t() is k’s transpose. The prediction head is excluded from f k (and thus the momentum update).</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>第一阶段的Patch投影时冻住，有效解决梯度波动问题</p>
-<h2 id="4-2-DINO"><a href="#4-2-DINO" class="headerlink" title="4.2 DINO"></a>4.2 <a href="https://arxiv.org/pdf/2104.14294.pdf">DINO</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.1" alt="image-20230731165738061"></p>
-<p>&emsp;这里想表达的意思是一个完全不用任何标签信息训练出来的Vision Transformers，如果将其自注意力图拿出来进行可视化，可以发现其可以非常准确的抓住每个物体的轮廓，这个效果甚至可以直接匹配对这个物体作语义分割。</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.2" alt="image-20230731165935686"></p>
-<p>&emsp;DINO的前向过程都是类似的，当有一个图片x的两个视角$x_{1}$和$x_{2}$之后，$ x_{1}$和$x_{2}$分别通过学生网络编码器$g_{\theta s}$和教师网络编码器$g_{\theta t}$得到两个特征$p_{1}$和$p_{2}$，其中编码器结构中同样包含projection head和prediction head。而为了避免模型的坍塌，DINO做了一个额外的工作centering，这个操作就是把整个batch里的样本都算一个均值，然后减掉这个均值其实就是centering。最后也是有一个stop gradient的操作，然后用$p_{1}$预测$p_{2}$ </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># gs, gt: student and teacher networks</span></span><br><span class="line"><span class="comment"># C: center (K)</span></span><br><span class="line"><span class="comment"># tps, tpt: student and teacher temperatures</span></span><br><span class="line"><span class="comment"># l, m: network and center momentum rates</span></span><br><span class="line"></span><br><span class="line">gt.params = gs.params</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = augment(x), augment(x) <span class="comment"># random views</span></span><br><span class="line">	</span><br><span class="line">	s1, s2 = gs(x1), gs(x2) <span class="comment"># student output n-by-K</span></span><br><span class="line">	t1, t2 = gt(x1), gt(x2) <span class="comment"># teacher output n-by-K</span></span><br><span class="line">	</span><br><span class="line">	loss = H(t1, s2)/<span class="number">2</span> + H(t2, s1)/<span class="number">2</span></span><br><span class="line">	loss.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># student, teacher and center updates</span></span><br><span class="line">	update(gs) <span class="comment"># SGD</span></span><br><span class="line">	gt.params = l*gt.params + (<span class="number">1</span>-l)*gs.params</span><br><span class="line">	C = m*C + (<span class="number">1</span>-m)*cat([t1, t2]).mean(dim=<span class="number">0</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">H</span>(<span class="params">t, s</span>):</span><br><span class="line">	t = t.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	s = softmax(s / tps, dim=<span class="number">1</span>)</span><br><span class="line">	t = softmax((t - C) / tpt, dim=<span class="number">1</span>) <span class="comment"># center + sharpen</span></span><br><span class="line">	<span class="keyword">return</span> - (t * log(s)).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/5" alt="image-20230731222419004"></p>
-]]></content>
-      <categories>
-        <category>论文精读</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>对比学习</tag>
-        <tag>MoCo</tag>
-        <tag>SimCLR</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2023/08/22/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
 </search>
