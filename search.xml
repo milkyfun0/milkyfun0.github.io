@@ -3,7 +3,7 @@
   <entry>
     <title>论文精读-DELL·E2-2022</title>
     <url>/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/</url>
-    <content><![CDATA[<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="https://img-blog.csdnimg.cn/2e470107269d4e44a8e352fc87dd49ce.png"></p>
+    <content><![CDATA[<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="D:\myBlog\hexoblog\source_posts\2e470107269d4e44a8e352fc87dd49ce.png"></p>
 <p>   生成器<code>G</code>从给定噪声中（一般是指均匀分布或者正态分布）采样来合成数据，判别器<code>D</code>用于判别样本是真实样本还是G生成的样本。<code>G</code>的目标就是尽量生成真实的图片去欺骗判别网络<code>D</code>，使<code>D</code>犯错；而<code>D</code>的目标就是尽量把<code>G</code>生成的图片和真实的图片分别开来</p>
 <p>局限性：</p>
 <ol>
@@ -11,10 +11,10 @@
 <li>GANs生成的多样性不够好</li>
 <li>GANs是隐式生成，不够优美</li>
 </ol>
-<h2 id="AE"><a href="#AE" class="headerlink" title="AE"></a><a href="https://paperswithcode.com/method/autoencoder">AE</a></h2><p><img src="https://img-blog.csdnimg.cn/60fd506454ac4280a0d015385d25944a.png#pic_center"></p>
+<h2 id="AE"><a href="#AE" class="headerlink" title="AE"></a><a href="https://paperswithcode.com/method/autoencoder">AE</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/60fd506454ac4280a0d015385d25944a.png#pic_center"></p>
 <p>​    Auto-Encoder，中文称作自编码器<br>​    <code>   DAE</code>（Denoising Autoencoder），就是先把原图$x$进行一定程度的打乱</p>
-<h2 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a><a href="https://paperswithcode.com/paper/auto-encoding-variational-bayes">VAE</a></h2><p><img src="https://img-blog.csdnimg.cn/0879f80567c94e0892037517d797b997.png" alt="在这里插入图片描述"></p>
-<p><img src="https://pic2.zhimg.com/80/v2-df06f2d1471615dae76b1e09488091b5_720w.webp" alt="img"></p>
+<h2 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a><a href="https://paperswithcode.com/paper/auto-encoding-variational-bayes">VAE</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0879f80567c94e0892037517d797b997.png" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/v2-df06f2d1471615dae76b1e09488091b5_720w.webp" alt="img"></p>
 <p>​      VAE（Variational Auto-Encoder-变分自编码器）就是借助了这种encoder-decoder的结构去做生成，和AE最主要的区别就是不再去学习中间的bottleneck特征了，而是去学习一种分布。</p>
 <p>  作者假设中间的分布是一个高斯分布（用均值μ 和方差σ 来描述）。具体来说，就是将输入x进行编码得到特征之后，再接一些FC层，去预测中间分布的μ 和σ 。</p>
 <p>   μ 和σ 训练好之后，就可以扔掉encoder了。推理时直接从训练好的分布去采样一些z 出来（ $z&#x3D;\mu +\sigma \cdot \varepsilon$），然后进行解码，这样VAE就可以用来做生成了</p>
@@ -50,10 +50,10 @@
 <li>前向扩散过程：对数据逐渐增加高斯噪音直至数据变成随机噪音的过程（噪音化）</li>
 <li>反向生成过程：从随机噪音开始逐步去噪音直至生成一张图像（去噪）</li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png#pic_center" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/316d832ce0a14e518e0aea30c5afee0b.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/316d832ce0a14e518e0aea30c5afee0b.png#pic_center" alt="在这里插入图片描述"></p>
 <p><strong>BackBone（大部分扩散模型选用<code>U-Net</code>）</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/441e5fb6708b405183fbda1ad3b64c01.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/441e5fb6708b405183fbda1ad3b64c01.png#pic_center" alt="在这里插入图片描述"></p>
 <p>​    <code>  U-Net</code>里还有一些<code>skip connection</code>的操作，可以直接将前面的信息传递给后面，以恢复更多的细节。后续还有一些改进，比如在<code>U-Net</code>里加一些attention操作，可以使图像生成的更好，共享参数。</p>
 <p><strong>局限性：</strong>训练推理慢</p>
 <h3 id="DDPM"><a href="#DDPM" class="headerlink" title="DDPM"></a><a href="https://paperswithcode.com/paper/denoising-diffusion-probabilistic-models">DDPM</a></h3><p><strong>贡献 ：</strong></p>
@@ -74,7 +74,7 @@
 <li><p>使用大模型：加大加宽网络、使用更多的自注意力头attention head，加大自注意力scale（single-scale attention改为multi-scale attention）</p>
 </li>
 <li><p>提出了新的归一化方式——<code>Adaptive Group Normalization</code>，在文章就是根据步数进行<strong>自适应的归一化</strong>。这个方法是对group归一化的一个改进：</p>
-<p><img src="https://img-blog.csdnimg.cn/8bad0b6ededd4d8f8149d4bd0881c514.png" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/8bad0b6ededd4d8f8149d4bd0881c514.png" alt="在这里插入图片描述"></p>
 <p>$AdaGN(h,y&#x3D;[y_s,y_b])&#x3D;y_s*GroupNorm(h)+y_b$</p>
 <p>上面公式中的$h$是残差块激活函数的输出，$y$是一个线性层对时步和后面用到的类别信息的嵌入。组归一化是对输入的通道方向进行分组归一化的归一化方法.</p>
 </li>
