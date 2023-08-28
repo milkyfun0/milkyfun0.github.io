@@ -3,9 +3,7 @@
   <entry>
     <title>论文精读-DELL·E2-2022</title>
     <url>/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/</url>
-    <content><![CDATA[<ul>
-<li><p>前人工作</p>
-<h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/2e470107269d4e44a8e352fc87dd49ce.png"></p>
+    <content><![CDATA[<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/2e470107269d4e44a8e352fc87dd49ce.png"></p>
 <p>   生成器<code>G</code>从给定噪声中（一般是指均匀分布或者正态分布）采样来合成数据，判别器<code>D</code>用于判别样本是真实样本还是G生成的样本。<code>G</code>的目标就是尽量生成真实的图片去欺骗判别网络<code>D</code>，使<code>D</code>犯错；而<code>D</code>的目标就是尽量把<code>G</code>生成的图片和真实的图片分别开来</p>
 <p>局限性：</p>
 <ol>
@@ -108,8 +106,6 @@
 <li>DDPM提出将直接预测图像改为预测噪声，可以简化优化过程。但是DALL·E2这里又没有沿袭这种预测噪声的做法。</li>
 <li>DALL·E2提出如果有显式的生成图片特征的过程，模型效果会好很多，所以采用了两阶段生成方式。但是Imagen直接上一个U-Net就解决了，更简单，效果也很好。</li>
 <li>CLIP和DALL·E2都说自回归模型训练太贵了，训练太不高效了。但是在7月左右，谷歌又推出了Parti，用pathways模型做自回归的文本图像生成，效果直接超越了DALL·E2和Imagen。</li>
-</ul>
-</li>
 </ul>
 ]]></content>
       <categories>
