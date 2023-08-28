@@ -13,7 +13,7 @@
 <li>GANs生成的多样性不够好</li>
 <li>GANs是隐式生成，不够优美</li>
 </ol>
-<h2 id="AE（Autoencoder）和-DAE-Denoising-Autoencoder"><a href="#AE（Autoencoder）和-DAE-Denoising-Autoencoder" class="headerlink" title="AE（Autoencoder）和 DAE(Denoising Autoencoder)"></a><a href="https://paperswithcode.com/method/autoencoder">AE（Autoencoder）</a>和 DAE(Denoising Autoencoder)</h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/60fd506454ac4280a0d015385d25944a.png#pic_center"></p>
+<h2 id="AE（Autoencoder）和-DAE-Denoising-Autoencoder"><a href="#AE（Autoencoder）和-DAE-Denoising-Autoencoder" class="headerlink" title="AE（Autoencoder）和 DAE(Denoising Autoencoder)"></a><a href="https://paperswithcode.com/method/autoencoder">AE（Autoencoder）</a>和 DAE(Denoising Autoencoder)</h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/60fd506454ac4280a0d015385d25944a.png"></p>
 <p><code>  DAE</code>（Denoising Autoencoder），就是先把原图$x$进行一定程度的打乱</p>
 <h2 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a><a href="https://paperswithcode.com/paper/auto-encoding-variational-bayes">VAE</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0879f80567c94e0892037517d797b997.png" alt="在这里插入图片描述"></p>
 <p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/v2-df06f2d1471615dae76b1e09488091b5_720w.webp" alt="img"></p>
@@ -52,10 +52,10 @@
 <li>前向扩散过程：对数据逐渐增加高斯噪音直至数据变成随机噪音的过程（噪音化）</li>
 <li>反向生成过程：从随机噪音开始逐步去噪音直至生成一张图像（去噪）</li>
 </ul>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png#pic_center" alt="在这里插入图片描述"></p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/316d832ce0a14e518e0aea30c5afee0b.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/316d832ce0a14e518e0aea30c5afee0b.png" alt="在这里插入图片描述"></p>
 <p><strong>BackBone（大部分扩散模型选用<code>U-Net</code>）</strong></p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/441e5fb6708b405183fbda1ad3b64c01.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/441e5fb6708b405183fbda1ad3b64c01.png" alt="在这里插入图片描述"></p>
 <p>​    <code>  U-Net</code>里还有一些<code>skip connection</code>的操作，可以直接将前面的信息传递给后面，以恢复更多的细节。后续还有一些改进，比如在<code>U-Net</code>里加一些attention操作，可以使图像生成的更好，共享参数。</p>
 <p><strong>局限性：</strong>训练推理慢</p>
 <h3 id="DDPM"><a href="#DDPM" class="headerlink" title="DDPM"></a><a href="https://paperswithcode.com/paper/denoising-diffusion-probabilistic-models">DDPM</a></h3><p><strong>贡献 ：</strong></p>
