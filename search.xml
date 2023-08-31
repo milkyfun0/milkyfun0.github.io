@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>博客计划</title>
+    <title>更新计划</title>
     <url>/2023/08/22/hello-world/</url>
-    <content><![CDATA[<p>20230901 图像领域 常见的通道注意力实现方法</p>
-<p>20230831 论文精读系列 Clip串讲</p>
+    <content><![CDATA[<p><strong>20230901</strong> 图像领域 常见的通道注意力实现方法</p>
+<p><strong>20230831</strong> 论文精读系列 Clip串讲</p>
 <p>​		 论文精读系列 多模态博客订正</p>
-<p><del>20230829 论文精读系列 多模态串讲</del></p>
+<p><del><strong>20230829</strong> 论文精读系列 多模态串讲</del></p>
 ]]></content>
   </entry>
   <entry>
@@ -152,12 +152,12 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>对比学习</tag>
         <tag>Transformer</tag>
         <tag>Bert</tag>
         <tag>MAE</tag>
         <tag>多模态</tag>
         <tag>特征融合</tag>
+        <tag>对比学习</tag>
       </tags>
   </entry>
   <entry>
@@ -373,10 +373,10 @@
       </categories>
       <tags>
         <tag>论文精读</tag>
+        <tag>Transformer</tag>
         <tag>视频理解</tag>
         <tag>3D卷积</tag>
         <tag>双流网络</tag>
-        <tag>Transformer</tag>
       </tags>
   </entry>
   <entry>
