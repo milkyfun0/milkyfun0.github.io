@@ -3,10 +3,15 @@
   <entry>
     <title>更新计划</title>
     <url>/2023/08/22/hello-world/</url>
-    <content><![CDATA[<p><strong>20230901</strong> 图像领域 常见的通道注意力实现方法</p>
-<p><strong>20230831</strong> 论文精读系列 Clip串讲</p>
-<p>​		 论文精读系列 多模态博客订正</p>
-<p><del><strong>20230829</strong> 论文精读系列 多模态串讲</del></p>
+    <content><![CDATA[<ul>
+<li><p><strong>20230901</strong> 图像领域 常见的通道注意力实现方法</p>
+</li>
+<li><p><strong>20230831</strong> 论文精读系列 Clip串讲</p>
+<p>​         论文精读系列 多模态博客订正</p>
+</li>
+<li><p><del><strong>20230829</strong> 论文精读系列 多模态串讲</del></p>
+</li>
+</ul>
 ]]></content>
   </entry>
   <entry>
@@ -151,13 +156,13 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>Clip</tag>
         <tag>Transformer</tag>
+        <tag>Clip</tag>
+        <tag>对比学习</tag>
         <tag>Bert</tag>
         <tag>MAE</tag>
         <tag>多模态</tag>
         <tag>特征融合</tag>
-        <tag>对比学习</tag>
       </tags>
   </entry>
   <entry>
@@ -272,8 +277,8 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>扩散模型</tag>
         <tag>论文精读</tag>
+        <tag>扩散模型</tag>
         <tag>自编码器</tag>
         <tag>Clip</tag>
         <tag>生成图像</tag>
@@ -372,11 +377,11 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
-        <tag>Transformer</tag>
         <tag>视频理解</tag>
+        <tag>论文精读</tag>
         <tag>3D卷积</tag>
         <tag>双流网络</tag>
+        <tag>Transformer</tag>
       </tags>
   </entry>
   <entry>
