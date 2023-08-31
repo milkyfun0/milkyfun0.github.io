@@ -148,8 +148,8 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>Transformer</tag>
         <tag>对比学习</tag>
+        <tag>Transformer</tag>
         <tag>Bert</tag>
         <tag>MAE</tag>
         <tag>多模态</tag>
@@ -192,7 +192,7 @@
 </ul>
 <p>​    stage1：训练一个分层的VQ-VAE用于图像编码到离散隐空间</p>
 <p>​    输入图像 x，通过编码器生成向量$E ( x )$ ，然后采用最近邻重构，将$E ( x )$ 替换为codebook的中的一个nearest prototype vector。codebook可以理解为离散的编码表，举一张人脸图像为例codebook就包括头发颜色，脸型，表情和肤色等等。因此，量化就是通过编码表，把自编码器生成的向量$E ( x ) $离散化：</p>
-<p><img src="https://img-blog.csdnimg.cn/9a09c6f4ab7c42d6b1fafd9695559e2e.png" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/9a09c6f4ab7c42d6b1fafd9695559e2e.png" alt="在这里插入图片描述"></p>
 <p>​    stage2：在离散隐空间上拟合一个PixelCNN先验</p>
 <ul>
 <li>经过Stage1，将图片编码为了整数矩阵，所以在Stage2用自回归模型PixelCNN，来对编码矩阵进行拟合（即建模先验分布）</li>

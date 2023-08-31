@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/v2-df06f2d1471615dae76b1e09488091b5_720w.webp">
 <meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE">
 <meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE-2">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/9a09c6f4ab7c42d6b1fafd9695559e2e.png">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/9a09c6f4ab7c42d6b1fafd9695559e2e.png">
 <meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png">
 <meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/316d832ce0a14e518e0aea30c5afee0b.png">
 <meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/441e5fb6708b405183fbda1ad3b64c01.png">
@@ -42,7 +42,7 @@
 <meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/image-20230820125542764.png">
 <meta property="og:image" content="https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/IMG_20230827_111312.jpg">
 <meta property="article:published_time" content="2023-08-27T03:32:15.000Z">
-<meta property="article:modified_time" content="2023-08-28T04:51:33.809Z">
+<meta property="article:modified_time" content="2023-08-31T08:52:59.165Z">
 <meta property="article:author" content="404">
 <meta property="article:tag" content="扩散模型">
 <meta property="article:tag" content="论文精读">
@@ -257,7 +257,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-08-28 12:51:33" itemprop="dateModified" datetime="2023-08-28T12:51:33+08:00">2023-08-28</time>
+      <time title="修改时间：2023-08-31 16:52:59" itemprop="dateModified" datetime="2023-08-31T16:52:59+08:00">2023-08-31</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -333,7 +333,7 @@
 </ul>
 <p>​    stage1：训练一个分层的VQ-VAE用于图像编码到离散隐空间</p>
 <p>​    输入图像 x，通过编码器生成向量$E ( x )$ ，然后采用最近邻重构，将$E ( x )$ 替换为codebook的中的一个nearest prototype vector。codebook可以理解为离散的编码表，举一张人脸图像为例codebook就包括头发颜色，脸型，表情和肤色等等。因此，量化就是通过编码表，把自编码器生成的向量$E ( x ) $离散化：</p>
-<p><img src="https://img-blog.csdnimg.cn/9a09c6f4ab7c42d6b1fafd9695559e2e.png" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/9a09c6f4ab7c42d6b1fafd9695559e2e.png" alt="在这里插入图片描述"></p>
 <p>​    stage2：在离散隐空间上拟合一个PixelCNN先验</p>
 <ul>
 <li>经过Stage1，将图片编码为了整数矩阵，所以在Stage2用自回归模型PixelCNN，来对编码矩阵进行拟合（即建模先验分布）</li>
