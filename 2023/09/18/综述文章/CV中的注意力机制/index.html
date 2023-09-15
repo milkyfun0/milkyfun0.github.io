@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-flash.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"milkyfun0.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"buttons","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"manual","top_n_per_article":5,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="介绍2014年至2022年间图像领域注意力机制的代表性工作，主要分6种">
+<meta property="og:type" content="article">
+<meta property="og:title" content="综述文章 CV中的注意力机制-2022">
+<meta property="og:url" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="Qxc&#39;s blog">
+<meta property="og:description" content="介绍2014年至2022年间图像领域注意力机制的代表性工作，主要分6种">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.1-1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.1-2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2-2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.1.png">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.2-2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.3">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.4">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.5">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.6">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7-2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.9">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.9-2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.8">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.1-1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2-1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.3">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.4">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.4-2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.5">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.6-1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.6-2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.6-3">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7-1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7-1-1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7.1-2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7.1-3">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7.1-4">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.2.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.2-2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.3">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.3-2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.4.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.5-1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.5.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.11.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.8.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.9.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.10">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.10.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.3.1.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.3.2.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.3.2.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.4.1.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.4.2.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.5.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.1.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.2.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.3.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.3.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.4.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.5.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.5.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.6.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.7.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.7.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.8">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.9.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.9.3">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.1.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.1.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.6.2.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.4.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.3.1">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.3.2">
+<meta property="og:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.3.3">
+<meta property="article:published_time" content="2023-09-18T08:59:46.000Z">
+<meta property="article:modified_time" content="2023-09-15T12:21:42.629Z">
+<meta property="article:author" content="404">
+<meta property="article:tag" content="注意力机制">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="综述阅读">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.1-1">
+
+
+<link rel="canonical" href="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/","path":"2023/09/18/综述文章/CV中的注意力机制/","title":"综述文章 CV中的注意力机制-2022"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>综述文章 CV中的注意力机制-2022 | Qxc's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Qxc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">逃げちゃダメだ</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">技术介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%91%E6%9C%9F%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">近期发展历程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">计算机视觉中的注意力机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E9%81%93%E6%B3%A8%E6%84%8F%E5%8A%9B-channel-attention"><span class="nav-number">2.1.</span> <span class="nav-text">通道注意力(channel attention)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SENet"><span class="nav-number">2.1.1.</span> <span class="nav-text">SENet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GSoP-Net"><span class="nav-number">2.1.2.</span> <span class="nav-text">GSoP-Net</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SRM"><span class="nav-number">2.1.3.</span> <span class="nav-text">SRM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GCT"><span class="nav-number">2.1.4.</span> <span class="nav-text">GCT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ECANet"><span class="nav-number">2.1.5.</span> <span class="nav-text">ECANet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FcaNet"><span class="nav-number">2.1.6.</span> <span class="nav-text">FcaNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EncNet"><span class="nav-number">2.1.7.</span> <span class="nav-text">EncNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bilinear-Attention"><span class="nav-number">2.1.8.</span> <span class="nav-text">Bilinear Attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.1.9.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E6%B3%A8%E6%84%8F%E5%8A%9B-Spatial-Attention"><span class="nav-number">2.2.</span> <span class="nav-text">空间注意力(Spatial Attention)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RAM"><span class="nav-number">2.2.1.</span> <span class="nav-text">RAM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Glimpse-Network"><span class="nav-number">2.2.2.</span> <span class="nav-text">Glimpse Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hard-and-soft-attention"><span class="nav-number">2.2.3.</span> <span class="nav-text">Hard and soft attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Attention-Gate"><span class="nav-number">2.2.4.</span> <span class="nav-text">Attention Gate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STN"><span class="nav-number">2.2.5.</span> <span class="nav-text">STN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DCN"><span class="nav-number">2.2.6.</span> <span class="nav-text">DCN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Self-attention-and-variants"><span class="nav-number">2.2.7.</span> <span class="nav-text">Self-attention and variants</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CCNet"><span class="nav-number">2.2.7.1.</span> <span class="nav-text">CCNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EMANet"><span class="nav-number">2.2.7.2.</span> <span class="nav-text">EMANet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ANN"><span class="nav-number">2.2.7.3.</span> <span class="nav-text">ANN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GCNet"><span class="nav-number">2.2.7.4.</span> <span class="nav-text">GCNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-2Net"><span class="nav-number">2.2.7.5.</span> <span class="nav-text">$A^2Net$</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SASA"><span class="nav-number">2.2.7.6.</span> <span class="nav-text">SASA</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ViT"><span class="nav-number">2.2.8.</span> <span class="nav-text">ViT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GENet"><span class="nav-number">2.2.9.</span> <span class="nav-text">GENet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PSANet"><span class="nav-number">2.2.10.</span> <span class="nav-text">PSANet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">2.2.11.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E6%B3%A8%E6%84%8F%E5%8A%9B-Temporal-Attention"><span class="nav-number">2.3.</span> <span class="nav-text">时间注意力(Temporal Attention)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GLTR"><span class="nav-number">2.3.1.</span> <span class="nav-text">GLTR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TAM"><span class="nav-number">2.3.2.</span> <span class="nav-text">TAM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="nav-number">2.3.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E6%B3%A8%E6%84%8F%E5%8A%9B-Branch-Attention"><span class="nav-number">2.4.</span> <span class="nav-text">分支注意力(Branch Attention)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SKNet"><span class="nav-number">2.4.1.</span> <span class="nav-text">SKNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CondConv"><span class="nav-number">2.4.2.</span> <span class="nav-text">CondConv</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-3"><span class="nav-number">2.4.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E9%81%93-%E7%A9%BA%E9%97%B4%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6-Channel-Spatial-Attention"><span class="nav-number">2.5.</span> <span class="nav-text">通道&amp;空间注意力机制(Channel&amp;Spatial Attention)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Residual-Attention"><span class="nav-number">2.5.1.</span> <span class="nav-text">Residual Attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SCNet"><span class="nav-number">2.5.2.</span> <span class="nav-text">SCNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Strip-Pooling"><span class="nav-number">2.5.3.</span> <span class="nav-text">Strip Pooling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SCA-CNN"><span class="nav-number">2.5.4.</span> <span class="nav-text">SCA-CNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CBAM-BAM"><span class="nav-number">2.5.5.</span> <span class="nav-text">CBAM &amp; BAM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scSE"><span class="nav-number">2.5.6.</span> <span class="nav-text">scSE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DANet"><span class="nav-number">2.5.7.</span> <span class="nav-text">DANet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RGA"><span class="nav-number">2.5.8.</span> <span class="nav-text">RGA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Triplet-Attention"><span class="nav-number">2.5.9.</span> <span class="nav-text">Triplet Attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-4"><span class="nav-number">2.5.10.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4-%E6%97%B6%E9%97%B4%E6%B3%A8%E6%84%8F%E5%8A%9B-Spatial-Temporal-Attention"><span class="nav-number">2.6.</span> <span class="nav-text">空间&amp;时间注意力(Spatial&amp;Temporal Attention)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#STA-LSTM"><span class="nav-number">2.6.1.</span> <span class="nav-text">STA-LSTM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RSTAN"><span class="nav-number">2.6.2.</span> <span class="nav-text">RSTAN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STA"><span class="nav-number">2.6.3.</span> <span class="nav-text">STA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STGCN"><span class="nav-number">2.6.4.</span> <span class="nav-text">STGCN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-5"><span class="nav-number">2.6.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AA%E6%9D%A5%E6%96%B9%E5%90%91"><span class="nav-number">3.</span> <span class="nav-text">未来方向</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="404"
+      src="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F2.webp">
+  <p class="site-author-name" itemprop="name">404</p>
+  <div class="site-description" itemprop="description">总之，能做什么就该去做，否则日后后悔就不好了吧。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/milkyfun0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;milkyfun0" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cao2573943723@163.com" title="E-Mail → mailto:cao2573943723@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F2.webp">
+      <meta itemprop="name" content="404">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qxc's blog">
+      <meta itemprop="description" content="总之，能做什么就该去做，否则日后后悔就不好了吧。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="综述文章 CV中的注意力机制-2022 | Qxc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          综述文章 CV中的注意力机制-2022
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-09-18 16:59:46" itemprop="dateCreated datePublished" datetime="2023-09-18T16:59:46+08:00">2023-09-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-15 20:21:42" itemprop="dateModified" datetime="2023-09-15T20:21:42+08:00">2023-09-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/" itemprop="url" rel="index"><span itemprop="name">综述文章</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>31k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>57 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>&emsp;文章原文：**<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2111.07624.pdf">Attention Mechanisms in Computer Vision: A Survey</a>**</p>
+<p>&emsp;本片中的方法代码实现<a target="_blank" rel="noopener" href="https://github.com/MenghaoGuo/Awesome-Vision-Attentions">Github</a>，是基于新的框架<a target="_blank" rel="noopener" href="https://cg.cs.tsinghua.edu.cn/jittor/">Jittor</a></p>
+<h1 id="技术介绍"><a href="#技术介绍" class="headerlink" title="技术介绍"></a>技术介绍</h1><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.1-1" alt="image-20230915095934524"></p>
+<p>&emsp;注意力机制根据数据域分类。其中包含了四种分类：通道注意力、空间注意力、时间注意力、分支注意力，其中有两个重叠类，即通道-空间注意力(全体与局部结合)、空间-时间注意力(3D Conv中用到)。空集表示这种组合还不存在<strong>（2022年前）</strong>。</p>
+<p>$$Attention&#x3D;f(g(x),x)$$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.1-2" alt="image-20230915100015661"></p>
+<p>&emsp;通道、空间和时间注意力能够被看作是在不同的域(维度)上操作。C表示通道域，H和W表示空间域，T表示时间域。分支注意力是对这些的补充。可以看作固定某几维后，按在剩余几维中点的重要性分配权重。</p>
+<h2 id="近期发展历程"><a href="#近期发展历程" class="headerlink" title="近期发展历程"></a>近期发展历程</h2><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2-2" alt="image-20230915095845079"></p>
+<ol>
+<li><p>第一阶段：从RAM开始的开创性工作，将深度神经网络与注意力机制相结合。它反复预测重要区域。并以端到端的方式更新整个网络。之后，许多工作采用了相似的注意力策略。在这个阶段，RNN在注意力机制中是非常重要的工具。</p>
+</li>
+<li><p>第二阶段：从STN中，引入了一个子网络来预测放射变换用于选择输入中的重要区域。明确预测待判别的输入特征是第二阶段的主要特征。DCN是这个阶段的代表性工作</p>
+</li>
+<li><p>第三阶段：从<strong>SENet(Squeeze-and-Excitation Networks)开始，提出了通道注意力网络(channel-attention network)能自适应地预测潜在的关键特征。CBAM和ECANet是这个阶段具有代表性的工作</strong></p>
+</li>
+<li><p>第四阶段：self-attention自注意力机制。自注意力机制最早是在NLP中提出并广泛使用。<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.07971">Non-local Neural Networks</a>网络是最早在CV中使用自注意力机制，并在视频理解和目标检测中取得成功。像EMANet，CCNet，HamNet和the Stand-Alone Network遵循此范式并提高了速度，质量和泛化能力。深度自注意力网络(<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2010.11929">visual transformers</a>)出现，展现了基于attention-based模型的巨大潜力。</p>
+</li>
+</ol>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.1" alt="image-20230915095801346"></p>
+<h1 id="计算机视觉中的注意力机制"><a href="#计算机视觉中的注意力机制" class="headerlink" title="计算机视觉中的注意力机制"></a>计算机视觉中的注意力机制</h1><table>
+<thead>
+<tr>
+<th><strong>Symbol</strong></th>
+<th>Description</th>
+<th><strong>Translation</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GAP</td>
+<td>global average pooling</td>
+<td>全局平均池化</td>
+</tr>
+<tr>
+<td>GMP</td>
+<td>global max pooling</td>
+<td>全局最大池化</td>
+</tr>
+<tr>
+<td>[]</td>
+<td>concatenation</td>
+<td>拼接（串联）</td>
+</tr>
+<tr>
+<td>Expand</td>
+<td>expan input by repetition</td>
+<td>重复输入</td>
+</tr>
+<tr>
+<td>δ</td>
+<td>ReLU activation</td>
+<td>ReLU激活函数</td>
+</tr>
+<tr>
+<td>σ</td>
+<td>sigmoid activation</td>
+<td>sigmoid激活函数</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://zh-v2.d2l.ai/chapter_attention-mechanisms/attention-scoring-functions.html">D2L 注意力评分函数</a></p>
+<table>
+<thead>
+<tr>
+<th align="center">任务</th>
+<th align="center">全称</th>
+<th align="center">缩写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">分类</td>
+<td align="center">classification</td>
+<td align="center">Cls</td>
+</tr>
+<tr>
+<td align="center">检测</td>
+<td align="center">detection</td>
+<td align="center">Dec</td>
+</tr>
+<tr>
+<td align="center">语义分割</td>
+<td align="center">semantic segmentation</td>
+<td align="center">SSeg</td>
+</tr>
+<tr>
+<td align="center">实例分割</td>
+<td align="center">instance segmentation</td>
+<td align="center">ISeg</td>
+</tr>
+<tr>
+<td align="center">风格迁移</td>
+<td align="center">style transfer</td>
+<td align="center">ST</td>
+</tr>
+<tr>
+<td align="center">动作识别</td>
+<td align="center">action recognition</td>
+<td align="center">Action</td>
+</tr>
+<tr>
+<td align="center">细粒度分类</td>
+<td align="center">fine Grained Classification</td>
+<td align="center">FGCls</td>
+</tr>
+<tr>
+<td align="center">图片描述</td>
+<td align="center">image captioning</td>
+<td align="center">ICap</td>
+</tr>
+<tr>
+<td align="center">行人重识别</td>
+<td align="center">re-identification,</td>
+<td align="center">ReID</td>
+</tr>
+<tr>
+<td align="center">人体关键点检查</td>
+<td align="center">keypoint detection</td>
+<td align="center">KD</td>
+</tr>
+</tbody></table>
+<h2 id="通道注意力-channel-attention"><a href="#通道注意力-channel-attention" class="headerlink" title="通道注意力(channel attention)"></a>通道注意力(channel attention)</h2><h3 id="SENet"><a href="#SENet" class="headerlink" title="SENet"></a>SENet</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.1.png"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1709.01507">Squeeze-and-Excitation Networks</a></p>
+<ol>
+<li><p>squeeze模块：全局平均池化(GAP)，压缩通道 [H,W][H,W]-&gt;[1,1][1,1]</p>
+</li>
+<li><p>excitation模块：后接全连接层($W_1$)-&gt;ReLU层($δ$)-&gt;全连接层($W_2$)-&gt;Sigmoid($σ$)</p>
+</li>
+</ol>
+<h3 id="GSoP-Net"><a href="#GSoP-Net" class="headerlink" title="GSoP-Net"></a>GSoP-Net</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.2" alt="image-20220228094331225"></p>
+<p>&emsp;<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1811.12006">Global Second-order Pooling Convolutional Networks</a></p>
+<p>&emsp;**改进:**global average pooling(GAP) -&gt; global second-order pooling(GSoP)</p>
+<p>&emsp;$$Y &#x3D; F_{gsop}(X, \theta) \cdot X &#x3D; \sigma(W(RC(Cov(Conv(X))))) \cdot X$$ </p>
+<p>&emsp;$Cov$为协方差矩阵，$RC$为<del><strong>row-wise conv操作</strong></del>（不太懂）</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.2-2" alt="image-20230905195605330"></p>
+<p>&emsp;通过使用全局二阶池化(GSoP)，GSoPBlock提高了通过SEBlock收集全局信息的能力。然而，这是以额外计算为代价的。因此，通常在几个剩余块之后添加单个GSoPBlock</p>
+<h3 id="SRM"><a href="#SRM" class="headerlink" title="SRM"></a>SRM</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.3" alt="image-20220228094420543"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1903.10829">SRM : A Style-based Recalibration Module for Convolutional Neural Networks</a></p>
+<p>$$Y &#x3D; F_{srm}(X, \theta) \cdot X &#x3D; \sigma(BN(CPC(SP(X)))) \cdot X$$</p>
+<ol>
+<li>queeze模块：使用style pooling(SP)，它结合了全局平均池化和全局标准差池化。（为什么输出为 ${C\times{d}}$：当只用全局平均池化就是${C\times{1}}$；当用了全局平均池化和全局标准差池化就是${C\times{2}}$；当用了全局平均池化和全局标准差池化和全局最大池化就是${C\times{3}}$）</li>
+<li>excitation模块：<ul>
+<li>与通道等宽的全连接层CFC(Channel-wise fully-connected layer) ，含义：通道维度由${[C,d]}$变为${[C,1]}$，即对于每一个通道，都有一个全连接层输入为d，输出为1</li>
+<li>利用**BN层和sigmoid函数(σ)**得到C维注意力向量</li>
+</ul>
+</li>
+</ol>
+<h3 id="GCT"><a href="#GCT" class="headerlink" title="GCT"></a>GCT</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.4" alt="image-20220228101545695"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1909.11519v1">Gated Channel Transformation for Visual Recognition</a></p>
+<p>&emsp;$$s&#x3D;F_{gct}(X,\theta)&#x3D;tanh(\gamma\cdot CN(\alpha \cdot Norm(X)) + \beta) + 1$$</p>
+<p>&emsp;$$Y &#x3D; s \cdot X + X$$</p>
+<ol>
+<li>Normalization($L_2 $):对输入特征图Norm，变为$C \times 1 \times1$ ,乘以可训练权重$\alpha$，输出结果作为第二部分的输入用$s_{in}$表示</li>
+<li>CN(channel normalization): $s_{out}&#x3D;\frac{\sqrt{C}}{Norm(s_{in})} \cdot s_{in}$</li>
+</ol>
+<h3 id="ECANet"><a href="#ECANet" class="headerlink" title="ECANet"></a>ECANet</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.5" alt="image-20220228105519461"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1910.03151">ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks</a></p>
+<p>&emsp;<strong>用一维卷积替换了SENet中的全连接层</strong></p>
+<p>&emsp;$$Y&#x3D;F_{eca}(X,\theta)\cdot X +X&#x3D;\sigma(Conv1D(GAP(X)))\cdot X + X $$</p>
+<p>&emsp;$$k&#x3D;\phi(C)&#x3D;|\frac{log_2(C)}{\gamma} + \frac{b}{\gamma}|_{odd}$$</p>
+<p>&emsp;文中对卷积核大小有自适应算法，即根据通道的长度，调整卷积核k的大小, 其中$\gamma&#x3D;2,b&#x3D;1$,odd表示k只能取奇整数</p>
+<h3 id="FcaNet"><a href="#FcaNet" class="headerlink" title="FcaNet"></a>FcaNet</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.6" alt="image-20220228113138822"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2012.11879">FcaNet: Frequency Channel Attention Networks</a></p>
+<p>&emsp;<strong>动机</strong>：在squeeze模块中仅使用全局平均池化(GAP)限制了表达能力。为了获得更强大的表示能力，他们重新思考了从压缩角度捕获的全局信息，并分析了频域中的GAP。他们证明了全局平均池是离散余弦变换（DCT）的一个特例，并利用这一观察结果提出了一种新的多光谱注意通道(multi-spectral channel attention)。<br>&emsp;$$Y&#x3D;F_{fca}(X,\theta)\cdot X&#x3D;\sigma(W_2 \times \delta(W_1\times[DCT(Group(X))])) \cdot X$$</p>
+<ol>
+<li>将输入特征图$x\in{R^{C\times{H}\times{W}}}$分解(Group)为许多部分$x^{i}\in{R^{C^{i}\times{H}\times{W}}}$，每一段长度相等</li>
+<li>对每一段${x^i}$应用2D 离散余弦变换(DCT, discrete cosine transform)。2D DCT可以使用预处理结果来减少计算</li>
+<li>在处理完每个部分后，所有结果都被连接到一个向量中通过FC-&gt;Relu-&gt;FC-&gt;sigmoid</li>
+</ol>
+<p><strong><del>2D-DCT:</del></strong></p>
+<h3 id="EncNet"><a href="#EncNet" class="headerlink" title="EncNet"></a>EncNet</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7" alt="image-20220228111112266"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1910.03151">Context Encoding for Semantic Segmentation</a></p>
+<p>&emsp;<strong>动机</strong>：受SENet的启发，提出了上下文编码模块（CEM, context encoding module），该模块结合了语义编码损失（SE-loss, semantic encoding loss），以建模场景上下文和对象类别概率之间的关系，从而利用全局场景上下文信息进行语义分割。<br><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7-2" alt="image-20220228112039757"></p>
+<p>&emsp;给定一个输入特征映射，CEM首先在训练阶段学习K个聚类中心D，${D&#x3D;{d_1,…,d_K}}$和一组平滑因子S，$ {S&#x3D;{s_1,…,s_K}}$。接下来，它使用软分配权重对输入中的局部描述子和相应的<strong>聚类中心</strong>之间的差异进行求和，以获得置换不变描述子。然后，为了提高计算效率，它将聚合应用于K个簇中心的描述符，而不是级联。形式上，CEM可以写成如上公式。</p>
+<h3 id="Bilinear-Attention"><a href="#Bilinear-Attention" class="headerlink" title="Bilinear Attention"></a>Bilinear Attention</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.9" alt="image-20230906104605049"></p>
+<p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/bilinear-attention-networks-for-person">bilinear-attention-networks-for-person</a></p>
+<p>$$\widetilde{x}&#x3D; Bi(φ(X)) &#x3D; Vec(UTri(φ(X)φ(X)^T))$$</p>
+<p>$$\widehat{x}&#x3D; ω(GAP(\widetilde{x})) ϕ(\widetilde{x})$$</p>
+<p>$$Y &#x3D; \sigma(\widehat{x}) X$$</p>
+<p>其中$φ,ϕ $用于嵌入，$UTri$提取上三角矩阵，$Vec$向量化</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.9-2" alt="image-20230906111036064"></p>
+<p>$$x_{ij} ∈ R^c , i ∈ {1, 2, . . . , h}, j ∈ {1, 2, . . . , w}$$</p>
+<p>&emsp;双注意块使用双线性池化来对沿着每个通道的局部成对特征交互进行建模，同时保留空间信息。与其他基于注意力的模型相比，该模型更加注重高阶统计信息。双注意可以被并入任何CNN骨干，以提高其代表能力，同时抑制噪声。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.8" alt="image-20220228113403545"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.1-1" alt="image-20230915100836060"></p>
+<table>
+<thead>
+<tr>
+<th><strong>Method</strong></th>
+<th><strong>Publication</strong></th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)-前面提到的注意力公式</th>
+<th align="center"><strong>Ranges</strong></th>
+<th align="center">S or H</th>
+<th align="center">Goals</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SENet</td>
+<td>CVPR2018</td>
+<td align="center">Cls,Det</td>
+<td align="center">global average pooling-&gt; MLP-&gt;sigmoid.</td>
+<td align="center">(0,1)</td>
+<td align="center">S</td>
+<td align="center">(I)(II)</td>
+</tr>
+<tr>
+<td>EncNet</td>
+<td>CVPR2018</td>
+<td align="center">SSeg</td>
+<td align="center">encoder -&gt; MLP  -&gt; sigmoid.</td>
+<td align="center">~</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+<tr>
+<td>GSoP-Net</td>
+<td>CVPR2019</td>
+<td align="center">Cls</td>
+<td align="center">2nd-order pooling -&gt; convolution &amp; MLP -&gt; sigmoid</td>
+<td align="center">~</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+<tr>
+<td>FcaNet</td>
+<td>ICCV2021</td>
+<td align="center">Cls,Det,  ISeg</td>
+<td align="center">discrete cosine transform -&gt; MLP -&gt; sigmoid.</td>
+<td align="center">~</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+<tr>
+<td>ECANet</td>
+<td>CVPR2020</td>
+<td align="center">Cls,Det,  ISeg</td>
+<td align="center">global average pooling -&gt; conv1d -&gt; sigmoid.</td>
+<td align="center">~</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+<tr>
+<td>SRM</td>
+<td>arXiv2019</td>
+<td align="center">Cls, ST</td>
+<td align="center">style pooling -&gt; convolution &amp; MLP -&gt; sigmoid.</td>
+<td align="center">~</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+<tr>
+<td>GCT</td>
+<td>CVPR2020</td>
+<td align="center">Cls,Det,  Action</td>
+<td align="center">compute L2-norm on spatial -&gt; channel  normalization -&gt; tanh.</td>
+<td align="center">(-1,1)</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+</tbody></table>
+<p>**I:**emphasize important channels</p>
+<p>**II:**capture global information</p>
+<h2 id="空间注意力-Spatial-Attention"><a href="#空间注意力-Spatial-Attention" class="headerlink" title="空间注意力(Spatial Attention)"></a>空间注意力(Spatial Attention)</h2><h3 id="RAM"><a href="#RAM" class="headerlink" title="RAM"></a>RAM</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1406.6247">Recurrent Models of Visual Attention</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2-1" alt="image-20230904202557337"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.1" alt="这里写图片描述"></p>
+<h3 id="Glimpse-Network"><a href="#Glimpse-Network" class="headerlink" title="Glimpse Network"></a>Glimpse Network</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1412.7755">Multiple Object Recognition with Visual Attention</a></p>
+<p>&emsp;多个Patch输入RNN网络利用时间逐步注意</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.2" alt="img"></p>
+<h3 id="Hard-and-soft-attention"><a href="#Hard-and-soft-attention" class="headerlink" title="Hard and soft attention"></a><del>Hard and soft attention</del></h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1502.03044">Show, Attend and Tell: Neural Image Caption Generation with Visual Attention</a></p>
+<p>&emsp;<strong>Hard Attention：</strong>一次选择一个图像的一个区域作为注意力，设成1，其他设为0。他是不能微分的，无法进行标准的反向传播，因此需要蒙特卡洛采样来计算各个反向传播阶段的精度。</p>
+<p>&emsp;**Soft Attention:**加权图像的每个像素。 高相关性区域乘以较大的权重，而低相关性区域标记为较小的权重。权重范围是（0-1）。他是可微的，可以正常进行反向传播。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.3" alt="image-20230906170818584"></p>
+<h3 id="Attention-Gate"><a href="#Attention-Gate" class="headerlink" title="Attention Gate"></a>Attention Gate</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1804.03999">Attention U-Net: Learning Where to Look for the Pancreas</a></p>
+<p>&emsp;背景：在传统的Unet中，为了避免在decoder时丢失大量的空间精确细节信息，使用了skip的手法，直接将encoder中提取的map直接concat到decoder相对应的层。但是，提取的low-level feature有很多的冗余信息（刚开始提取的特征不是很好）。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.4" alt="image-20230907173044291"></p>
+<p>$$Y &#x3D; σ(ϕ(δ(φ_x(X) + φ_g(G)))) \cdot X$$</p>
+<p>$$ϕ(Z) &#x3D; φ_x(Z)&#x3D; BN(Conv(Z))$$</p>
+<p>其中$X$底层特征$G$为提取后的特征，$F_n$为深度</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Attention_block</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,F_g,F_l,F_int</span>):</span><br><span class="line">        <span class="built_in">super</span>(Attention_block,self).__init__()</span><br><span class="line">        self.W_g = nn.Sequential(</span><br><span class="line">            nn.Conv2d(F_g, F_int, kernel_size=<span class="number">1</span>,stride=<span class="number">1</span>,padding=<span class="number">0</span>,bias=<span class="literal">True</span>),</span><br><span class="line">            nn.BatchNorm2d(F_int)</span><br><span class="line">            )</span><br><span class="line">        </span><br><span class="line">        self.W_x = nn.Sequential(</span><br><span class="line">            nn.Conv2d(F_l, F_int, kernel_size=<span class="number">1</span>,stride=<span class="number">1</span>,padding=<span class="number">0</span>,bias=<span class="literal">True</span>), <span class="comment"># kernelSize=1</span></span><br><span class="line">            nn.BatchNorm2d(F_int)</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        self.psi = nn.Sequential(</span><br><span class="line">            nn.Conv2d(F_int, <span class="number">1</span>, kernel_size=<span class="number">1</span>,stride=<span class="number">1</span>,padding=<span class="number">0</span>,bias=<span class="literal">True</span>),</span><br><span class="line">            nn.BatchNorm2d(<span class="number">1</span>),</span><br><span class="line">            nn.Sigmoid()</span><br><span class="line">        )</span><br><span class="line">        </span><br><span class="line">        self.relu = nn.ReLU(inplace=<span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self,g,x</span>):</span><br><span class="line">        g1 = self.W_g(g) <span class="comment">#1x512x64x64-&gt;conv(512，256)/B.N.-&gt;1x256x64x64</span></span><br><span class="line">        x1 = self.W_x(x) <span class="comment">#1x512x64x64-&gt;conv(512，256)/B.N.-&gt;1x256x64x64</span></span><br><span class="line">        psi = self.relu(g1+x1)<span class="comment">#1x256x64x64di</span></span><br><span class="line">        psi = self.psi(psi)<span class="comment">#得到权重矩阵  1x256x64x64 -&gt; 1x1x64x64 -&gt;sigmoid 结果到（0，1）</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> x*psi <span class="comment">#与low-level feature相乘，将权重矩阵赋值进去</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.4-2" alt="image-20230907184027641"></p>
+<h3 id="STN"><a href="#STN" class="headerlink" title="STN"></a>STN</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1506.02025">Spatial Transformer Networks</a></p>
+<p>**<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/37110107">仿射变换与双线性插值</a>**，通过学习不同的变换形式来进行反转变换</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.5" alt="image-20230907192228696"></p>
+<ul>
+<li><p>Localisation Network-局部网络</p>
+<p>输入特征图，输出变换矩阵参数$A_\theta$</p>
+</li>
+<li><p>Parameterised Sampling Grid-参数化网格采样</p>
+<p>为了得到输出特征图的坐标点对应的输入特征图的坐标点的位置,s为输入图像的坐标，t为目标图像的坐标</p>
+<p>$$\begin{pmatrix} x^s_i\y^s_i\end{pmatrix}&#x3D;{\tau}<em>\theta(G_i)&#x3D;A_\theta \begin{pmatrix} x^t_i\y^t_i \1\end{pmatrix} &#x3D;\begin{vmatrix} {\theta}</em>{11} &amp;   {\theta}<em>{12}&amp;  {\theta}</em>{13}\ {\theta}<em>{21}  &amp; {\theta}</em>{22}  &amp; {\theta}_{23}\end{vmatrix}\begin{pmatrix} x^t_i\y^t_i \1\end{pmatrix}$$</p>
+</li>
+<li><p>Differentiable Image Sampling-差分图像采样</p>
+<p>这一步完成的任务就是利用期望的插值方式来计算出对应点的灰度值，这里以双向性插值为例讲解</p>
+</li>
+</ul>
+<h3 id="DCN"><a href="#DCN" class="headerlink" title="DCN"></a>DCN</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1703.06211">Deformable Convolutional Networks</a>，卷积位置的偏移</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.6-1" alt="image-20230907202222387"></p>
+<p>$$R &#x3D; {(−1, −1),(−1, 0), . . . ,(0, 1),(1, 1)}$$</p>
+<p>$$y(p_0) &#x3D;  \sum_{p_n \in R}^{} w(p_n) · x(p_0 + p_n + ∆p_n)$$</p>
+<p>$$x(p) &#x3D; \sum_{q}^{} G(q,p)\cdot x(q)$ $p &#x3D; p_0 + p_n + ∆p_n$$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.6-2" alt="image-20230907203318009"></p>
+<p>$$y(i, j)&#x3D;\sum_{p\in bin(i,j)} x(p_0+p+\bigtriangleup p_{ij})&#x2F;n_{ij}$$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.6-3" alt="image-20230907204000834"></p>
+<p>Position Sensitive ROI-Pooling-目标检测领域</p>
+<h3 id="Self-attention-and-variants"><a href="#Self-attention-and-variants" class="headerlink" title="Self-attention and variants"></a>Self-attention and variants</h3><p>&emsp;自注意力机制可以使看到整个graph，但是由于其的复杂度，导致无法进行大量的应用，如NonoLocal操作中计算为(H*W)^2，下面的各种变体将逐渐改进。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7-1" alt="image-20230908145858210"></p>
+<h4 id="CCNet"><a href="#CCNet" class="headerlink" title="CCNet"></a>CCNet</h4><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1811.11721">CCNet: Criss-Cross Attention for Semantic Segmentation</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7-1-1" alt="image-20230908195309759"></p>
+<p>&emsp;与Non-local相比减少了计算量。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7.1-2" alt="image-20230908195436472"></p>
+<p>&emsp;$H’$仅仅继承了水平和竖直方向的上下文信息还不足以进行语义分割。为了获得更丰富更密集的上下文信息，将特征图$H’$再次喂入注意模块中并得到特征图$H^{‘’}$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7.1-3" alt="image-20230908195759922"></p>
+<p>递归两次就能从所有像素中捕获long-range依赖从而生成密集丰富的上下文特征</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7.1-4" alt="image-20230908195903926"></p>
+<p><strong>代码实现：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">from</span> torch.nn <span class="keyword">import</span> Softmax</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">INF</span>(<span class="params">B, H, W</span>):</span><br><span class="line">    <span class="keyword">return</span> -torch.diag(torch.tensor(<span class="built_in">float</span>(<span class="string">&quot;inf&quot;</span>)).repeat(H), <span class="number">0</span>).unsqueeze(<span class="number">0</span>).repeat(B * W, <span class="number">1</span>, <span class="number">1</span>)  <span class="comment"># 对角线上设置为负无穷，这样在计算注意力函数时中间值计算一次</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CrissCrossAttention</span>(nn.Module):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Criss-Cross Attention Module&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># a.reshape = a.view() + a.contiguous().view() contiguious进行深拷贝 view是reshape的浅拷贝</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_dim</span>):</span><br><span class="line">        <span class="built_in">super</span>(CrissCrossAttention, self).__init__()</span><br><span class="line">        self.query_conv = nn.Conv2d(in_channels=in_dim, out_channels=in_dim // <span class="number">8</span>, kernel_size=<span class="number">1</span>)</span><br><span class="line">        self.key_conv = nn.Conv2d(in_channels=in_dim, out_channels=in_dim // <span class="number">8</span>, kernel_size=<span class="number">1</span>)</span><br><span class="line">        self.value_conv = nn.Conv2d(in_channels=in_dim, out_channels=in_dim, kernel_size=<span class="number">1</span>)</span><br><span class="line">        self.softmax = Softmax(dim=<span class="number">3</span>)</span><br><span class="line">        self.INF = INF</span><br><span class="line">        self.gamma = nn.Parameter(torch.zeros(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        m_batchsize, _, height, width = x.size()</span><br><span class="line"></span><br><span class="line">        proj_query = self.query_conv(x) <span class="comment"># reduction</span></span><br><span class="line">        proj_query_H = proj_query.permute(<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>).contiguous().view(m_batchsize * width, -<span class="number">1</span>, height).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>)  <span class="comment"># BW * H * C</span></span><br><span class="line">        proj_query_W = proj_query.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>).contiguous().view(m_batchsize * height, -<span class="number">1</span>, width).permute(<span class="number">0</span>, <span class="number">2</span>,<span class="number">1</span>)  <span class="comment"># BH * W * C</span></span><br><span class="line"></span><br><span class="line">        proj_key = self.key_conv(x)</span><br><span class="line">        proj_key_H = proj_key.permute(<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>).contiguous().view(m_batchsize * width, -<span class="number">1</span>, height)  <span class="comment"># BW * C * H</span></span><br><span class="line">        proj_key_W = proj_key.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>).contiguous().view(m_batchsize * height, -<span class="number">1</span>, width)  <span class="comment"># BH * C * W</span></span><br><span class="line"></span><br><span class="line">        proj_value = self.value_conv(x) <span class="comment"># 通道数不变</span></span><br><span class="line">        proj_value_H = proj_value.permute(<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>).contiguous().view(m_batchsize * width, -<span class="number">1</span>, height)  <span class="comment"># BW * C * H</span></span><br><span class="line">        proj_value_W = proj_value.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>).contiguous().view(m_batchsize * height, -<span class="number">1</span>, width)  <span class="comment"># BH * C * W</span></span><br><span class="line"></span><br><span class="line">        energy_H = (torch.bmm(proj_query_H, proj_key_H) + self.INF(m_batchsize, height, width)).view(m_batchsize, width, height, height).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>)  <span class="comment"># B * H * W * H 生成行注意力分数</span></span><br><span class="line">        energy_W = torch.bmm(proj_query_W, proj_key_W).view(m_batchsize, height, width, width)  <span class="comment"># B * H * W * W 生成列注意力分数</span></span><br><span class="line">        concate = self.softmax(torch.cat([energy_H, energy_W], <span class="number">3</span>))  <span class="comment"># B * H * W * (H + W) concat起来做softmax</span></span><br><span class="line"></span><br><span class="line">        att_H = concate[:, :, :, <span class="number">0</span>:height].permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>).contiguous().view(m_batchsize * width, height,height)  <span class="comment"># BW * H * H</span></span><br><span class="line">        att_W = concate[:, :, :, height:height + width].contiguous().view(m_batchsize * height, width, width)  <span class="comment"># BH * W * W</span></span><br><span class="line">        out_H = torch.bmm(proj_value_H, att_H.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>)).view(m_batchsize, width, -<span class="number">1</span>, height).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>)  <span class="comment"># BW * C * H dot BW * H * H </span></span><br><span class="line">        out_W = torch.bmm(proj_value_W, att_W.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>)).view(m_batchsize, height, -<span class="number">1</span>, width).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>)</span><br><span class="line">        <span class="keyword">return</span> self.gamma * (out_H + out_W) + x</span><br><span class="line"></span><br><span class="line">model = CrissCrossAttention(<span class="number">64</span>)</span><br><span class="line">x = torch.randn(<span class="number">2</span>, <span class="number">64</span>, <span class="number">5</span>, <span class="number">6</span>)</span><br><span class="line">out = model(x)</span><br><span class="line"><span class="built_in">print</span>(out.shape)</span><br></pre></td></tr></table></figure>
+
+<h4 id="EMANet"><a href="#EMANet" class="headerlink" title="EMANet"></a><del>EMANet</del></h4><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1907.13426">Expectation-Maximization Attention Networks for Semantic Segmentation</a></p>
+<p>利用EMA算法逐步更新</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.2.1" alt="image-20230909110255603"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.2-2" alt="image-20230909110346426"></p>
+<h4 id="ANN"><a href="#ANN" class="headerlink" title="ANN"></a>ANN</h4><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1908.07678">Asymmetric Non-local Neural Networks for Semantic Segmentation</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.3" alt="image-20230909210921428"></p>
+<p>&emsp;先提出非对称注意力机制，在最后的$N*S$矩阵表示sample操作后的每个像素与之前像素是相似度</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.3-2" alt="image-20230909211115023"></p>
+<p>&emsp;<strong>APNB</strong>利用金字塔采样模块，在不牺牲性能的前提下，极大地减少了计算和内存消耗；<strong>AFNB</strong>是由<strong>APNB</strong>演化而来的，在充分考虑了长期相关性的前提下，融合了不同层次的特征，从而大大提高了性能。</p>
+<h4 id="GCNet"><a href="#GCNet" class="headerlink" title="GCNet"></a>GCNet</h4><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1904.11492">Gcnet: Non-local networks meet squeeze-excitation networks and beyond</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.4.1" alt="image-20230909211555368"></p>
+<p>&emsp;本文首先是从Non-local Network的角度出发，发现对于不同位置点的attention map是几乎一致的，说明non-local中每个点计算attention map存在很大的计算浪费，从而提出了简化的NL，也就是SNL,像是简化的SENet。关于这点，似乎有较大的争议，从论文本身来看，实验现象到论证过程都是完善的，但是有人在github项目中指出 OCNet和DANet两篇论文中的结论是attention map在不同位置是不一样的，似乎完全相关，作者目前也没有回复。</p>
+<h4 id="A-2Net"><a href="#A-2Net" class="headerlink" title="$A^2Net$"></a>$A^2Net$</h4><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/a2-nets-double-attention-networks-1">$A^2$-Nets: Double Attention Networks</a></p>
+<p>&emsp;与SENet和GSoP-Net相似，也是非常的简单呢，是一个涨点神器,也是一个即插即用的小模块，<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/62532887">双线性池化操作</a>,<strong>没怎么看懂</strong></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.5-1" alt="image-20230915162140693"></p>
+<p>&emsp;$$G_{bilinear}(A,B)&#x3D;AB^T&#x3D;\sum_{\forall i}^{} a_i b_j^T$$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.5.2" alt="image-20230909213800955"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DoubleAttentionLayer</span>(nn.Module):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Implementation of Double Attention Network. NIPS 2018</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_channels: <span class="built_in">int</span>, c_m: <span class="built_in">int</span>, c_n: <span class="built_in">int</span>, reconstruct = <span class="literal">False</span></span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        in_channels</span></span><br><span class="line"><span class="string">        c_m</span></span><br><span class="line"><span class="string">        c_n</span></span><br><span class="line"><span class="string">        reconstruct: `bool` whether to re-construct output to have shape (B, in_channels, L, R)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="built_in">super</span>(DoubleAttentionLayer, self).__init__()</span><br><span class="line">        self.c_m = c_m</span><br><span class="line">        self.c_n = c_n</span><br><span class="line">        self.in_channels = in_channels</span><br><span class="line">        self.reconstruct = reconstruct</span><br><span class="line">        self.convA = nn.Conv2d(in_channels, c_m, kernel_size = <span class="number">1</span>)</span><br><span class="line">        self.convB = nn.Conv2d(in_channels, c_n, kernel_size = <span class="number">1</span>)</span><br><span class="line">        self.convV = nn.Conv2d(in_channels, c_n, kernel_size = <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span> self.reconstruct:</span><br><span class="line">            self.conv_reconstruct = nn.Conv2d(c_m, in_channels, kernel_size = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x: torch.Tensor</span>):</span><br><span class="line">        batch_size, c, h, w = x.size()</span><br><span class="line">        <span class="keyword">assert</span> c == self.in_channels, <span class="string">&#x27;input channel not equal!&#x27;</span></span><br><span class="line">        A = self.convA(x)  <span class="comment"># (B, c_m, h, w) because kernel size is 1</span></span><br><span class="line">        B = self.convB(x)  <span class="comment"># (B, c_n, h, w)</span></span><br><span class="line">        V = self.convV(x)  <span class="comment"># (B, c_n, h, w)</span></span><br><span class="line">        tmpA = A.view(batch_size, self.c_m, h * w)</span><br><span class="line">        attention_maps = B.view(batch_size, self.c_n, h * w)</span><br><span class="line">        attention_vectors = V.view(batch_size, self.c_n, h * w)</span><br><span class="line">        attention_maps = F.softmax(attention_maps, dim = -<span class="number">1</span>)  <span class="comment"># softmax on the last dimension to create attention maps</span></span><br><span class="line">        <span class="comment"># step 1: feature gathering</span></span><br><span class="line">        global_descriptors = torch.bmm(tmpA, attention_maps.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>))  <span class="comment"># (B, c_m, c_n)</span></span><br><span class="line">        <span class="comment"># step 2: feature distribution</span></span><br><span class="line">        attention_vectors = F.softmax(attention_vectors, dim = <span class="number">1</span>)  <span class="comment"># (B, c_n, h * w) attention on c_n dimension</span></span><br><span class="line">        tmpZ = global_descriptors.matmul(attention_vectors)  <span class="comment"># B, self.c_m, h * w bmm操作</span></span><br><span class="line">        tmpZ = tmpZ.view(batch_size, self.c_m, h, w)</span><br><span class="line">        <span class="keyword">if</span> self.reconstruct: tmpZ = self.conv_reconstruct(tmpZ)</span><br><span class="line">        <span class="keyword">return</span> tmpZ</span><br></pre></td></tr></table></figure>
+
+<h4 id="SASA"><a href="#SASA" class="headerlink" title="SASA"></a><del>SASA</del></h4><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1906.05909">Stand-Alone Self-Attention in Vision Models</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.11.1" alt="image-20230912093007692"></p>
+<p>未加入位置编码：</p>
+<p>$$y_{ij}&#x3D;\sum_{a,b \in N_{k}(i, j)}^{} softmax_{ij}(q_{ij}^Tk_{ab})v_{ab}$$</p>
+<p>原始的Attention操作不包含任何位置信息，which makes it permutation equivariant，也就是说如果两个token元素一样，位置不一样，其还是能得到相同的attention结果。所以原文中为每一个位置添加了一个相对位置编码</p>
+<p>$$y_{ij}&#x3D;\sum_{a,b \in N_{k}(i, j)}^{} softmax_{ij}(q_{ij}^Tk_{ab} + q_{ij}^Tr_{a-i, b-j})v_{ab}$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 实现过程我是看不出懂</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.nn.init <span class="keyword">as</span> init</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AttentionConv</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_channels, out_channels, kernel_size, stride=<span class="number">1</span>, padding=<span class="number">0</span>, groups=<span class="number">1</span>, bias=<span class="literal">False</span></span>):</span><br><span class="line">        <span class="built_in">super</span>(AttentionConv, self).__init__()</span><br><span class="line">        self.out_channels = out_channels</span><br><span class="line">        self.kernel_size = kernel_size</span><br><span class="line">        self.stride = stride</span><br><span class="line">        self.padding = padding</span><br><span class="line">        self.groups = groups</span><br><span class="line"></span><br><span class="line">        self.rel_h = nn.Parameter(torch.randn(out_channels // <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, kernel_size, <span class="number">1</span>), requires_grad=<span class="literal">True</span>)</span><br><span class="line">        self.rel_w = nn.Parameter(torch.randn(out_channels // <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, kernel_size), requires_grad=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        self.key_conv = nn.Conv2d(in_channels, out_channels, kernel_size=<span class="number">1</span>, bias=bias)</span><br><span class="line">        self.query_conv = nn.Conv2d(in_channels, out_channels, kernel_size=<span class="number">1</span>, bias=bias)</span><br><span class="line">        self.value_conv = nn.Conv2d(in_channels, out_channels, kernel_size=<span class="number">1</span>, bias=bias)</span><br><span class="line">        self.reset_parameters()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        batch, channels, height, width = x.size()</span><br><span class="line"></span><br><span class="line">        padded_x = F.pad(x, [self.padding, self.padding, self.padding, self.padding])</span><br><span class="line">        q_out = self.query_conv(x)</span><br><span class="line">        k_out = self.key_conv(padded_x)</span><br><span class="line">        v_out = self.value_conv(padded_x)</span><br><span class="line"></span><br><span class="line">        k_out = k_out.unfold(<span class="number">2</span>, self.kernel_size, self.stride).unfold(<span class="number">3</span>, self.kernel_size, self.stride)</span><br><span class="line">        v_out = v_out.unfold(<span class="number">2</span>, self.kernel_size, self.stride).unfold(<span class="number">3</span>, self.kernel_size, self.stride)</span><br><span class="line"></span><br><span class="line">        k_out_h, k_out_w = k_out.split(self.out_channels // <span class="number">2</span>, dim=<span class="number">1</span>)</span><br><span class="line">        k_out = torch.cat((k_out_h + self.rel_h, k_out_w + self.rel_w), dim=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        k_out = k_out.contiguous().view(batch, self.groups, self.out_channels // self.groups, height, width, -<span class="number">1</span>)</span><br><span class="line">        v_out = v_out.contiguous().view(batch, self.groups, self.out_channels // self.groups, height, width, -<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        q_out = q_out.view(batch, self.groups, self.out_channels // self.groups, height, width, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        out = q_out * k_out</span><br><span class="line">        out = F.softmax(out, dim=-<span class="number">1</span>)</span><br><span class="line">        out = torch.einsum(<span class="string">&#x27;bnchwk,bnchwk -&gt; bnchw&#x27;</span>, out, v_out).view(batch, -<span class="number">1</span>, height, width)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">reset_parameters</span>(<span class="params">self</span>):</span><br><span class="line">        init.kaiming_normal_(self.key_conv.weight, mode=<span class="string">&#x27;fan_out&#x27;</span>, nonlinearity=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line">        init.kaiming_normal_(self.value_conv.weight, mode=<span class="string">&#x27;fan_out&#x27;</span>, nonlinearity=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line">        init.kaiming_normal_(self.query_conv.weight, mode=<span class="string">&#x27;fan_out&#x27;</span>, nonlinearity=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        init.normal_(self.rel_h, <span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">        init.normal_(self.rel_w, <span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">temp = torch.randn((<span class="number">2</span>, <span class="number">3</span>, <span class="number">32</span>, <span class="number">32</span>))</span><br><span class="line">conv = AttentionConv(<span class="number">3</span>, <span class="number">16</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(conv(temp).size())</span><br></pre></td></tr></table></figure>
+
+<h3 id="ViT"><a href="#ViT" class="headerlink" title="ViT"></a>ViT</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/method/vision-transformer">Vision Transformer</a></p>
+<p><strong>太经典了，就不写了</strong></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.8.1" alt="image-20230914211736105"></p>
+<h3 id="GENet"><a href="#GENet" class="headerlink" title="GENet"></a>GENet</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1810.12348">Gather-Excite: Exploiting Feature Context in Convolutional Neural Networks</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.9.1" alt="image-20230912095149179"></p>
+<p>&emsp;$$y^c&#x3D;x\odot \sigma(interp(\xi _G(x)^c))$$</p>
+<p>&emsp;Gather，可以有效地在很大的空间范围内聚合特征响应，而Excite,可以将合并的信息重新分布到局部特征。SENet是GENet的特殊情况，当selection operator的范围是整个 feature map 的时候，形式就和 SENet 一样的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Identity</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>(Identity, self).__init__()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Downblock</span>(nn.Module):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;C不变 减小尺寸&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, channels, kernel_size=<span class="number">3</span>, relu=<span class="literal">True</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span></span>):</span><br><span class="line">        <span class="built_in">super</span>(Downblock, self).__init__()</span><br><span class="line"></span><br><span class="line">        self.dwconv = nn.Conv2d(channels, channels, groups=channels, stride=stride,</span><br><span class="line">                                kernel_size=kernel_size, padding=padding, bias=<span class="literal">False</span>)</span><br><span class="line">        self.bn = nn.BatchNorm2d(channels)</span><br><span class="line">        self.relu = relu</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        x = self.dwconv(x)</span><br><span class="line">        x = self.bn(x)</span><br><span class="line">        <span class="keyword">if</span> self.relu:</span><br><span class="line">            x = F.relu(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GEBlock</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_planes, out_planes, stride, spatial, extent=<span class="number">0</span>, extra_params=<span class="literal">True</span>, mlp=<span class="literal">True</span>, dropRate=<span class="number">0.0</span></span>):</span><br><span class="line">        <span class="comment"># If extent is zero, assuming global.</span></span><br><span class="line">        <span class="built_in">super</span>(GEBlock, self).__init__()</span><br><span class="line">        self.bn1 = nn.BatchNorm2d(in_planes)</span><br><span class="line">        self.relu1 = nn.ReLU(inplace=<span class="literal">True</span>)</span><br><span class="line">        self.conv1 = nn.Conv2d(in_planes, out_planes, kernel_size=<span class="number">3</span>, stride=stride,</span><br><span class="line">                               padding=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br><span class="line">        self.bn2 = nn.BatchNorm2d(out_planes)</span><br><span class="line">        self.relu2 = nn.ReLU(inplace=<span class="literal">True</span>)</span><br><span class="line">        self.conv2 = nn.Conv2d(out_planes, out_planes, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>,</span><br><span class="line">                               padding=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br><span class="line">        self.droprate = dropRate</span><br><span class="line">        self.equalInOut = (in_planes == out_planes) <span class="comment"># 判断前后通道数是否相同</span></span><br><span class="line">        self.convShortcut = (<span class="keyword">not</span> self.equalInOut) <span class="keyword">and</span> nn.Conv2d(in_planes, out_planes, kernel_size=<span class="number">1</span>, stride=stride,</span><br><span class="line">                                                                padding=<span class="number">0</span>, bias=<span class="literal">False</span>) <span class="keyword">or</span> <span class="literal">None</span></span><br><span class="line">        self.extent = extent</span><br><span class="line">        <span class="keyword">if</span> extra_params <span class="keyword">is</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">if</span> extent == <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># Global DW Conv + BN</span></span><br><span class="line">                self.downop = Downblock(out_planes, relu=<span class="literal">False</span>, kernel_size=spatial, stride=<span class="number">1</span>, padding=<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">elif</span> extent == <span class="number">2</span>:</span><br><span class="line">                self.downop = Downblock(out_planes, relu=<span class="literal">False</span>)</span><br><span class="line">            <span class="keyword">elif</span> extent == <span class="number">4</span>:</span><br><span class="line">                self.downop = nn.Sequential(Downblock(out_planes, relu=<span class="literal">True</span>),</span><br><span class="line">                                            Downblock(out_planes, relu=<span class="literal">False</span>))</span><br><span class="line">            <span class="keyword">elif</span> extent == <span class="number">8</span>:</span><br><span class="line">                self.downop = nn.Sequential(Downblock(out_planes, relu=<span class="literal">True</span>),</span><br><span class="line">                                            Downblock(out_planes, relu=<span class="literal">True</span>),</span><br><span class="line">                                            Downblock(out_planes, relu=<span class="literal">False</span>))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">raise</span> NotImplementedError(<span class="string">&#x27;Extent must be 0,2,4 or 8 for now&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> extent == <span class="number">0</span>:</span><br><span class="line">                self.downop = nn.AdaptiveAvgPool2d(<span class="number">1</span>) <span class="comment"># 自适应性池化</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.downop = nn.AdaptiveAvgPool2d(spatial // extent)</span><br><span class="line">        <span class="keyword">if</span> mlp <span class="keyword">is</span> <span class="literal">True</span>:</span><br><span class="line">            self.mlp = nn.Sequential(nn.Conv2d(out_planes, out_planes // <span class="number">16</span>, kernel_size=<span class="number">1</span>, padding=<span class="number">0</span>, bias=<span class="literal">False</span>),</span><br><span class="line">                                     nn.ReLU(),</span><br><span class="line">                                     nn.Conv2d(out_planes // <span class="number">16</span>, out_planes, kernel_size=<span class="number">1</span>, padding=<span class="number">0</span>, bias=<span class="literal">False</span>),</span><br><span class="line">                                     ) <span class="comment"># 缩放结构</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.mlp = Identity()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.equalInOut:</span><br><span class="line">            x = self.relu1(self.bn1(x))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            out = self.relu1(self.bn1(x))</span><br><span class="line">        out = self.relu2(self.bn2(self.conv1(out <span class="keyword">if</span> self.equalInOut <span class="keyword">else</span> x)))</span><br><span class="line">        <span class="keyword">if</span> self.droprate &gt; <span class="number">0</span>:</span><br><span class="line">            out = F.dropout(out, p=self.droprate, training=self.training)</span><br><span class="line">        out = self.conv2(out)</span><br><span class="line">        <span class="comment"># Assuming squares because lazy.</span></span><br><span class="line">        shape_in = out.shape[-<span class="number">1</span>]</span><br><span class="line">        <span class="comment"># Down, up, sigmoid</span></span><br><span class="line">        <span class="built_in">map</span> = self.downop(out)</span><br><span class="line">        <span class="built_in">map</span> = self.mlp(<span class="built_in">map</span>)</span><br><span class="line">        <span class="built_in">map</span> = F.interpolate(<span class="built_in">map</span>, shape_in)</span><br><span class="line">        <span class="built_in">map</span> = torch.sigmoid(<span class="built_in">map</span>)</span><br><span class="line">        out = out * <span class="built_in">map</span></span><br><span class="line">        <span class="keyword">return</span> torch.add(x <span class="keyword">if</span> self.equalInOut <span class="keyword">else</span> self.convShortcut(x), out)</span><br></pre></td></tr></table></figure>
+
+<h3 id="PSANet"><a href="#PSANet" class="headerlink" title="PSANet"></a>PSANet</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/psanet-point-wise-spatial-attention-network">PSANet: Point-wise Spatial Attention Network for Scene Parsing</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.10" alt="image-20230912101539545"></p>
+<p>&emsp;这篇最大的亮点是从信息流的角度看待自注意力机制，但是网络设计有些牵强，解释有些生硬（我觉得也是），代码中上下两个架构都一样没怎么改变，表示不太理解，区别：</p>
+<ol>
+<li>有两个分支来学习关系；</li>
+<li>参数是自适应的而非仅利用相似度</li>
+</ol>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.10.2" alt="image-20230912102008822"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/justld/PSANet_paddle/blob/main/paddleseg/models/psanet.py">codes</a></p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p><strong>其余论文：</strong></p>
+<ol>
+<li>GloRe(CVPR2019)：<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/graph-based-global-reasoning-networks">Graph-Based Global Reasoning Networks</a></li>
+<li>OCRNet(ECCT2020)：<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/object-contextual-representations-for">Segmentation Transformer: Object-Contextual Representations for Semantic Segmentation</a></li>
+<li>disentangled non-local(ECCV2020)：<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/disentangled-non-local-neural-networks">Disentangled non-local neural networks</a></li>
+<li>HamNet(ICLR2021):<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/is-attention-better-than-matrix-decomposition-1">Is Attention Better Than Matrix Decomposition?</a></li>
+<li>EANet:<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/beyond-self-attention-external-attention">Beyond Self-attention: External Attention using Two Linear Layers for Visual Tasks</a></li>
+<li>LR-Net(ICCV2019)：<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/190411491">Local Relation Networks for Image Recognition</a></li>
+<li>SAN(CVPR2020):<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/exploring-self-attention-for-image">Exploring Self-attention for Image Recognition</a></li>
+</ol>
+<p><strong>RNN-based methods:</strong> </p>
+<ul>
+<li>RAM</li>
+<li>Hard and soft att</li>
+</ul>
+<p><strong>Predict the relevant region explictly:</strong></p>
+<ul>
+<li>STN</li>
+<li>DCN</li>
+</ul>
+<p><strong>Predict the relevant region implictly:</strong></p>
+<ul>
+<li>GENet</li>
+<li>PSANet</li>
+</ul>
+<p><strong>Self-attention based methods:</strong></p>
+<ul>
+<li>Nono-Local</li>
+<li>SASA</li>
+<li>ViT</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>Method</strong></th>
+<th align="center">Publication</th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)</th>
+<th align="center">S&#x2F;H</th>
+<th align="center"><strong>Goals</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">RAM</td>
+<td align="center">NIPS2014</td>
+<td align="center">Cls</td>
+<td align="center">use RNN to recurrently predict important regions</td>
+<td align="center">H</td>
+<td align="center">(I)(II)</td>
+</tr>
+<tr>
+<td align="center">Hard and soft  attention</td>
+<td align="center">ICML2015</td>
+<td align="center">ICap</td>
+<td align="center">compute similarity between visual features and previous hidden state -&gt; interpret attention weight.</td>
+<td align="center">S, H</td>
+<td align="center">(I)</td>
+</tr>
+<tr>
+<td align="center">STN</td>
+<td align="center">NIPS2015</td>
+<td align="center">Cls,FGCls</td>
+<td align="center">use sub-network to predict an affine transformation.</td>
+<td align="center">H</td>
+<td align="center">(I) (III)</td>
+</tr>
+<tr>
+<td align="center">DCN</td>
+<td align="center">ICCV2017</td>
+<td align="center">Det,SSeg</td>
+<td align="center">use sub-network to predict offset coordinates.</td>
+<td align="center">H</td>
+<td align="center">(I) (III)</td>
+</tr>
+<tr>
+<td align="center">GENet</td>
+<td align="center">NIPS2018</td>
+<td align="center">Cls,Det</td>
+<td align="center">average pooling or depth-wise convolution -&gt;   interpolation -&gt; sigmoid</td>
+<td align="center">S</td>
+<td align="center">(I)</td>
+</tr>
+<tr>
+<td align="center">PSANet</td>
+<td align="center">ECCV2018</td>
+<td align="center">SSeg</td>
+<td align="center">predict an attention map using a sub-network.</td>
+<td align="center">S</td>
+<td align="center">(I) (IV)</td>
+</tr>
+<tr>
+<td align="center">Non-Local</td>
+<td align="center">CVPR2018</td>
+<td align="center">Action,Det, ISeg</td>
+<td align="center">Dot product between query and key -&gt; softmax</td>
+<td align="center">S</td>
+<td align="center">(I)(IV)  (V)</td>
+</tr>
+<tr>
+<td align="center">SASA</td>
+<td align="center">NeurIPS2019</td>
+<td align="center">Cls,Det</td>
+<td align="center">Dot product between  query and key -&gt; softmax.</td>
+<td align="center">S</td>
+<td align="center">(I)(V)</td>
+</tr>
+<tr>
+<td align="center">ViT</td>
+<td align="center">ICLR2021</td>
+<td align="center">Cls</td>
+<td align="center">divide the  feature map  into multiple groups -&gt; Dot product  between query and key -&gt; softmax.</td>
+<td align="center">S</td>
+<td align="center">(I)(IV) (VII)</td>
+</tr>
+</tbody></table>
+<p><strong>(I):</strong> 将网络聚焦于有区别的区域上<br><strong>(II):</strong> 避免对大输入图像进行过多计算<br><strong>(III):</strong> 提供给更多的变换不变性<br><strong>(IV):</strong> 捕获远依赖关系<br><strong>(V):</strong> 去噪输入特征图<br><strong>(VI):</strong> 自适应聚集领域信息<br><strong>(VII):</strong> 减少归纳性偏置(减小习惯性经验)</p>
+<h2 id="时间注意力-Temporal-Attention"><a href="#时间注意力-Temporal-Attention" class="headerlink" title="时间注意力(Temporal Attention)"></a>时间注意力(Temporal Attention)</h2><h3 id="GLTR"><a href="#GLTR" class="headerlink" title="GLTR"></a>GLTR</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/global-local-temporal-representations-for">Global-local temporal representations for video person re-identification</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.3.1.1" alt="image-20230912103017961"></p>
+<p>&emsp;融合帧的过程中，有短期融合和长期融合，$F$为提取图像得到的特征</p>
+<ol>
+<li>短期融合：利用一维空洞卷积，N个branch，其中每个branch的膨胀尺寸都是不一样的，论文里建议使用2的指数级</li>
+<li>长期融合：利用TSA</li>
+</ol>
+<h3 id="TAM"><a href="#TAM" class="headerlink" title="TAM"></a>TAM</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/tam-temporal-adaptive-module-for-video">Tam: Temporal adaptive module for video recognition</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.3.2.1" alt="image-20230912104149542"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.3.2.2" alt="image-20230912104335716"></p>
+<p>&emsp;时序自适应模块（TAM）为每个视频生成特定的时序建模核。该算法针对不同视频片段，灵活高效地生成动态时序核，自适应地进行时序信息聚合，包含局部和全局分支。</p>
+<p>&emsp;全局分支是TAM的核心，其基于全局时序信息生成视频相关的自适应卷积核。全局分支主要负责long-range时序建模，捕获视频中的long-range依赖。全局针对视频时序信息的多样性，为其生成动态的时序聚合卷积核。为了简化自适应卷积核的生成，并保持较高的inference效率，本方法提出了一种逐<strong>通道时序卷积核的生成方法</strong>。基于这种想法，我们期望所生成的自适应卷积核只考虑建模时序关系。</p>
+<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>Category</strong></th>
+<th align="center"><strong>Method</strong></th>
+<th align="center"><strong>Publication</strong></th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)</th>
+<th align="center">S or H</th>
+<th align="center"><strong>Goals</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Self-attention  based methods</td>
+<td align="center">GLTR</td>
+<td align="center">ICCV2019</td>
+<td align="center">ReID</td>
+<td align="center">dilated 1D Convs -&gt; self-attention in temporal di- mension</td>
+<td align="center">S</td>
+<td align="center">(I)(II)</td>
+</tr>
+<tr>
+<td align="center">Combine local  attention and global attention</td>
+<td align="center">TAM</td>
+<td align="center">Arxiv2020</td>
+<td align="center">Action</td>
+<td align="center">local: global spatial average  pooling -&gt; 1D Convs, b) global: global  spatial average pooling  -&gt; MLP -&gt; adaptive con-  volution</td>
+<td align="center">S</td>
+<td align="center">(II)(III)</td>
+</tr>
+</tbody></table>
+<p>**(I):**利用多尺度短期上下文信息</p>
+<p>**(II):**捕捉长期时间特征依赖</p>
+<p>**(III):**捕捉局部时间上下文</p>
+<h2 id="分支注意力-Branch-Attention"><a href="#分支注意力-Branch-Attention" class="headerlink" title="分支注意力(Branch Attention)"></a>分支注意力(Branch Attention)</h2><h3 id="SKNet"><a href="#SKNet" class="headerlink" title="SKNet"></a>SKNet</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/selective-kernel-networks">Selective kernel networks</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.4.1.1" alt="image-20230912210030778"></p>
+<p>&emsp;关注点主要是不同大小的感受野对于不同尺度的目标有不同的效果，目的是使得网络可以自动地利用对分类有效的感受野捕捉到的信息。<strong>提出了一种在CNN中对卷积核的动态选择机制</strong>，该机制允许每个神经元根据输入信息的多尺度自适应地调整其感受野（卷积核）的大小。</p>
+<ol>
+<li>Split：使用多个卷积核对X进行卷积，以形成多个分支。</li>
+<li>Fuse：首先通过元素求和从多个分支中融合出结果。（这部分和SE模块的处理大致相同），$F_{gp}$为全局池化，$F_{fc}$收缩激活</li>
+<li>Select：即有几个尺度的特征图（图中的例子是两个），则将squeeze出来的特征再通过几个全连接将特征数目回复到c，（假设我们用了三种RF，squeeze之后的特征要接三个全连接，每个全连接的神经元的数目都是c）这个图上应该在空线上加上FC会比较好理解吧。然后将这N个全连接后的结果拼起来（可以想象成一个cxN的矩阵），然后纵向的（每一列）进行softmax。如图中的蓝色方框所示——即不同尺度的同一个channel就有了不同的权重。</li>
+</ol>
+<h3 id="CondConv"><a href="#CondConv" class="headerlink" title="CondConv"></a>CondConv</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/soft-conditional-computation">CondConv: Conditionally Parameterized Convolutions for Efficient Inference</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.4.2.1" alt="image-20230912210957729"></p>
+<p>&emsp;CondConv的核心思想是带条件计算的分支集成的一种巧妙变换，首先它采用更细粒度的集成方式，每一个卷积层都拥有多套权重，卷积层的输入分别经过不同的权重卷积之后组合输出，简单来说，CondConv在卷积层设置多套卷积核，在推断时对卷积核施加SE模块，根据卷积层的输入决定各套卷积核的权重，最终加权求和得到一个为该输入量身定制的一套卷积核，最后执行一次卷积即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">from</span> torch.nn <span class="keyword">import</span> functional <span class="keyword">as</span> F</span><br><span class="line"><span class="comment"># 在这里发现我对卷积的过程认识不全面</span></span><br><span class="line"><span class="comment"># 和卷积核的维数 https://zh-v2.d2l.ai/chapter_convolutional-neural-networks/channels.html</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Attention</span>(nn.Module):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;类似SCNet,但这里c-&gt;k，输出权重&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_planes, K, init_weight=<span class="literal">True</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.avgpool = nn.AdaptiveAvgPool2d(<span class="number">1</span>)</span><br><span class="line">        self.net = nn.Conv2d(in_planes, K, kernel_size=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br><span class="line">        self.sigmoid = nn.Sigmoid()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        att = self.avgpool(x)  <span class="comment">#bs,dim,1,1</span></span><br><span class="line">        att = self.net(att).view(x.shape[<span class="number">0</span>], -<span class="number">1</span>)  </span><br><span class="line">        <span class="keyword">return</span> self.sigmoid(att) <span class="comment"># bs,K</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CondConv</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_planes, out_planes, kernel_size, stride, padding=<span class="number">0</span>, dilation=<span class="number">1</span>, grounps=<span class="number">1</span>, bias=<span class="literal">True</span>, K=<span class="number">4</span>,</span></span><br><span class="line"><span class="params">                 init_weight=<span class="literal">True</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.in_planes = in_planes</span><br><span class="line">        self.out_planes = out_planes</span><br><span class="line">        self.kernel_size = kernel_size</span><br><span class="line">        self.stride = stride</span><br><span class="line">        self.padding = padding</span><br><span class="line">        self.dilation = dilation</span><br><span class="line">        self.groups = grounps</span><br><span class="line">        self.bias = bias</span><br><span class="line">        self.K = K</span><br><span class="line">        self.init_weight = init_weight</span><br><span class="line">        self.attention = Attention(in_planes=in_planes, K=K, init_weight=init_weight)</span><br><span class="line"></span><br><span class="line">        self.weight = nn.Parameter(torch.randn(K, out_planes, in_planes // grounps, kernel_size, kernel_size),</span><br><span class="line">                                   requires_grad=<span class="literal">True</span>)  <span class="comment"># k, out, in/group, k, k</span></span><br><span class="line">        <span class="keyword">if</span> (bias):</span><br><span class="line">            self.bias = nn.Parameter(torch.randn(K, out_planes), requires_grad=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.bias = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        bs, in_planels, h, w = x.shape</span><br><span class="line">        softmax_att = self.attention(x) <span class="comment"># bs, K 获得注意力分数</span></span><br><span class="line">        x = x.view(<span class="number">1</span>, -<span class="number">1</span>, h, w)</span><br><span class="line">        weight = self.weight.view(self.K, -<span class="number">1</span>)  <span class="comment"># K,-1 个卷积</span></span><br><span class="line">        aggregate_weight = torch.mm(softmax_att, weight).view(bs * self.out_planes, self.in_planes // self.groups, self.kernel_size, self.kernel_size)  <span class="comment">#bs*out_p,in_p,k,k -- 卷积核增加了</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (self.bias <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>):</span><br><span class="line">            bias = self.bias.view(self.K, -<span class="number">1</span>)  <span class="comment">#K,out_p</span></span><br><span class="line">            aggregate_bias = torch.mm(softmax_att, bias).view(-<span class="number">1</span>)  <span class="comment">#bs,out_p</span></span><br><span class="line">            output = F.conv2d(x, weight=aggregate_weight, bias=aggregate_bias, stride=self.stride, padding=self.padding,</span><br><span class="line">                              groups=self.groups * bs, dilation=self.dilation)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            output = F.conv2d(x, weight=aggregate_weight, bias=<span class="literal">None</span>, stride=self.stride, padding=self.padding,</span><br><span class="line">                              groups=self.groups * bs, dilation=self.dilation) <span class="comment"># 卷积操作</span></span><br><span class="line">        output = output.view(bs, self.out_planes, h, w)</span><br><span class="line">        <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">input</span> = torch.randn(<span class="number">2</span>, <span class="number">32</span>, <span class="number">64</span>, <span class="number">64</span>)</span><br><span class="line">    m = CondConv(in_planes=<span class="number">32</span>, out_planes=<span class="number">64</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>, padding=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br><span class="line">    out = m(<span class="built_in">input</span>)</span><br><span class="line">    <span class="built_in">print</span>(out.shape)</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>Category</strong></th>
+<th align="center"><strong>Method</strong></th>
+<th align="center"><strong>Publication</strong></th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)</th>
+<th align="center">S&#x2F;H</th>
+<th><strong>Goals</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Combine different branches</td>
+<td align="center">SKNet</td>
+<td align="center">CVPR2019</td>
+<td align="center">Cls</td>
+<td align="center">global average pooling-&gt;MLP -&gt; softmax</td>
+<td align="center">S</td>
+<td>(II）(III)</td>
+</tr>
+<tr>
+<td align="center">Combine different convolution kernels</td>
+<td align="center">CondConv</td>
+<td align="center">NeurIPS2019</td>
+<td align="center">Cls,Det</td>
+<td align="center">global average pooling -&gt; linear layer -&gt; sigmoid</td>
+<td align="center">S</td>
+<td>(IV)</td>
+</tr>
+</tbody></table>
+<p>**(II):**动态融合不同的分支</p>
+<p>**(III):**自适应的选择接受域</p>
+<p>**(IV):**动态融合不同的卷积核</p>
+<h2 id="通道-空间注意力机制-Channel-Spatial-Attention"><a href="#通道-空间注意力机制-Channel-Spatial-Attention" class="headerlink" title="通道&amp;空间注意力机制(Channel&amp;Spatial Attention)"></a>通道&amp;空间注意力机制(Channel&amp;Spatial Attention)</h2><h3 id="Residual-Attention"><a href="#Residual-Attention" class="headerlink" title="Residual Attention"></a>Residual Attention</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/residual-attention-network-for-image">Residual Attention Network for Image Classification</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.5.1" alt="image-20230912211521470"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.1.2" alt="image-20230912211549164"></p>
+<h3 id="SCNet"><a href="#SCNet" class="headerlink" title="SCNet"></a>SCNet</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/improving-convolutional-networks-with-self">Improving Convolutional Networks With Self-Calibrated Convolutions</a></p>
+<p>&emsp;<strong>南开大学程明明组，他们组的每篇论文有对应的中文版</strong></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.2.1" alt="image-20230914160232645"></p>
+<p>&emsp;本文有设计复杂的网络体系结构来增强特征表示，而是引入了自校准卷积作为通过增加每层基本卷积变换来帮助卷积网络学习判别表示的有效方法。 类似于分组卷积，它将特定层的卷积过滤器分为多个部分，但不均匀地，每个部分中的过滤器以异构方式被利用。</p>
+<h3 id="Strip-Pooling"><a href="#Strip-Pooling" class="headerlink" title="Strip Pooling"></a>Strip Pooling</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/2003-13328">Strip Pooling: Rethinking Spatial Pooling for Scene Parsing</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.3.1" alt="image-20230914161657807"></p>
+<p>&emsp;<strong>条带池化模块（SPM）</strong>，以有效地扩大主干网络的感受野。更具体地说，SPM由两个途径组成，它们专注于沿水平或垂直空间维度对远程上下文进行编码。对于池化产生的特征图中的每一个空间位置，它会对其全局的水平和垂直信息进行编码，然后使用这些编码来平衡其自身的权重以进行特征优化。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.3.2" alt="image-20230914161811763"></p>
+<p>&emsp;提出了一种新颖的附加残差构建模块，称为<strong>混合池化模块（MPM）</strong>，其中金字塔池模块（PPM）为F3(a),以进一步在高语义级别上对远程依赖性进行建模。通过利用具有不同内核形状的池化操作来探查具有复杂场景的图像，可以收集信息丰富的上下文信息。为了证明所提出的基于池化的模块的有效性，我们提出了SPNet，它将这两个模块都整合到了ResNet 的主干网络中。实验表明，SPNet在流行的场景解析基准上达到了SOTA。</p>
+<h3 id="SCA-CNN"><a href="#SCA-CNN" class="headerlink" title="SCA-CNN"></a>SCA-CNN</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/sca-cnn-spatial-and-channel-wise-attention-in">SCA-CNN: Spatial and Channel-wise Attention in Convolutional Networks for Image Captioning</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.4.1" alt="image-20230914163052457"></p>
+<p>&emsp;类似于下面的CBAM，这里主要是偏向了图文结合。</p>
+<h3 id="CBAM-BAM"><a href="#CBAM-BAM" class="headerlink" title="CBAM &amp; BAM"></a>CBAM &amp; BAM</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/cbam-convolutional-block-attention-module">CBAM: convolutional block attention module</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.5.1" alt="image-20230914164028711"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.5.2" alt="image-20230914164304818"></p>
+<p>&emsp;这个和前面的SCA-CNN有着一样的线性结构。</p>
+<h3 id="scSE"><a href="#scSE" class="headerlink" title="scSE"></a>scSE</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/recalibrating-fully-convolutional-networks">Recalibrating fully convolutional networks with spatial and channel “squeeze and excitation” blocks</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.6.1" alt="image-20230914164811599"></p>
+<p>&emsp;这篇偏向于图像医疗方向，与CBAM相比，他是并行的，Channel和Spatial注意机制是相互竞争的。</p>
+<h3 id="DANet"><a href="#DANet" class="headerlink" title="DANet"></a>DANet</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/dual-attention-network-for-scene-segmentation">Dual attention network for scene segmentation</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.7.1" alt="image-20230914170711645"></p>
+<p>&emsp;对偶注意力网络，利用自注意力机制提高特征表示的判别性。这种方法在前面的空间注意力中经常提到。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.7.2" alt="image-20230914170913189"></p>
+<h3 id="RGA"><a href="#RGA" class="headerlink" title="RGA"></a>RGA</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/relation-aware-global-attention">Relation-aware global attention for person re-identification</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.8" alt="image-20230914173205457"></p>
+<p>&emsp;作者通过设计attention,让网络提取更具有区别度的特征信息。简单来说，就是给行人不同部位的特征加上一个权重，从而达到对区分特征的增强，无关特征的抑制。计算量偏大，下面是forward关于空间注意力机制的计算方法，具体看源码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># spatial attention</span></span><br><span class="line">theta_xs = self.theta_spatial(x) <span class="comment"># b c/sp h w</span></span><br><span class="line">phi_xs = self.phi_spatial(x) <span class="comment"># b c/sp h w</span></span><br><span class="line">theta_xs = theta_xs.view(b, self.inter_channel, -<span class="number">1</span>)</span><br><span class="line">theta_xs = theta_xs.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>) <span class="comment"># b h*w c/sp</span></span><br><span class="line">phi_xs = phi_xs.view(b, self.inter_channel, -<span class="number">1</span>) <span class="comment"># b c/sp h*w</span></span><br><span class="line">Gs = torch.matmul(theta_xs, phi_xs) <span class="comment"># b h*w h*w</span></span><br><span class="line">Gs_in = Gs.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>).view(b, h*w, h, w) <span class="comment"># 为什么要改变维度？因为要横向纵向</span></span><br><span class="line">Gs_out = Gs.view(b, h*w, h, w)</span><br><span class="line">Gs_joint = torch.cat((Gs_in, Gs_out), <span class="number">1</span>)</span><br><span class="line">Gs_joint = self.gg_spatial(Gs_joint) <span class="comment"># b c/sp h*w hw</span></span><br><span class="line"></span><br><span class="line">g_xs = self.gx_spatial(x) <span class="comment"># b c/sp h w</span></span><br><span class="line">g_xs = torch.mean(g_xs, dim=<span class="number">1</span>, keepdim=<span class="literal">True</span>) <span class="comment"># b 1 h w</span></span><br><span class="line">ys = torch.cat((g_xs, Gs_joint), <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">W_ys = self.W_spatial(ys) <span class="comment"># b 1 h w</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> self.use_channel:</span><br><span class="line">   out = F.sigmoid(W_ys.expand_as(x)) * x</span><br><span class="line">   <span class="keyword">return</span> out</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   x = F.sigmoid(W_ys.expand_as(x)) * x</span><br></pre></td></tr></table></figure>
+
+<h3 id="Triplet-Attention"><a href="#Triplet-Attention" class="headerlink" title="Triplet Attention"></a>Triplet Attention</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/rotate-to-attend-convolutional-triplet">Rotate to attend: Convolutional triplet attention module</a></p>
+<p>&emsp;某乎评价：<strong>这。。。flops比GCNet高，点比GCNet低，果然是超过了GCNet。。。你永远可以相信印度哥</strong></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.9.2" alt="image-20230914201032888"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.9.3" alt="image-20230914201119565"></p>
+<h3 id="总结-4"><a href="#总结-4" class="headerlink" title="总结"></a>总结</h3><p><strong>Jointly predictchannel &amp; spatial attention map:</strong></p>
+<ul>
+<li>Residual Attention </li>
+<li>SCNet </li>
+<li>Strip Pooling</li>
+</ul>
+<p><strong>Separately predict channel &amp;spatial attention maps:</strong></p>
+<ul>
+<li>SCA-CNN</li>
+<li>CBAM&#x2F;BAM</li>
+<li>scSE</li>
+<li>Dual Attention</li>
+<li>RGA</li>
+<li>Triplet Attention</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>Method</strong></th>
+<th align="center"><strong>Publication</strong></th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)</th>
+<th><strong>Goals</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Residual Attention</td>
+<td align="center">CVPR2017</td>
+<td align="center">Cls</td>
+<td align="center">top-down network-&gt;bottom down network-&gt;1×1 Convs-&gt;Sigmoid</td>
+<td>(I) (II)</td>
+</tr>
+<tr>
+<td align="center">SCNet</td>
+<td align="center">CVPR2020</td>
+<td align="center">Cls Det  ISeg KP</td>
+<td align="center">top-down network-&gt;bottom down network-&gt;identity add-&gt;sigmoid</td>
+<td>(II) (III)</td>
+</tr>
+<tr>
+<td align="center">Strip Pooling</td>
+<td align="center">CVPR2020</td>
+<td align="center">Seg</td>
+<td align="center">horizontal&#x2F;vertical lobal pooling-&gt;1D Conv-&gt;point-wise summation-&gt;1 × 1 Conv-&gt;Sigmoid</td>
+<td>(I)(II)(III)</td>
+</tr>
+<tr>
+<td align="center">SCA-CNN</td>
+<td align="center">CVPR2017</td>
+<td align="center">ICap</td>
+<td align="center">spatial: fuse hidden state -&gt; 1 × 1 Conv  -&gt; Softmax, b)channel:  global average pooling  -&gt; MLP -&gt; Softmax</td>
+<td>(I)(II) (III)</td>
+</tr>
+<tr>
+<td align="center">CBAM</td>
+<td align="center">ECCV2018</td>
+<td align="center">Cls Det</td>
+<td align="center">a)spatial:global pooling in channel dimension-&gt; Conv-&gt;Sigmoid; b)channel:global pooling in spatial dimension-&gt; MLP -&gt; Sigmoid</td>
+<td>(I)(II) (III)</td>
+</tr>
+<tr>
+<td align="center">BAM</td>
+<td align="center">BMVC2018</td>
+<td align="center">Cls Det</td>
+<td align="center">a)spatial: dilated Convs,  b) channel: global average pooling -&gt; MLP, c)fuse two branches</td>
+<td>(I)(II) (III)</td>
+</tr>
+<tr>
+<td align="center">scSE</td>
+<td align="center">TMI2018</td>
+<td align="center">Seg</td>
+<td align="center">a)spatial: 1 × 1 Conv -&gt; Sigmoid, b)channel: global average pooling-&gt; MLP-&gt; Sigmoid, c)fuse two branches</td>
+<td>(I)(II) (III)</td>
+</tr>
+<tr>
+<td align="center">Dual  Attention</td>
+<td align="center">CVPR2019</td>
+<td align="center">Seg</td>
+<td align="center">a)spatial: self-attention in spatial dimension, b)channel: self-attention in channel dimension, c) fuse two branches</td>
+<td>(I)(II) (III)</td>
+</tr>
+<tr>
+<td align="center">RGA</td>
+<td align="center">CVPR2020</td>
+<td align="center">ReID</td>
+<td align="center">use self-attention to capture pairwise relations -&gt; compute attention maps with the input and relation  vectors</td>
+<td>(I)(II)  (III)</td>
+</tr>
+<tr>
+<td align="center">Triplet  Attention</td>
+<td align="center">WACV2021</td>
+<td align="center">Cls Det</td>
+<td align="center">compute attention maps for pairs of domains -&gt;fuse different branches</td>
+<td>(I)(IV)</td>
+</tr>
+</tbody></table>
+<p>**(I):**将网络聚焦在区分区域上</p>
+<p>**(II):**强调重要通道</p>
+<p>**(III):**捕捉远程信息</p>
+<p>**(IV):**捕捉任意两个域之间的跨域互相作用</p>
+<h2 id="空间-时间注意力-Spatial-Temporal-Attention"><a href="#空间-时间注意力-Spatial-Temporal-Attention" class="headerlink" title="空间&amp;时间注意力(Spatial&amp;Temporal Attention)"></a>空间&amp;时间注意力(Spatial&amp;Temporal Attention)</h2><p>很多动作识别领域-<strong>不太了解</strong></p>
+<h3 id="STA-LSTM"><a href="#STA-LSTM" class="headerlink" title="STA-LSTM"></a>STA-LSTM</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/an-end-to-end-spatio-temporal-attention-model">An end-to-end spatio-temporal attention model for human action recognition from skeleton data</a></p>
+<p>&emsp;<strong>骨架识别</strong></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.1.1" alt="image-20230914202546443"></p>
+<p>&emsp;空间注意力：</p>
+<p>$$s_t&#x3D;U_stanh(W_{xs}x_t+W_{hs}h_{t-1}^s+b_s)+b_{us}$$</p>
+<p>$$\alpha <em>{t,k}&#x3D;\frac{exp(s_t,k)}{\sum</em>{i&#x3D;1}^{K}exp(s_t,i) } $$</p>
+<p>&emsp;时间注意力：</p>
+<p>$$\beta <em>t&#x3D;ReLU(w_\tilde{x}+w_\tilde{h} \tilde{h}</em>{t-1}+\tilde {b} )$$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.1.2" alt="image-20230914202634777"></p>
+<h3 id="RSTAN"><a href="#RSTAN" class="headerlink" title="RSTAN"></a><del>RSTAN</del></h3><p><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/8123939">Recurrent spatial-temporal attention network for action recognition in videos</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.6.2.1" alt="image-20230914204115694"></p>
+<h3 id="STA"><a href="#STA" class="headerlink" title="STA"></a>STA</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/sta-spatial-temporal-attention-for-large">STA: Spatial-Temporal Attention for Large-Scale Video-based Person Re-Identification</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.4.1" alt="image-20230914211054536"></p>
+<p>&emsp;首先通过随机采样将输入视频轨迹压缩为N帧。</p>
+<p>（1）每个选定的帧被送入骨干网络转换成特征图。然后，发送特征映射对我们提出的时空注意模型，对不同帧的每个空间区域分配一个注意分数，然后生成一个二维注意力得分矩阵。采用帧间正则化来限制不同帧之间的差异</p>
+<p>(3)利用注意力得分提取出注意力最高的空间区域特征图对所有帧进行评分，并根据分配的关注分数对空间区域特征图进行加权和运算。</p>
+<p>(4)然后，采用特征融合策略，将不同空间区域的空间特征图进行拼接生成将人体的两组特征映射作为全局表示和判别表示。</p>
+<p>(5)最后，利用全局池化层和全连接层将特征映射转换为矢量，实现对人的再识别。在训练中，我们将triplet损失和softmax损失结合起来。在测试过程中，我们选择后的特征向量第一个全连接层作为输入视频轨迹的表示。</p>
+<h3 id="STGCN"><a href="#STGCN" class="headerlink" title="STGCN"></a>STGCN</h3><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/spatial-temporal-graph-convolutional-network">Spatial-Temporal Graph Convolutional Network for Video-Based Person Re-Identification</a></p>
+<ol>
+<li>使用GCN去建模同一帧内以及不同帧之间的身体不同部位的潜在关系，为行人重识别提供更多的区别特征和健壮信息。</li>
+<li>提出了一个结合的框架，综合考虑了时间和结构上的关联。</li>
+</ol>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.3.1" alt="image-20230914210212548"></p>
+<p>&emsp;<strong>时间：</strong>不同的颜色代表不同的patch，图中是将每个特征图水平的分割为P个patch，T帧就会得到 T*P 个patch，这些patch会被看做图中的节点，最终，对GCN的输出使用了最大池化来得到最终的特征。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.3.2" alt="image-20230914210257499"></p>
+<p>&emsp;<strong>空间：</strong>使用GCN来建模视频中每一帧不同的patch的空间关系（每一帧都有一个GCN），然后融合视频中每一帧的GCN特征得到他们的内在结构特征。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.3.3" alt="image-20230914210346322"></p>
+<h3 id="总结-5"><a href="#总结-5" class="headerlink" title="总结"></a>总结</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>Category</strong></th>
+<th align="center"><strong>Method</strong></th>
+<th align="center"><strong>Publication</strong></th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)</th>
+<th align="center"><strong>Goals</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Separately predict spatial&amp;temporal attetion</td>
+<td align="center">STA-LSTM</td>
+<td align="center">AAAI2017</td>
+<td align="center">Action</td>
+<td align="center">a)spatial:fuse hidden  state-&gt;MLP-&gt; Softmax, b)temporal:fuse hidden state -&gt; MLP -&gt; ReLU</td>
+<td align="center">(I)</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">RSTAN</td>
+<td align="center">TIP2018</td>
+<td align="center">Action</td>
+<td align="center">a)spatial: fuse hidden  state -&gt; MLP -&gt; Softmax, b)temporal: fuse hidden state -&gt; MLP-&gt;Softmax</td>
+<td align="center">(I)(II)</td>
+</tr>
+<tr>
+<td align="center">Jointly predict  spatial&amp;temporal  attention</td>
+<td align="center">STA</td>
+<td align="center">AAAI2019</td>
+<td align="center">ReID</td>
+<td align="center">a) tenporal: produce perframe attention maps using l2 norm b) spatial: obtain spatial scores for each patch by summation using l1 norm</td>
+<td align="center">(I)</td>
+</tr>
+<tr>
+<td align="center">Pairwise relation-based method</td>
+<td align="center">STGCN</td>
+<td align="center">CVPR2020</td>
+<td align="center">ReID</td>
+<td align="center">construct a patch  graph  using pairwise similarity</td>
+<td align="center">(I)</td>
+</tr>
+</tbody></table>
+<h1 id="未来方向"><a href="#未来方向" class="headerlink" title="未来方向"></a>未来方向</h1><ol>
+<li><p><strong>Necessary and sufﬁcient condition for attention(注意力的充分必要条件)</strong></p>
+<p>  这里主要是基础理论方面，发现方程$Attention&#x3D;f(g(x),x)$是必要条件，但不是充分必要条件。例如，GoogleNet符合上述公式，但不属于注意机制。我们发现很难找到所有注意机制的充分必要条件。注意机制的必要和充分条件仍然值得探索，可以促进对注意机制的理解。</p>
+</li>
+<li><p><strong>General attention block(通用注意力机制模块)</strong></p>
+<p>  目前，需要为每个不同的任务设计一个特殊的注意机制，这需要花费相当大的努力来探索潜在的注意方法。通道关注虽然是图像分类的一个很好的选择，而空间注意力非常适合于密集预测任务，例如语义分割和对象检测。通道ATT是注意什么，而空间ATT是注意哪里，基于此我们是否可以存在一种统一的机制可以根据具体任务进行不同注意力之间的切换。</p>
+</li>
+<li><p><strong>Characterisation and interpretability(特征化和可解释性)</strong></p>
+<p>  注意机制是由人类视觉系统驱动的，是朝着构建可解释的计算机视觉系统的目标迈出的一步。通常，基于注意的模型是通过渲染注意图来理解的。然而，这只能对正在发生的事情给出一种直观的感觉，而不是精确的理解(提出时理论背景的缺陷)。然而，医疗诊断和自动驾驶系统等对安防或安全很重要的应用，往往有更严格的要求。在这些领域，需要更好地描述方法的工作方式，包括故障模式。开发可表征和可解释的注意力模型可以使它们更广泛地适用。</p>
+</li>
+<li><p><strong>Sparse activation(稀疏激活)</strong></p>
+<p>  可视化了一些注意图，得到了与ViT一致的结论，即注意机制可以产生稀疏激活(在后面的MAE工作中mask掉的Patch可以重建图像)。这些现象给了我们一个启发，稀疏激活可以在深度神经网络中取得较强的表现。值得注意的是，稀疏激活与人类的认知相似。这些都激励着我们去探索哪种建筑可以模拟人类的视觉系统。</p>
+</li>
+<li><p><strong>Attention-based pre-trained models(基于注意力机制的预训练模型)</strong></p>
+<p>  大规模的基于注意的预训练模型在自然语言处理中取得了巨大的成功。最近，<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/an-empirical-study-of-training-self">MoCoV3</a>、<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/dino-detr-with-improved-denoising-anchor-1">DINO</a>、<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/beit-bert-pre-training-of-image-transformers">BEiT</a>和 <a target="_blank" rel="noopener" href="https://paperswithcode.com/method/mae">MAE</a>已经证明，基于注意力的模型也非常适合于视觉任务。由于其适应不同输入的能力，<strong>基于注意力的模型可以处理看不见的物体</strong>，并且自然适合将预训练的权重转移到各种任务中。我们认为，预训练和注意模型的结合应该进一步探索:训练方法、模型结构、预训练任务和数据规模都值得研究。</p>
+</li>
+<li><p><strong>Optimization(部署)</strong></p>
+<p>  SGD和Adam非常适合优化卷积神经网络。对于视觉变形器，<a target="_blank" rel="noopener" href="https://paperswithcode.com/method/adamw">AdamW</a>效果更好。最近，Chen 等人通过使用一种新的优化器，即锐度感知最小化器<a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/sharp-maml-sharpness-aware-model-agnostic">SAM</a>，显著改善了视觉变形器。很明显，基于注意力的网络和卷积神经网络是不同的模型;不同的优化方法可能对不同的模型效果更好。研究注意力模型的新优化方法可能是值得的。</p>
+</li>
+<li><p><strong>Deployment(部署)</strong></p>
+<p>  卷积神经网络具有简单，统一的结构，这使得它们易于部署在各种硬件设备上。然而，在边缘设备上优化复杂多变的基于注意力的模型是很困难的。尽管如此，基于注意力的模型提供了比卷积神经网络更好的结果，因此值得尝试寻找可以广泛部署的简单、高效和有效的基于注意力的模型。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/" rel="tag"># 注意力机制</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag"># 计算机视觉</a>
+              <a href="/tags/%E7%BB%BC%E8%BF%B0%E9%98%85%E8%AF%BB/" rel="tag"># 综述阅读</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/" rel="prev" title="论文精读-多模态综述-2023">
+                  <i class="fa fa-angle-left"></i> 论文精读-多模态综述-2023
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">404</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">52k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:34</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"milkyfun0","repo":"milkyfun0.github.io","client_id":"a540c0226afd0cfc0698","client_secret":"0e244c51f27b32172ffe9addb8667272608c1907","admin_user":"milkyfun0","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"57b5c84e820f75eb01b6c207d71dea71"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

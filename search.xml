@@ -5,7 +5,7 @@
     <url>/2023/08/22/hello-world/</url>
     <content><![CDATA[<ul>
 <li><p><strong>20230901</strong> </p>
-<p>图像领域 常见的通道注意力实现方法</p>
+<p>图像领域 常见的注意力实现方法</p>
 </li>
 <li><p><strong>20230831</strong> </p>
 <p>论文精读系列 Clip串讲</p>
@@ -16,6 +16,319 @@
 </li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>论文精读-DELL·E2-2022</title>
+    <url>/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/</url>
+    <content><![CDATA[<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/2e470107269d4e44a8e352fc87dd49ce.png"></p>
+<p>   生成器<code>G</code>从给定噪声中（一般是指均匀分布或者正态分布）采样来合成数据，判别器<code>D</code>用于判别样本是真实样本还是G生成的样本。<code>G</code>的目标就是尽量生成真实的图片去欺骗判别网络<code>D</code>，使<code>D</code>犯错；而<code>D</code>的目标就是尽量把<code>G</code>生成的图片和真实的图片分别开来</p>
+<p>局限性：</p>
+<ol>
+<li>训练不够稳定</li>
+<li>GANs生成的多样性不够好</li>
+<li>GANs是隐式生成，不够优美</li>
+</ol>
+<h2 id="AE（Autoencoder）和-DAE-Denoising-Autoencoder"><a href="#AE（Autoencoder）和-DAE-Denoising-Autoencoder" class="headerlink" title="AE（Autoencoder）和 DAE(Denoising Autoencoder)"></a><a href="https://paperswithcode.com/method/autoencoder">AE（Autoencoder）</a>和 DAE(Denoising Autoencoder)</h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/60fd506454ac4280a0d015385d25944a.png"></p>
+<p><code>  DAE</code>（Denoising Autoencoder），就是先把原图$x$进行一定程度的打乱</p>
+<h2 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a><a href="https://paperswithcode.com/paper/auto-encoding-variational-bayes">VAE</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0879f80567c94e0892037517d797b997.png" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/v2-df06f2d1471615dae76b1e09488091b5_720w.webp" alt="img"></p>
+<p>​      VAE（Variational Auto-Encoder-变分自编码器）就是借助了这种encoder-decoder的结构去做生成，和AE最主要的区别就是不再去学习中间的bottleneck特征了，而是去学习一种分布。</p>
+<p>  作者假设中间的分布是一个高斯分布（用均值μ 和方差σ 来描述）。具体来说，就是将输入x进行编码得到特征之后，再接一些FC层，去预测中间分布的μ 和σ 。</p>
+<p>  μ 和σ 训练好之后，就可以扔掉encoder了。推理时直接从训练好的分布去采样一些z 出来（ $z&#x3D;\mu +\sigma \cdot \varepsilon$），然后进行解码，这样VAE就可以用来做生成了</p>
+<p><a href="https://spaces.ac.cn/archives/5253">变分自编码器（一）：原来是这么一回事</a></p>
+<h2 id="VQ-VAE"><a href="#VQ-VAE" class="headerlink" title="VQ-VAE"></a>VQ-VAE</h2><h3 id="VQ-VAE-1"><a href="#VQ-VAE-1" class="headerlink" title="VQ-VAE"></a><a href="https://paperswithcode.com/paper/neural-discrete-representation-learning">VQ-VAE</a></h3><p>​    如果还是之前VAE的模式，就不好把模型做大，分布也不好学。取而代之的不是去直接预测分布z，而是用一个codebook代替。codebook可以理解为聚类的中心，大小一般是K*D（K&#x3D;8192，Dim&#x3D;512&#x2F;768），也就是有8192个长为D的向量（聚类中心）</p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE" alt="image-20230824173457718"></p>
+<p>​     $x$输入编码器得到高宽分别为$( h , w )$ 的特征图f，然后计算特征图里的向量和codebook里的向量（聚类中心）的相似性。接着把和特征图最接近的聚类中心向量的编号（1-8192）存到矩阵z里面。训练完成之后，不再需要编码特征f ff，而是取出矩阵z中的编号对应的codebook里面的向量，生成一个新的特征图q（量化特征quantised feature）。最后和之前一样，使用q解码重构原图。此时这个量化特征就非常可控了，因为它们永远都是从codebook里面来的，而非随机生成，这样优化起来相对容易。</p>
+<p>​    编码器输出$z ( x )$ 会mapped到最相近（nearest）的点$e 2$ 。红色线的梯度$\triangledown _{z}$L，迫使encoder在下一次forword时改变其输出（参数更新）</p>
+<p>​    VQ-VAE也可以用来做CV领域的自监督学习，比如BEIT就是把<strong>DALL·E训练好的codebook拿来用。将图片经过上面同样的过程quantise成的特征图作为ground truth</strong>，自监督模型来训练一个网络。后续还有VL-BEIT（vision language BEIT）的工作，也是类似的思路，只不过是用一个Transformer编码器来做多模态的任务。</p>
+<p><strong>局限性：</strong></p>
+<p> 如果想让VA-VAE做生成，就需要单独训练一个<code>prior</code>网络，在论文里，作者就是训练了一个<code>pixcl-CNN</code>（利用训练好的codebook去做生成）。</p>
+<h3 id="VQ-VAE-2"><a href="#VQ-VAE-2" class="headerlink" title="VQ-VAE 2"></a><a href="https://paperswithcode.com/paper/190600446">VQ-VAE 2</a></h3><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE-2" alt="image-20230824173625860"></p>
+<p>​    本身是对VQ-VAE的简单改进，是一个层级式的结构。VQ-VAE2不仅做局部的建模，而且还做全局的建模（加入attention），所以模型的表达能力更强了。同时根据codebook学了一个prior，所以生成的效果非常好。总体来说VQ-VAE2是一个两阶段的过程：</p>
+<ul>
+<li><p>训练编解码器，使其能够很好的复现图像</p>
+</li>
+<li><p>训练PixelCNN自回归模型，使其能够拟合编码表分布，从而通过随机采样，生成图片</p>
+</li>
+</ul>
+<p>​    stage1：训练一个分层的VQ-VAE用于图像编码到离散隐空间</p>
+<p>​    输入图像 x，通过编码器生成向量$E ( x )$ ，然后采用最近邻重构，将$E ( x )$ 替换为codebook的中的一个nearest prototype vector。codebook可以理解为离散的编码表，举一张人脸图像为例codebook就包括头发颜色，脸型，表情和肤色等等。因此，量化就是通过编码表，把自编码器生成的向量$E ( x ) $离散化：</p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/9a09c6f4ab7c42d6b1fafd9695559e2e.png" alt="在这里插入图片描述"></p>
+<p>​    stage2：在离散隐空间上拟合一个PixelCNN先验</p>
+<ul>
+<li>经过Stage1，将图片编码为了整数矩阵，所以在Stage2用自回归模型PixelCNN，来对编码矩阵进行拟合（即建模先验分布）</li>
+<li>通过PixelCNN得到编码分布后，就可以随机生成一个新的编码矩阵，然后通过编码表E EE映射为浮点数矩阵，最后经过deocder重构得到一张图片</li>
+</ul>
+<p>​    原文中还有再加<code>middle level</code>，实验结果表明加了middle level之后，生成的图像清晰度更高）</p>
+<p><a href="https://spaces.ac.cn/archives/6760">VQ-VAE的简明介绍：量子化自编码器</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/461693342">生成模型之PixelCNN</a></p>
+<h2 id="扩散模型"><a href="#扩散模型" class="headerlink" title="扩散模型"></a>扩散模型</h2><p>扩散模型包含两个过程：前向扩散过程（forword）和反向生成过程（reverse）：</p>
+<ul>
+<li>前向扩散过程：对数据逐渐增加高斯噪音直至数据变成随机噪音的过程（噪音化）</li>
+<li>反向生成过程：从随机噪音开始逐步去噪音直至生成一张图像（去噪）</li>
+</ul>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/316d832ce0a14e518e0aea30c5afee0b.png" alt="在这里插入图片描述"></p>
+<p><strong>BackBone（大部分扩散模型选用<code>U-Net</code>）</strong></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/441e5fb6708b405183fbda1ad3b64c01.png" alt="在这里插入图片描述"></p>
+<p>​    <code>  U-Net</code>里还有一些<code>skip connection</code>的操作，可以直接将前面的信息传递给后面，以恢复更多的细节。后续还有一些改进，比如在<code>U-Net</code>里加一些attention操作，可以使图像生成的更好，共享参数。</p>
+<p><strong>局限性：</strong>训练推理慢</p>
+<h3 id="DDPM"><a href="#DDPM" class="headerlink" title="DDPM"></a><a href="https://paperswithcode.com/paper/denoising-diffusion-probabilistic-models">DDPM</a></h3><p><strong>贡献 ：</strong></p>
+<ol>
+<li><p>从预测转换图像改进为预测噪声，每次直接从$x_{t}$预测$x_{t-1}$，这种图像到图像的转化不太好优化。所以作者考虑直接去预测从$x_{t}$<br>到$x_{t-1}$ 这一步所添加的噪声$\varepsilon$，这样就简化了问题。</p>
+</li>
+<li><p>time embedding：U-Net模型输入，除了当前时刻的$x_{t}$ ，还有一个输入time embedding（类似transformer里的正弦位置编码），主要用于告诉 U-Net模型，现在到了反向过程的第几步。</p>
+</li>
+<li><p>目标函数：DDPM采用了一个U-Net 结构的Autoencoder来对t时刻的高斯噪声z进行预测。训练目标即希望预测的噪声和真实的噪声一致，所以目标函数为预测噪声和z 的L1 Loss：$ p(\mathbf{x}<em>{t-1} \vert \mathbf{x}<em>t)&#x3D;\left | z-f</em>{\theta }(x</em>{t},t) \right |$， t为时间</p>
+</li>
+<li><p>只预测正态分布的均值</p>
+<p>正态分布由均值和方差决定。作者在这里发现，其实模型不需要学方差，只需要学习均值就行。</p>
+</li>
+</ol>
+<h3 id="Improved-DDPM"><a href="#Improved-DDPM" class="headerlink" title="Improved DDPM"></a><a href="https://arxiv.org/abs/2102.09672">Improved DDPM</a></h3><p>​    <code>improved DDPM</code>作者就觉得如果方差效果应该会更好，改了之后果然取样和生成效果都好了很多。</p>
+<p><code>DDPM</code>添加噪声时采用的线性的<code>variance schedule</code>改为余弦schedule，效果更好（类似学习率从线性改为余弦）</p>
+<h3 id="ADM-Nets"><a href="#ADM-Nets" class="headerlink" title="ADM Nets"></a><a href="https://paperswithcode.com/paper/diffusion-models-beat-gans-on-image-synthesis">ADM Nets</a></h3><ul>
+<li><p>使用大模型：加大加宽网络、使用更多的自注意力头attention head，加大自注意力scale（single-scale attention改为multi-scale attention）</p>
+</li>
+<li><p>提出了新的归一化方式——<code>Adaptive Group Normalization</code>，在文章就是根据步数进行<strong>自适应的归一化</strong>。这个方法是对group归一化的一个改进：</p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/8bad0b6ededd4d8f8149d4bd0881c514.png" alt="在这里插入图片描述"></p>
+<p>$AdaGN(h,y&#x3D;[y_s,y_b])&#x3D;y_s*GroupNorm(h)+y_b$</p>
+<p>上面公式中的$h$是残差块激活函数的输出，$y$是一个线性层对时步和后面用到的类别信息的嵌入。组归一化是对输入的通道方向进行分组归一化的归一化方法.</p>
+</li>
+<li><p>使用<code>classifier guidance</code>的方法，引导模型进行采样和生成。这样不仅使生成的图片更逼真，而且加速了反向采样过程。论文中，只需要25次采样，就可以从噪声生成图片。</p>
+<ul>
+<li>训练一个简单是图片分类器</li>
+<li>CLIP guidance：将简单的分类器换成CLIP之后，文本和图像就联系起来了</li>
+<li>image侧引导：除了利用图像重建进行像素级别的引导，还可以做图像特征和风格层面的引导，只需要一个gram matrix就行。</li>
+<li>text侧：可以用训练好的NLP大模型做引导</li>
+</ul>
+</li>
+</ul>
+<p>更新后的损失 ： $p(x_{t−1}∣x_t)&#x3D;∥z−f_θ*(x_t,t,y)∥$</p>
+<h3 id="Classifier-free-guidance"><a href="#Classifier-free-guidance" class="headerlink" title="Classifier free guidance"></a><a href="https://arxiv.org/abs/2207.12598">Classifier free guidance</a></h3><p>​    classifier free guidance的方式，只是改变了模型输入的内容，除了 conditional输入外（随机高斯噪声输入加引导信息）还有 unconditional 的 采样输入。两种输入都会被送到同一个 diffusion model 从而让其能够具有无条件和有条件生成的能力。得到有条件输出$f_{\theta }(x_{t},t,y)$和无条件输出$f_{\theta }(x_{t},t,\phi )$f后，就可以用前者监督后者，来引导扩散模型进行训练了。最后反向扩散做生成时，我们用无条件的生成,然后加上之前训练的偏移，也能达到类似有条件生成的效果。这样一来就摆脱了分类器的限制</p>
+<h1 id="DALL·E2"><a href="#DALL·E2" class="headerlink" title="DALL·E2"></a><a href="https://arxiv.org/abs/2204.13807">DALL·E2</a></h1><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/image-20230820125542764.png" alt="image-20230820125542764"></p>
+<p>​    prior：先验模型$P(z_i|y)$ ,根据标题$y$生成CLIP的图像特征$z_i$。</p>
+<p>​    decoder ：解码器$P(x|z_i,y)$，生成以CLIP图像特征$z_i$ （和可选的文本标题 $y$）为条件的图像$x$</p>
+<p>​    跟上面讲的一样，prior模型的输入就是CLIP编码的文本特征，其ground truth就是CLIP编码的图片特征，因为是图文对输入模型，CLIP是都能编码的。</p>
+<h2 id="decoder"><a href="#decoder" class="headerlink" title="decoder"></a>decoder</h2><p>​     decoder就是使用扩散模型，生成以CLIP图形特征（和可选标题$y$）为条件的图像，这部分就是在GLIDE基础上改进的。利用了<code>CLIP guidance</code>和<code>classifier-free guidance</code></p>
+<p>​     其次，为了提高分辨率，DALL·E2还用了层级式的生成，也就是训练了两个上采样扩散模型。一个将图像的分辨率从64×64上采样到256×256，另一个接着上采样的1024×1024。同时，为了提高上采样器的鲁棒性，还添加了噪声（第一个上采样阶段使用高斯模糊，对于第二个阶段，使用更多样化的BSR退化）。</p>
+<h2 id="prior"><a href="#prior" class="headerlink" title="prior"></a>prior</h2><p>​    <code>   prior</code>用于从文本特征生成图像特征，这部分作者试验了两种模型，两种模型都用了classifier-free guidance，因 为效果好。</p>
+<ul>
+<li>AR（自回归模型）</li>
+<li>扩散模型：使用的是<code>Transformer decoder</code>处理序列。因为这里输入输出都是embedding序列，所以使用U-Net不太合适。</li>
+</ul>
+<h1 id="总结：大力出奇迹"><a href="#总结：大力出奇迹" class="headerlink" title="总结：大力出奇迹"></a>总结：大力出奇迹</h1><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/IMG_20230827_111312.jpg" alt="IMG_20230827_111312"></p>
+<p>  图像生成这一块的技巧很多，经常连一个模型总览图都很难画出来。但是讲完这么多之后，会发现这些技巧有的时候有用，有的时候没用。</p>
+<ul>
+<li>DDPM提出将直接预测图像改为预测噪声，可以简化优化过程。但是DALL·E2这里又没有沿袭这种预测噪声的做法。</li>
+<li>DALL·E2提出如果有显式的生成图片特征的过程，模型效果会好很多，所以采用了两阶段生成方式。但是Imagen直接上一个U-Net就解决了，更简单，效果也很好。</li>
+<li>CLIP和DALL·E2都说自回归模型训练太贵了，训练太不高效了。但是在7月左右，谷歌又推出了Parti，用pathways模型做自回归的文本图像生成，效果直接超越了DALL·E2和Imagen。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>论文精读</category>
+      </categories>
+      <tags>
+        <tag>扩散模型</tag>
+        <tag>论文精读</tag>
+        <tag>自编码器</tag>
+        <tag>Clip</tag>
+        <tag>生成图像</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>论文精读 对比学习综述 2021</title>
+    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/</url>
+    <content><![CDATA[<h1 id="1-百花齐放"><a href="#1-百花齐放" class="headerlink" title="1. 百花齐放"></a>1. 百花齐放</h1><p>&emsp;在第一阶段上，方法模型都没有统一，目标函数,代理任务也没有统一，所以说是一个百花齐放的年代</p>
+<h2 id="1-1-InstDisc"><a href="#1-1-InstDisc" class="headerlink" title="1.1 InstDisc"></a>1.1 <a href="https://arxiv.org/pdf/1805.01978.pdf">InstDisc</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.1" alt="image-20230731101249802"></p>
+<p>&emsp;<strong>基本思想：</strong>图片聚集在一起的原因，并不是这些图片有相似的语义标签信息，而是因为这些图片长得比较像。通过一个卷积神经网络来将图片进行编码成一个低维特征，然后使得这些特征在特征空间上都尽可能的区分开，因为个体判别认为每张图片都是自成一类，<strong>提出了个体判别任务</strong>。</p>
+<p>&emsp;<strong>Forward：</strong>假设模型的batchsize是256，有256张图片进入CNN网络，将256张图片编码为128维的向量。因为batchsize是256，因此有256个正样本。负样本来自memory bank，每次从memory bank中随机采样出4096个负数样本，利用 InfoNCE loss去更新CNN的参数。本次更新结束后，会将CNN编码得到的向量替换掉memory bank中原有的存储。就这样循环往复的更新CNN和memory bank，最后让模型收敛，就训练好一个CNN encoder了。</p>
+<h2 id="1-2-InvaSpread"><a href="#1-2-InvaSpread" class="headerlink" title="1.2 InvaSpread"></a>1.2 <a href="https://arxiv.org/pdf/1904.03436.pdf">InvaSpread</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.2" alt="image-20230731103807221"></p>
+<p>&emsp;<strong>基本思想：</strong>用mini batch中的数据作为负样本，使用一个编码器进行端到端的学习，所选取的字典长度不够大。</p>
+<p>&emsp;<strong>Forward：</strong>首先利用数据增广，将每个图片增广一次，也就是将256张图片变为512个图片了。之后将512张图片通过CNN编码为向量，并使用一个全连接层将数据的维度降低。之后将$x{i}$和其经过增广后的图$\widetilde{x}{i}$作为正样本，其余的512-2张图片都认为是负样本。所以总计有256个正例，有2×（256-1）张负例。之后的在特征空间中$x{i}$ 与$\widetilde{x}{i}$的距离应该尽可能相近，而$x{i}$与$\widetilde{x}_{j}$的距离应该尽可能相远。</p>
+<p>&emsp;<strong>以上两篇工作都是使用个体判别 Instance Discrimination 作为代理任务的</strong></p>
+<h2 id="1-3-CPC"><a href="#1-3-CPC" class="headerlink" title="1.3 CPC"></a>1.3 <a href="https://arxiv.org/pdf/1807.03748.pdf">CPC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.3" alt="image-20230731112441320"></p>
+<p>&emsp;<strong>基本思想：</strong>有一个持续的序列，把之前时刻的输入喂给编码器，返回的特征再喂给一个自回归模型gar（auto-regressive，一般的自回归模型是RNN或LSTM），然后得到一个context representation，这是一个代表上下文的特征表示。如果context representation足够好，那么其应该可以做出一些合理的预测，所以可以用$c_{t}$预测未来时刻的特征输出$z_{t+i}$</p>
+<p>&emsp;<strong>生成式的代理任务</strong></p>
+<h2 id="1-4-CMC"><a href="#1-4-CMC" class="headerlink" title="1.4 CMC"></a>1.4 <a href="https://arxiv.org/pdf/1906.05849.pdf">CMC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.4" alt="image-20230731113140008"></p>
+<p>&emsp;<strong>基本思想：</strong>CMC想学一个非常强大的特征，其具有视角的不变性（不管是看见了一只狗，还是听到了狗叫声，都能判断出这是个狗）。所以，CMC的工作目的就是去增大这个互信息，就是所有视角之间的互信息。如果能学到一种特征，能够抓住所有视角下的这个关键的因素，那么这个特征就比较好。<strong>最大化互信息</strong></p>
+<p>&emsp;<strong>方法：</strong>输入view来自于不同的传感器，或者说是不同的模态，但是这些所有的输入其实对应的都是一整的图片，一个东西，那么它们就应该互为正样本，相互配对。而这些相互配对的视角在特征空间中应该尽可能的相近，而与其他的视角尽可能的远离。Teacher和student编码得到的相同图片的向量互为正例，不同图片得到的输出作为负例，利用对比学习的思路进行知识蒸馏。</p>
+<p>&emsp;<strong>问题：</strong>在于multi view的工作可能需要多个编码器进行编码，训练代价可能有点高。比如CLIP，就是用大型的语言编码器BERT对语言模型进行编码，用视觉模型VIT对视觉信息进行编码。</p>
+<p>InfoMin是CMC的作者做的一个分析型的延伸性工作，要是提出了一个InfoMin的原则，InfoMin的本意是不能一味的最大化这个互信息，而是要不多不少刚刚好，去选择合适的数据增强与合适的对比学习的视角。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>&emsp;可以看到以上的工作代理任务不尽相同，其中有个体判别，有预测未来，还有多视角多模态。使用的目标函数也不尽相同，有NCE，infoNCE以及其变体。使用的模型也可以是不同的，比如InvaSpread使用的是相同的编码器对key和query进行编码，CMC对key和query使用的是不同的编码，是百花齐放的。</p>
+<h1 id="2-CV双雄"><a href="#2-CV双雄" class="headerlink" title="2. CV双雄"></a>2. CV双雄</h1><h2 id="2-1-MoCo-v1"><a href="#2-1-MoCo-v1" class="headerlink" title="2.1 MoCo v1"></a>2.1 <a href="https://arxiv.org/pdf/1911.05722.pdf">MoCo v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1" alt="image-20230731142805835"></p>
+<p>&emsp;<strong>基本思想：</strong>将一系列的对比学习方法归纳为一个字典查询的问题building dynamic dictionaries。将负样本图片通过编码器后所得的输出看成是一个特征key，将正样本图片通过另外一个编码器所得到的输出看成是一个query。对比学习本质上，就是希望在字典中找到与query最匹配的那个key，而这个key是正样本通过一些列的数据增强变化获得，所以语义信息应该相同，在特征空间上也应该类似，而与其他的负样本的特征key应该尽可能的远离，损失函数InfoNEC</p>
+<p>&emsp;<strong>贡献：</strong></p>
+<ol>
+<li>queue 数据结构</li>
+<li>Momentum Encoder  $θ_k←mθ{_k}+(1−m)θq$</li>
+<li>Shuffling BN -　BN可能导致信息泄露</li>
+</ol>
+<p><strong>对比：</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1-2" alt="image-20230731144205429"></p>
+<p><strong>方法：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Algorithm 1 Pseudocode of MoCo in a PyTorch-like style</span></span><br><span class="line"><span class="comment"># f_q, f_k: encoder networks for query and key</span></span><br><span class="line"><span class="comment"># queue: dictionary as a queue of K keys (CxK)</span></span><br><span class="line"><span class="comment"># m: momentum</span></span><br><span class="line"><span class="comment"># t: temperature</span></span><br><span class="line">f_k.params = f_q.params <span class="comment"># initialize</span></span><br><span class="line">	<span class="keyword">for</span> x <span class="keyword">in</span> loader: 	<span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">	x_q = aug(x)		<span class="comment"># a randomly augmented version</span></span><br><span class="line">	x_k = aug(x)		<span class="comment"># another randomly augmented version</span></span><br><span class="line">	</span><br><span class="line">	q = f_q.forward(x_q) 	<span class="comment"># queries: NxC (256x128)</span></span><br><span class="line">	k = f_k.forward(x_k) 	<span class="comment"># keys: NxC (256x128)</span></span><br><span class="line">	k = k.detach() 			<span class="comment"># no gradient to keys</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># positive logits: Nx1 (256x1)</span></span><br><span class="line">	l_pos = bmm(q.view(N,<span class="number">1</span>,C), k.view(N,C,<span class="number">1</span>))	<span class="comment"># q·k+</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># negative logits: NxK (256x65536)</span></span><br><span class="line">	l_neg = mm(q.view(N,C), queue.view(C,K))	<span class="comment"># sum q·ki</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># logits: Nx(1+K) (256x65537)</span></span><br><span class="line">	logits = cat([l_pos, l_neg], dim=<span class="number">1</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># contrastive loss, Eqn.(1)</span></span><br><span class="line">	labels = zeros(N) <span class="comment"># positives are the 0-th；利用pytorch函数特性</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/t, labels)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># SGD update: query network</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	update(f_q.params)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># momentum update: key network</span></span><br><span class="line">	f_k.params = m * f_k.params+(<span class="number">1</span>-m) * f_q.params</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># update dictionary</span></span><br><span class="line">	enqueue(queue, k) 	<span class="comment"># enqueue the current minibatch</span></span><br><span class="line">	dequeue(queue) 		<span class="comment"># dequeue the earliest minibatch</span></span><br><span class="line"><span class="comment"># bmm: batch matrix multiplication; mm: matrix multiplication; cat: concatenation.</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-SimCLR-v1"><a href="#2-2-SimCLR-v1" class="headerlink" title="2.2 SimCLR v1"></a>2.2 <a href="https://arxiv.org/pdf/2002.05709.pdf">SimCLR v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2" alt="image-20230731144944108"></p>
+<p>&emsp;<strong>思路：</strong>假如有一个minibatch的图片，对整个minibatch的所有图片做数据增强，对图片x xx做不同的数据增强就会得$x_{i}$和$x_{j}$ 同一个图片延申得到的两个图片就是正样本，比如batchSize是n的话，那么正样本就是n，这个batchsize剩下的所有的样本以及其经过数据增强后得到的都是负样本，也就是2(n-1)。有了正负样本之后，对其进行编码，通过一个编码器$f ( ⋅ )$得到正负样本的编码结。SimCLR的创新点就是在得到数据的编码之后在后面加了一个编码层$g ( ⋅ )$函数，就是一个MLP层，得到较低维度的特征$z_{i}$和 $z_{j}$ ，用其进行对比学习，拉近正例之间的距离，拉远负例之间的距离。但是需要注意的一点就是投影函数仅仅在训练的时候才使用，在测试的时候是不使用的，测试的时候仅仅使用编码器$f(·)$ 。加上投影函数的目的也仅仅是想让模型训练的更好。</p>
+<p><strong>与InvaSpread相比：</strong></p>
+<ol>
+<li><p>SimCLR使用了更多的数据增强 其中随机的裁剪以及随机的色彩变换最重要</p>
+</li>
+<li><p>加入了投影的$g ( ⋅ )$ 函数</p>
+</li>
+<li><p>就是SimCLR用了更大的batchsize，且训练的时间更久</p>
+</li>
+</ol>
+<p>&emsp;<strong>损失函数：</strong>the normalized temperature-scaled cross entropy loss</p>
+<p><strong>方法：</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2-2" alt="image-20230731152831099"></p>
+<h2 id="2-3-MoCo-v2"><a href="#2-3-MoCo-v2" class="headerlink" title="2.3 MoCo v2"></a>2.3 <a href="https://arxiv.org/pdf/2003.04297.pdf">MoCo v2</a></h2><p><strong>改进：</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.3" alt="image-20230731153325242"></p>
+<p>更省钱！！</p>
+<h2 id="2-4-SimCLR-v2"><a href="#2-4-SimCLR-v2" class="headerlink" title="2.4 SimCLR v2"></a>2.4 <a href="https://arxiv.org/pdf/2006.10029.pdf">SimCLR v2</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.4" alt="image-20230731153856595"></p>
+<h2 id="2-5-SWaV"><a href="#2-5-SWaV" class="headerlink" title="2.5 SWaV"></a>2.5 <a href="https://arxiv.org/pdf/2006.09882.pdf">SWaV</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.5" alt="image-20230731154140013"></p>
+<p>&emsp;<strong>基本思想：</strong>给定同样的一张图片，如果去生成不同的视角（views），希望可以用一个视角得到的特征去预测另外一个视角的得到的特征，因为所有的这些视角的特征按道理来说都应该是非常接近的。然后SWaV将对比学习和之前的聚类的方法合在的一起，这样做也不是偶然，因为聚类也是无监督特征表示学习的方法，而且它也希望相似的物体都聚集在一个聚类中心附近，不相似的物体推到别的聚类中心</p>
+<p>&emsp;<strong>方法：</strong>聚类中心C CC就是Prototypes，作为一个矩阵维度是$d $$ *k$（d是特征的维度128维，k是聚类中心的数目3000）SwAV前向过程依旧是一个实例x通过两次数据增强变为 $x_{1}$ 和$x_{2}$ ，之后利用编码器对其进行编码，从而得到嵌入向量$z_{1}$ 和$z_{2}$ 。但是有了$z_{1}$和$z_{2}$ 之后，并不是直接在特征上去做对比学习的loss，而且让 $z_{1}$和$z_{2}$和聚类中心C进行聚类，从而得到ground truth的标签$Q_{1}$ 和$Q_{2}$ 。如果说两个特征比较相似或者是含有等量的信息，按道理来说应该是可以相互预测的。也就是说，用$z_{1}$ 和C作点乘按道理是可以去预测$Q_{2}$的，反过来用$z_{2}$ 和C作点乘按道理是可以去预测$Q_{1}$ 的，SwAV通过这种换位交叉预测的方法来对模型进行训练更新参数。</p>
+<p><strong>keys:</strong></p>
+<ol>
+<li>Multi-crop：两个160×160的crop去注意全局特征，选择四个96×96的crop去注意局部特征</li>
+<li>聚类</li>
+</ol>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>&emsp;到了第二阶段，其实很多细节都趋于统一了，比如目标函数都是使用infoNCE，模型都归一为用一个encoder+projection head了，大家都采用了一个更强的数据增强，都想用一个动量编码器，也都尝试训练更久，最后在ImageNet上的准确度也逐渐逼近于有监督的基线模型。</p>
+<h1 id="3-不用负样本"><a href="#3-不用负样本" class="headerlink" title="3. 不用负样本"></a>3. 不用负样本</h1><h2 id="3-1-BYOL"><a href="#3-1-BYOL" class="headerlink" title="3.1 BYOL"></a>3.1 <a href="https://arxiv.org/pdf/2006.07733.pdf">BYOL</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.1" alt="image-20230731161241934"></p>
+<p>&emsp;在之前的对比学习工作中，是让$z_{\theta}$和$z_{\xi}^{‘}$尽可能的相似，而在BYOL这里，又加了一层predictor的全连接层$q_{\theta}$ ，$q_{\theta}$ 的网络结构和$g_{\theta}$ 的网络结构是完全一样的$z_{\theta}$ 通过$q_{\theta}$又得到了一个新的特征$q_{\theta}(z_{\theta})$现在的目的是想让特征$q_{\theta}(z_{\theta})$与$z_{\xi}^{‘}$</p>
+<p>&emsp;图中的sg表示<code>stop gradient</code>，这里是没有梯度的。模型的上一支相当于<code>query</code>编码器，下面一支相当于<code>key</code>编码器，而<code>key</code>编码器都是通过<code>query</code>编码器来动量更新。不同是代理任务不一样，BYOL相当于是自己一个视角的特征去预测另外一个视角的特征，通过这种预测性的任务来完成模型的训练。</p>
+<p>&emsp;<strong>损失函数：</strong>MSE</p>
+<h2 id="3-2-SimSiam"><a href="#3-2-SimSiam" class="headerlink" title="3.2 SimSiam"></a>3.2 <a href="https://arxiv.org/pdf/2011.10566.pdf">SimSiam</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2" alt="image-20230731163008906"></p>
+<p>&emsp;<strong>基本思想：</strong>实例x xx经过数据增强变为$x_{1}$ 和$x_{2}$ ，之后经过孪生的编码器$f ( ⋅ )$ ，得到嵌入$z_{1}$和$z_{2}$  ，之后经过预测层得到$p_{1}$ 和$p_{2}$ ，之后让$p_{1}$ 预测$z_{2}$，用$ p_{2}$去预测$z_{1}$，进行模型的训练。</p>
+<p><strong>伪代码：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f: backbone + projection mlp</span></span><br><span class="line"><span class="comment"># h: prediction mlp</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># random augmentation</span></span><br><span class="line">	z1, z2 = f(x1), f(x2) <span class="comment"># projections, n-by-d</span></span><br><span class="line">	p1, p2 = h(z1), h(z2) <span class="comment"># predictions, n-by-d</span></span><br><span class="line">	</span><br><span class="line">	L = D(p1, z2)/<span class="number">2</span> + D(p2, z1)/<span class="number">2</span> <span class="comment"># loss</span></span><br><span class="line">	</span><br><span class="line">	L.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	update(f, h) <span class="comment"># SGD update</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">D</span>(<span class="params">p, z</span>): <span class="comment"># negative cosine similarity   负余弦相似性</span></span><br><span class="line">	z = z.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	</span><br><span class="line">	p = normalize(p, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	z = normalize(z, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	<span class="keyword">return</span> -(p*z).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;SimSiam能够成功训练的原因，不会发生模型坍塌，主要就是因为有<code>stop gradient</code>这个操作的存在。由于<code>stop gradient</code>，可以将SimSiam的结构看成是一个EM算法，相当于是在解决两个子问题，而模型更新也在交替进行，相当于不断的更新聚类中心。</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2-2" alt="image-20230731164336674"></p>
+<h1 id="4-Transformer"><a href="#4-Transformer" class="headerlink" title="4. Transformer"></a>4. Transformer</h1><p>&emsp;在vision transformer之后，因为其大大提升了encoder的效果，所以很多对比学习任务打算使用vision transformer作为backbone进行对比学习，涌现出了两篇工作，分别是MoCov3和DINO。</p>
+<h2 id="4-1-MoCo-v3"><a href="#4-1-MoCo-v3" class="headerlink" title="4.1 MoCo v3"></a>4.1 <a href="https://arxiv.org/pdf/2104.02057.pdf">MoCo v3</a></h2><p>骨干网络从ResNet 替换为 ViT</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f_q: encoder: backbone + proj mlp + pred mlp</span></span><br><span class="line"><span class="comment"># f_k: momentum encoder: backbone + proj mlp</span></span><br><span class="line"><span class="comment"># m: momentum coefficient</span></span><br><span class="line"><span class="comment"># tau: temperature</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># augmentation</span></span><br><span class="line">	q1, q2 = f_q(x1), f_q(x2) <span class="comment"># queries: [N, C] each</span></span><br><span class="line">	k1, k2 = f_k(x1), f_k(x2) <span class="comment"># keys: [N, C] each</span></span><br><span class="line">	</span><br><span class="line">	loss = ctr(q1, k2) + ctr(q2, k1) <span class="comment"># symmetrized</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	</span><br><span class="line">	update(f_q) <span class="comment"># optimizer update: f_q</span></span><br><span class="line">	f_k = m*f_k + (<span class="number">1</span>-m)*f_q <span class="comment"># momentum update: f_k</span></span><br><span class="line">	</span><br><span class="line"><span class="comment"># contrastive loss</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ctr</span>(<span class="params">q, k</span>):</span><br><span class="line">	logits = mm(q, k.t()) <span class="comment"># [N, N] pairs</span></span><br><span class="line">	labels = <span class="built_in">range</span>(N) <span class="comment"># positives are in diagonal</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/tau, labels)</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span> * tau * loss</span><br><span class="line">	</span><br><span class="line"><span class="comment"># Notes: mm is matrix multiplication. k.t() is k’s transpose. The prediction head is excluded from f k (and thus the momentum update).</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>第一阶段的Patch投影时冻住，有效解决梯度波动问题</p>
+<h2 id="4-2-DINO"><a href="#4-2-DINO" class="headerlink" title="4.2 DINO"></a>4.2 <a href="https://arxiv.org/pdf/2104.14294.pdf">DINO</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.1" alt="image-20230731165738061"></p>
+<p>&emsp;这里想表达的意思是一个完全不用任何标签信息训练出来的Vision Transformers，如果将其自注意力图拿出来进行可视化，可以发现其可以非常准确的抓住每个物体的轮廓，这个效果甚至可以直接匹配对这个物体作语义分割。</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.2" alt="image-20230731165935686"></p>
+<p>&emsp;DINO的前向过程都是类似的，当有一个图片x的两个视角$x_{1}$和$x_{2}$之后，$ x_{1}$和$x_{2}$分别通过学生网络编码器$g_{\theta s}$和教师网络编码器$g_{\theta t}$得到两个特征$p_{1}$和$p_{2}$，其中编码器结构中同样包含projection head和prediction head。而为了避免模型的坍塌，DINO做了一个额外的工作centering，这个操作就是把整个batch里的样本都算一个均值，然后减掉这个均值其实就是centering。最后也是有一个stop gradient的操作，然后用$p_{1}$预测$p_{2}$ </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># gs, gt: student and teacher networks</span></span><br><span class="line"><span class="comment"># C: center (K)</span></span><br><span class="line"><span class="comment"># tps, tpt: student and teacher temperatures</span></span><br><span class="line"><span class="comment"># l, m: network and center momentum rates</span></span><br><span class="line"></span><br><span class="line">gt.params = gs.params</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = augment(x), augment(x) <span class="comment"># random views</span></span><br><span class="line">	</span><br><span class="line">	s1, s2 = gs(x1), gs(x2) <span class="comment"># student output n-by-K</span></span><br><span class="line">	t1, t2 = gt(x1), gt(x2) <span class="comment"># teacher output n-by-K</span></span><br><span class="line">	</span><br><span class="line">	loss = H(t1, s2)/<span class="number">2</span> + H(t2, s1)/<span class="number">2</span></span><br><span class="line">	loss.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># student, teacher and center updates</span></span><br><span class="line">	update(gs) <span class="comment"># SGD</span></span><br><span class="line">	gt.params = l*gt.params + (<span class="number">1</span>-l)*gs.params</span><br><span class="line">	C = m*C + (<span class="number">1</span>-m)*cat([t1, t2]).mean(dim=<span class="number">0</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">H</span>(<span class="params">t, s</span>):</span><br><span class="line">	t = t.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	s = softmax(s / tps, dim=<span class="number">1</span>)</span><br><span class="line">	t = softmax((t - C) / tpt, dim=<span class="number">1</span>) <span class="comment"># center + sharpen</span></span><br><span class="line">	<span class="keyword">return</span> - (t * log(s)).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/5" alt="image-20230731222419004"></p>
+]]></content>
+      <categories>
+        <category>论文精读</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>对比学习</tag>
+        <tag>MoCo</tag>
+        <tag>SimCLR</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>论文精读-视频理解综述-2021</title>
+    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/</url>
+    <content><![CDATA[<h1 id="0-综述"><a href="#0-综述" class="headerlink" title="0. 综述"></a>0. <a href="https://arxiv.org/abs/2012.06567">综述</a></h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/17419fc1a483496b95d7c3befa1e09f2.png"></p>
+<h1 id="1-Hand-Crafted-CNN"><a href="#1-Hand-Crafted-CNN" class="headerlink" title="1. Hand-Crafted- &gt;CNN"></a>1. Hand-Crafted- &gt;CNN</h1><h2 id="1-1-DeepVideo"><a href="#1-1-DeepVideo" class="headerlink" title="1.1 DeepVideo"></a>1.1 <a href="http://vision.stanford.edu/pdf/karpathy14.pdf">DeepVideo</a></h2><p> **&emsp;**探索可以用在视频上使用的各种神经网络：各种方法都差不多，第四种方法好些</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/356339da9c9342fd9a7310b4f66b5472.png"></p>
+<p><strong>&emsp;开始讲故事</strong></p>
+<p> <strong>&emsp;多分辨率神经网络</strong>：两个权值共享的网络，一个处理低分辨率的图像，一个处理高分辨率的图像（图片的中心区域），人为提高了注意力</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/0c5ae0bbb1ab4b4988b6b2888fa716cc.png"></p>
+<h1 id="2-Two-Stream"><a href="#2-Two-Stream" class="headerlink" title="2. Two-Stream"></a>2. Two-Stream</h1><p>&emsp;双流网络在这里指的是同时使用光流抽取的特征和图片（视频帧）本身的特征进行网络训练；经测试这种方法可以很大地提高网络捕捉动态效果的能力</p>
+<h2 id="2-1-Two-Stream-Networks"><a href="#2-1-Two-Stream-Networks" class="headerlink" title="2.1 Two-Stream Networks"></a>2.1 <a href="https://arxiv.org/abs/1406.2199">Two-Stream Networks</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/cfad261fe34944ceb7ce2a679ed6c198.png"></p>
+<p>&emsp;late fusion-&gt;early fusion; AlexNet-&gt;Resnet Vgg;  加入</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.2" alt="image-20230811154121029"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.3" alt="image-20230811154214236"></p>
+<h2 id="2-2-Beyond-Short-Snippets"><a href="#2-2-Beyond-Short-Snippets" class="headerlink" title="2.2 Beyond Short Snippets"></a>2.2 <a href="https://arxiv.org/abs/1503.08909">Beyond Short Snippets</a></h2><p>&emsp;想办法适应更长时间的视频、动作特征的提取等等。<strong>Pooling ，Lstm提取时序信息</strong>，但是LSTM效果不明显，可能是一个短的时序信息变化不大，内容相似，Lstm学习不到有用的信息，需要长视频&#x2F;变化大</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/e2cd961902be4bc9bb8a3bf3912cd0f5.png"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.2.2" alt="image-20230811154751109"></p>
+<h2 id="2-3-Convolutional-Fusion"><a href="#2-3-Convolutional-Fusion" class="headerlink" title="2.3 Convolutional Fusion"></a>2.3 <a href="https://arxiv.org/abs/1604.06573">Convolutional Fusion</a></h2><p>&emsp;当有时间流和空间流两个网路之后，如何保证时间和空间的特征图在同样的位置上他们产生的通道respones是差不多能联系起来的。</p>
+<p>通常对于一个具有三个维度特征的数据而言我们有很多的探究方向：</p>
+<ol>
+<li>Spatial fusion ： 空间特征融合</li>
+<li>Time fusion ： 时间维度特征融合</li>
+<li>在网络的一层进行特征融合</li>
+</ol>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.1" alt="image-20230811155528639"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.3" alt="image-20230812093737912"></p>
+<p>&emsp;时间维度上的融合</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.2" alt="image-20230811155626303"></p>
+<p>&emsp;蓝：空间 绿：时间</p>
+<h2 id="2-4-TSN"><a href="#2-4-TSN" class="headerlink" title="2.4 TSN"></a>2.4 <a href="https://arxiv.org/abs/1608.00859">TSN</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.4.1" alt="image-20230811155948188"></p>
+<p><strong>步骤</strong></p>
+<ol>
+<li>将视频分为多个段，从每段中抽取一帧的RGB图片，然后对这个图片进行光流计算</li>
+<li>重复工作，对不同段进行相同工作</li>
+<li>如果段分得比较小，那么抽取的特征在理论上是描述的同一个物体的运动特征</li>
+<li>最后进行一个特征融合，进行分类工作</li>
+</ol>
+<p><strong>技巧：</strong></p>
+<ol>
+<li>视频分段 </li>
+<li>ImageNet训练的模型应用到光流</li>
+<li>partial BN</li>
+<li>数据增强 专门对边角裁剪 改变长宽比 {256 224 192 168}</li>
+</ol>
+<h1 id="3-3D-ConvNet"><a href="#3-3D-ConvNet" class="headerlink" title="3. 3D ConvNet"></a>3. 3D ConvNet</h1><h2 id="3-1-C3D"><a href="#3-1-C3D" class="headerlink" title="3.1 C3D"></a>3.1 <a href="https://arxiv.org/abs/1412.0767v3">C3D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.1.1" alt="image-20230811161145952"></p>
+<p>&emsp;C3D主要是提供了一种抽取特征做其他任务的方法（因为训练一个大型的3D网络非常昂贵，很多研究者无法训练），C3D作者将训练好的模型的接口提供给其他人，其他人只需要输入视频就可以得到抽取的特征（4096序列），这样就可以根据抽取的特征进行后续处理了。</p>
+<h2 id="3-2-I3D-Inflated"><a href="#3-2-I3D-Inflated" class="headerlink" title="3.2 I3D-Inflated"></a>3.2 <a href="https://arxiv.org/abs/1705.07750">I3D-Inflated</a></h2><p><strong>贡献：</strong></p>
+<ol>
+<li>可以方便地将2D网络扩张到3D之中-直接复制权重，可以用巧妙的方法利用预训练模型</li>
+<li>提出了kinetics数据集</li>
+</ol>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.1" alt="image-20230811161448871"></p>
+<p>&emsp;Two-Stream 3D-ConvNet效果最好</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.2" alt="image-20230811161620887"></p>
+<p>&emsp;<strong>在空间、时间和网络深度上对感受野的增长进行调整：对于图片的两个空间维度，我们通常使用相同的卷积长度&#x2F;池化长度，但是在时间维度上并不相同，时间维度的kernel长度取决于帧率和图片大小。如果在时域内变化太块，它可能会混淆不同物体的边缘，破坏早期的特征检测，而如果它增长得太慢，它可能无法很好地捕捉场景的动态。动态性。</strong></p>
+<h2 id="3-3-Non-local"><a href="#3-3-Non-local" class="headerlink" title="3.3 Non-local"></a>3.3 <a href="https://arxiv.org/abs/1711.07971">Non-local</a></h2><p>&emsp;<strong>加入自注意力</strong>，<strong>即插即用</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.1" alt="image-20230811162201101"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.2" alt="image-20230811162305487"></p>
+<h2 id="3-4-R2-1D"><a href="#3-4-R2-1D" class="headerlink" title="3.4 R2+1D"></a>3.4 <a href="https://openaccess.thecvf.com/content_cvpr_2018/CameraReady/2648.pdf">R2+1D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.1" alt="image-20230811163007150"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.2" alt="image-20230811163038972"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.3" alt="image-20230811163124035"></p>
+<h2 id="3-5-SlowFast"><a href="#3-5-SlowFast" class="headerlink" title="3.5 SlowFast"></a>3.5 <a href="https://arxiv.org/abs/1812.03982">SlowFast</a></h2><p>&emsp;讲故事：慢的分支网络学习视频中的静态特征，快分支学习视频中的动态特征。</p>
+<ul>
+<li>慢分支使用小输入，大网络</li>
+<li>快分支使用大输入，小网络</li>
+<li>中间使用natural connection进行特征融合</li>
+</ul>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.1" alt="image-20230811163321352"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.2" alt="image-20230811163354776"></p>
+<h1 id="4-Video-Transformer"><a href="#4-Video-Transformer" class="headerlink" title="4. Video Transformer"></a>4. Video Transformer</h1><h2 id="4-1-Space-Time-Attention"><a href="#4-1-Space-Time-Attention" class="headerlink" title="4.1 Space-Time Attention"></a>4.1 <a href="https://arxiv.org/abs/2102.05095">Space-Time Attention</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.1.1" alt="image-20230811163530398"></p>
+<ul>
+<li>直接将Attention应用到图片的方法迁移到视频之中（空间注意力）</li>
+<li>在时间上和空间上分别做三个自注意力机制，进行融合</li>
+<li><strong>拆分为空间和时间上分别进行注意力机制计算（时间-&gt; 空间）</strong>文章提出</li>
+<li>local global拆分（在局部进行注意力计算）</li>
+<li>沿着特定的轴进行注意力计算（将三维拆分为三个一维进行注意力机制计算）</li>
+</ul>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.2.1" alt="image-20230811163643822"></p>
+<p>&emsp;想法简单、效果好、容易迁移、可以用于处理超过1min的视频</p>
+<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/5.1"></p>
+<p><strong>对于时间和空间相结合的一些策略可以借鉴</strong></p>
+<ol>
+<li>3D卷积怎么做：最新的方法都是做一些拆分，将3D卷积分为时间和空间分别的卷积</li>
+<li>特征融合的方法：early fusion、latent fusion</li>
+<li>三维网络中一些关键层（如BN）如何设置：只要第一层的BN？</li>
+<li>3D网络中的时间维度尽量不要做下采样</li>
+<li>Vision Transformer降维打击，提高精度、减小计算消耗、加大处理时长（看到更长的时序信息)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>论文精读</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>视频理解</tag>
+        <tag>3D卷积</tag>
+        <tag>双流网络</tag>
+        <tag>Transformer</tag>
+      </tags>
   </entry>
   <entry>
     <title>论文精读-多模态综述-2023</title>
@@ -169,316 +482,817 @@
       </tags>
   </entry>
   <entry>
-    <title>论文精读-DELL·E2-2022</title>
-    <url>/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/</url>
-    <content><![CDATA[<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/2e470107269d4e44a8e352fc87dd49ce.png"></p>
-<p>   生成器<code>G</code>从给定噪声中（一般是指均匀分布或者正态分布）采样来合成数据，判别器<code>D</code>用于判别样本是真实样本还是G生成的样本。<code>G</code>的目标就是尽量生成真实的图片去欺骗判别网络<code>D</code>，使<code>D</code>犯错；而<code>D</code>的目标就是尽量把<code>G</code>生成的图片和真实的图片分别开来</p>
-<p>局限性：</p>
+    <title>综述文章 CV中的注意力机制-2022</title>
+    <url>/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<p>&emsp;文章原文：**<a href="https://arxiv.org/pdf/2111.07624.pdf">Attention Mechanisms in Computer Vision: A Survey</a>**</p>
+<p>&emsp;本片中的方法代码实现<a href="https://github.com/MenghaoGuo/Awesome-Vision-Attentions">Github</a>，是基于新的框架<a href="https://cg.cs.tsinghua.edu.cn/jittor/">Jittor</a></p>
+<h1 id="技术介绍"><a href="#技术介绍" class="headerlink" title="技术介绍"></a>技术介绍</h1><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.1-1" alt="image-20230915095934524"></p>
+<p>&emsp;注意力机制根据数据域分类。其中包含了四种分类：通道注意力、空间注意力、时间注意力、分支注意力，其中有两个重叠类，即通道-空间注意力(全体与局部结合)、空间-时间注意力(3D Conv中用到)。空集表示这种组合还不存在<strong>（2022年前）</strong>。</p>
+<p>$$Attention&#x3D;f(g(x),x)$$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.1-2" alt="image-20230915100015661"></p>
+<p>&emsp;通道、空间和时间注意力能够被看作是在不同的域(维度)上操作。C表示通道域，H和W表示空间域，T表示时间域。分支注意力是对这些的补充。可以看作固定某几维后，按在剩余几维中点的重要性分配权重。</p>
+<h2 id="近期发展历程"><a href="#近期发展历程" class="headerlink" title="近期发展历程"></a>近期发展历程</h2><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2-2" alt="image-20230915095845079"></p>
 <ol>
-<li>训练不够稳定</li>
-<li>GANs生成的多样性不够好</li>
-<li>GANs是隐式生成，不够优美</li>
-</ol>
-<h2 id="AE（Autoencoder）和-DAE-Denoising-Autoencoder"><a href="#AE（Autoencoder）和-DAE-Denoising-Autoencoder" class="headerlink" title="AE（Autoencoder）和 DAE(Denoising Autoencoder)"></a><a href="https://paperswithcode.com/method/autoencoder">AE（Autoencoder）</a>和 DAE(Denoising Autoencoder)</h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/60fd506454ac4280a0d015385d25944a.png"></p>
-<p><code>  DAE</code>（Denoising Autoencoder），就是先把原图$x$进行一定程度的打乱</p>
-<h2 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a><a href="https://paperswithcode.com/paper/auto-encoding-variational-bayes">VAE</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0879f80567c94e0892037517d797b997.png" alt="在这里插入图片描述"></p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/v2-df06f2d1471615dae76b1e09488091b5_720w.webp" alt="img"></p>
-<p>​      VAE（Variational Auto-Encoder-变分自编码器）就是借助了这种encoder-decoder的结构去做生成，和AE最主要的区别就是不再去学习中间的bottleneck特征了，而是去学习一种分布。</p>
-<p>  作者假设中间的分布是一个高斯分布（用均值μ 和方差σ 来描述）。具体来说，就是将输入x进行编码得到特征之后，再接一些FC层，去预测中间分布的μ 和σ 。</p>
-<p>  μ 和σ 训练好之后，就可以扔掉encoder了。推理时直接从训练好的分布去采样一些z 出来（ $z&#x3D;\mu +\sigma \cdot \varepsilon$），然后进行解码，这样VAE就可以用来做生成了</p>
-<p><a href="https://spaces.ac.cn/archives/5253">变分自编码器（一）：原来是这么一回事</a></p>
-<h2 id="VQ-VAE"><a href="#VQ-VAE" class="headerlink" title="VQ-VAE"></a>VQ-VAE</h2><h3 id="VQ-VAE-1"><a href="#VQ-VAE-1" class="headerlink" title="VQ-VAE"></a><a href="https://paperswithcode.com/paper/neural-discrete-representation-learning">VQ-VAE</a></h3><p>​    如果还是之前VAE的模式，就不好把模型做大，分布也不好学。取而代之的不是去直接预测分布z，而是用一个codebook代替。codebook可以理解为聚类的中心，大小一般是K*D（K&#x3D;8192，Dim&#x3D;512&#x2F;768），也就是有8192个长为D的向量（聚类中心）</p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE" alt="image-20230824173457718"></p>
-<p>​     $x$输入编码器得到高宽分别为$( h , w )$ 的特征图f，然后计算特征图里的向量和codebook里的向量（聚类中心）的相似性。接着把和特征图最接近的聚类中心向量的编号（1-8192）存到矩阵z里面。训练完成之后，不再需要编码特征f ff，而是取出矩阵z中的编号对应的codebook里面的向量，生成一个新的特征图q（量化特征quantised feature）。最后和之前一样，使用q解码重构原图。此时这个量化特征就非常可控了，因为它们永远都是从codebook里面来的，而非随机生成，这样优化起来相对容易。</p>
-<p>​    编码器输出$z ( x )$ 会mapped到最相近（nearest）的点$e 2$ 。红色线的梯度$\triangledown _{z}$L，迫使encoder在下一次forword时改变其输出（参数更新）</p>
-<p>​    VQ-VAE也可以用来做CV领域的自监督学习，比如BEIT就是把<strong>DALL·E训练好的codebook拿来用。将图片经过上面同样的过程quantise成的特征图作为ground truth</strong>，自监督模型来训练一个网络。后续还有VL-BEIT（vision language BEIT）的工作，也是类似的思路，只不过是用一个Transformer编码器来做多模态的任务。</p>
-<p><strong>局限性：</strong></p>
-<p> 如果想让VA-VAE做生成，就需要单独训练一个<code>prior</code>网络，在论文里，作者就是训练了一个<code>pixcl-CNN</code>（利用训练好的codebook去做生成）。</p>
-<h3 id="VQ-VAE-2"><a href="#VQ-VAE-2" class="headerlink" title="VQ-VAE 2"></a><a href="https://paperswithcode.com/paper/190600446">VQ-VAE 2</a></h3><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE-2" alt="image-20230824173625860"></p>
-<p>​    本身是对VQ-VAE的简单改进，是一个层级式的结构。VQ-VAE2不仅做局部的建模，而且还做全局的建模（加入attention），所以模型的表达能力更强了。同时根据codebook学了一个prior，所以生成的效果非常好。总体来说VQ-VAE2是一个两阶段的过程：</p>
-<ul>
-<li><p>训练编解码器，使其能够很好的复现图像</p>
+<li><p>第一阶段：从RAM开始的开创性工作，将深度神经网络与注意力机制相结合。它反复预测重要区域。并以端到端的方式更新整个网络。之后，许多工作采用了相似的注意力策略。在这个阶段，RNN在注意力机制中是非常重要的工具。</p>
 </li>
-<li><p>训练PixelCNN自回归模型，使其能够拟合编码表分布，从而通过随机采样，生成图片</p>
+<li><p>第二阶段：从STN中，引入了一个子网络来预测放射变换用于选择输入中的重要区域。明确预测待判别的输入特征是第二阶段的主要特征。DCN是这个阶段的代表性工作</p>
 </li>
-</ul>
-<p>​    stage1：训练一个分层的VQ-VAE用于图像编码到离散隐空间</p>
-<p>​    输入图像 x，通过编码器生成向量$E ( x )$ ，然后采用最近邻重构，将$E ( x )$ 替换为codebook的中的一个nearest prototype vector。codebook可以理解为离散的编码表，举一张人脸图像为例codebook就包括头发颜色，脸型，表情和肤色等等。因此，量化就是通过编码表，把自编码器生成的向量$E ( x ) $离散化：</p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/9a09c6f4ab7c42d6b1fafd9695559e2e.png" alt="在这里插入图片描述"></p>
-<p>​    stage2：在离散隐空间上拟合一个PixelCNN先验</p>
-<ul>
-<li>经过Stage1，将图片编码为了整数矩阵，所以在Stage2用自回归模型PixelCNN，来对编码矩阵进行拟合（即建模先验分布）</li>
-<li>通过PixelCNN得到编码分布后，就可以随机生成一个新的编码矩阵，然后通过编码表E EE映射为浮点数矩阵，最后经过deocder重构得到一张图片</li>
-</ul>
-<p>​    原文中还有再加<code>middle level</code>，实验结果表明加了middle level之后，生成的图像清晰度更高）</p>
-<p><a href="https://spaces.ac.cn/archives/6760">VQ-VAE的简明介绍：量子化自编码器</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/461693342">生成模型之PixelCNN</a></p>
-<h2 id="扩散模型"><a href="#扩散模型" class="headerlink" title="扩散模型"></a>扩散模型</h2><p>扩散模型包含两个过程：前向扩散过程（forword）和反向生成过程（reverse）：</p>
-<ul>
-<li>前向扩散过程：对数据逐渐增加高斯噪音直至数据变成随机噪音的过程（噪音化）</li>
-<li>反向生成过程：从随机噪音开始逐步去噪音直至生成一张图像（去噪）</li>
-</ul>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png" alt="在这里插入图片描述"></p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/316d832ce0a14e518e0aea30c5afee0b.png" alt="在这里插入图片描述"></p>
-<p><strong>BackBone（大部分扩散模型选用<code>U-Net</code>）</strong></p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/441e5fb6708b405183fbda1ad3b64c01.png" alt="在这里插入图片描述"></p>
-<p>​    <code>  U-Net</code>里还有一些<code>skip connection</code>的操作，可以直接将前面的信息传递给后面，以恢复更多的细节。后续还有一些改进，比如在<code>U-Net</code>里加一些attention操作，可以使图像生成的更好，共享参数。</p>
-<p><strong>局限性：</strong>训练推理慢</p>
-<h3 id="DDPM"><a href="#DDPM" class="headerlink" title="DDPM"></a><a href="https://paperswithcode.com/paper/denoising-diffusion-probabilistic-models">DDPM</a></h3><p><strong>贡献 ：</strong></p>
-<ol>
-<li><p>从预测转换图像改进为预测噪声，每次直接从$x_{t}$预测$x_{t-1}$，这种图像到图像的转化不太好优化。所以作者考虑直接去预测从$x_{t}$<br>到$x_{t-1}$ 这一步所添加的噪声$\varepsilon$，这样就简化了问题。</p>
+<li><p>第三阶段：从<strong>SENet(Squeeze-and-Excitation Networks)开始，提出了通道注意力网络(channel-attention network)能自适应地预测潜在的关键特征。CBAM和ECANet是这个阶段具有代表性的工作</strong></p>
 </li>
-<li><p>time embedding：U-Net模型输入，除了当前时刻的$x_{t}$ ，还有一个输入time embedding（类似transformer里的正弦位置编码），主要用于告诉 U-Net模型，现在到了反向过程的第几步。</p>
-</li>
-<li><p>目标函数：DDPM采用了一个U-Net 结构的Autoencoder来对t时刻的高斯噪声z进行预测。训练目标即希望预测的噪声和真实的噪声一致，所以目标函数为预测噪声和z 的L1 Loss：$ p(\mathbf{x}<em>{t-1} \vert \mathbf{x}<em>t)&#x3D;\left | z-f</em>{\theta }(x</em>{t},t) \right |$， t为时间</p>
-</li>
-<li><p>只预测正态分布的均值</p>
-<p>正态分布由均值和方差决定。作者在这里发现，其实模型不需要学方差，只需要学习均值就行。</p>
+<li><p>第四阶段：self-attention自注意力机制。自注意力机制最早是在NLP中提出并广泛使用。<a href="https://arxiv.org/abs/1711.07971">Non-local Neural Networks</a>网络是最早在CV中使用自注意力机制，并在视频理解和目标检测中取得成功。像EMANet，CCNet，HamNet和the Stand-Alone Network遵循此范式并提高了速度，质量和泛化能力。深度自注意力网络(<a href="https://arxiv.org/abs/2010.11929">visual transformers</a>)出现，展现了基于attention-based模型的巨大潜力。</p>
 </li>
 </ol>
-<h3 id="Improved-DDPM"><a href="#Improved-DDPM" class="headerlink" title="Improved DDPM"></a><a href="https://arxiv.org/abs/2102.09672">Improved DDPM</a></h3><p>​    <code>improved DDPM</code>作者就觉得如果方差效果应该会更好，改了之后果然取样和生成效果都好了很多。</p>
-<p><code>DDPM</code>添加噪声时采用的线性的<code>variance schedule</code>改为余弦schedule，效果更好（类似学习率从线性改为余弦）</p>
-<h3 id="ADM-Nets"><a href="#ADM-Nets" class="headerlink" title="ADM Nets"></a><a href="https://paperswithcode.com/paper/diffusion-models-beat-gans-on-image-synthesis">ADM Nets</a></h3><ul>
-<li><p>使用大模型：加大加宽网络、使用更多的自注意力头attention head，加大自注意力scale（single-scale attention改为multi-scale attention）</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.1" alt="image-20230915095801346"></p>
+<h1 id="计算机视觉中的注意力机制"><a href="#计算机视觉中的注意力机制" class="headerlink" title="计算机视觉中的注意力机制"></a>计算机视觉中的注意力机制</h1><table>
+<thead>
+<tr>
+<th><strong>Symbol</strong></th>
+<th>Description</th>
+<th><strong>Translation</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GAP</td>
+<td>global average pooling</td>
+<td>全局平均池化</td>
+</tr>
+<tr>
+<td>GMP</td>
+<td>global max pooling</td>
+<td>全局最大池化</td>
+</tr>
+<tr>
+<td>[]</td>
+<td>concatenation</td>
+<td>拼接（串联）</td>
+</tr>
+<tr>
+<td>Expand</td>
+<td>expan input by repetition</td>
+<td>重复输入</td>
+</tr>
+<tr>
+<td>δ</td>
+<td>ReLU activation</td>
+<td>ReLU激活函数</td>
+</tr>
+<tr>
+<td>σ</td>
+<td>sigmoid activation</td>
+<td>sigmoid激活函数</td>
+</tr>
+</tbody></table>
+<p><a href="https://zh-v2.d2l.ai/chapter_attention-mechanisms/attention-scoring-functions.html">D2L 注意力评分函数</a></p>
+<table>
+<thead>
+<tr>
+<th align="center">任务</th>
+<th align="center">全称</th>
+<th align="center">缩写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">分类</td>
+<td align="center">classification</td>
+<td align="center">Cls</td>
+</tr>
+<tr>
+<td align="center">检测</td>
+<td align="center">detection</td>
+<td align="center">Dec</td>
+</tr>
+<tr>
+<td align="center">语义分割</td>
+<td align="center">semantic segmentation</td>
+<td align="center">SSeg</td>
+</tr>
+<tr>
+<td align="center">实例分割</td>
+<td align="center">instance segmentation</td>
+<td align="center">ISeg</td>
+</tr>
+<tr>
+<td align="center">风格迁移</td>
+<td align="center">style transfer</td>
+<td align="center">ST</td>
+</tr>
+<tr>
+<td align="center">动作识别</td>
+<td align="center">action recognition</td>
+<td align="center">Action</td>
+</tr>
+<tr>
+<td align="center">细粒度分类</td>
+<td align="center">fine Grained Classification</td>
+<td align="center">FGCls</td>
+</tr>
+<tr>
+<td align="center">图片描述</td>
+<td align="center">image captioning</td>
+<td align="center">ICap</td>
+</tr>
+<tr>
+<td align="center">行人重识别</td>
+<td align="center">re-identification,</td>
+<td align="center">ReID</td>
+</tr>
+<tr>
+<td align="center">人体关键点检查</td>
+<td align="center">keypoint detection</td>
+<td align="center">KD</td>
+</tr>
+</tbody></table>
+<h2 id="通道注意力-channel-attention"><a href="#通道注意力-channel-attention" class="headerlink" title="通道注意力(channel attention)"></a>通道注意力(channel attention)</h2><h3 id="SENet"><a href="#SENet" class="headerlink" title="SENet"></a>SENet</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.1.png"></p>
+<p><a href="https://arxiv.org/abs/1709.01507">Squeeze-and-Excitation Networks</a></p>
+<ol>
+<li><p>squeeze模块：全局平均池化(GAP)，压缩通道 [H,W][H,W]-&gt;[1,1][1,1]</p>
 </li>
-<li><p>提出了新的归一化方式——<code>Adaptive Group Normalization</code>，在文章就是根据步数进行<strong>自适应的归一化</strong>。这个方法是对group归一化的一个改进：</p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/8bad0b6ededd4d8f8149d4bd0881c514.png" alt="在这里插入图片描述"></p>
-<p>$AdaGN(h,y&#x3D;[y_s,y_b])&#x3D;y_s*GroupNorm(h)+y_b$</p>
-<p>上面公式中的$h$是残差块激活函数的输出，$y$是一个线性层对时步和后面用到的类别信息的嵌入。组归一化是对输入的通道方向进行分组归一化的归一化方法.</p>
+<li><p>excitation模块：后接全连接层($W_1$)-&gt;ReLU层($δ$)-&gt;全连接层($W_2$)-&gt;Sigmoid($σ$)</p>
 </li>
-<li><p>使用<code>classifier guidance</code>的方法，引导模型进行采样和生成。这样不仅使生成的图片更逼真，而且加速了反向采样过程。论文中，只需要25次采样，就可以从噪声生成图片。</p>
-<ul>
-<li>训练一个简单是图片分类器</li>
-<li>CLIP guidance：将简单的分类器换成CLIP之后，文本和图像就联系起来了</li>
-<li>image侧引导：除了利用图像重建进行像素级别的引导，还可以做图像特征和风格层面的引导，只需要一个gram matrix就行。</li>
-<li>text侧：可以用训练好的NLP大模型做引导</li>
+</ol>
+<h3 id="GSoP-Net"><a href="#GSoP-Net" class="headerlink" title="GSoP-Net"></a>GSoP-Net</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.2" alt="image-20220228094331225"></p>
+<p>&emsp;<a href="https://arxiv.org/abs/1811.12006">Global Second-order Pooling Convolutional Networks</a></p>
+<p>&emsp;**改进:**global average pooling(GAP) -&gt; global second-order pooling(GSoP)</p>
+<p>&emsp;$$Y &#x3D; F_{gsop}(X, \theta) \cdot X &#x3D; \sigma(W(RC(Cov(Conv(X))))) \cdot X$$ </p>
+<p>&emsp;$Cov$为协方差矩阵，$RC$为<del><strong>row-wise conv操作</strong></del>（不太懂）</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.2-2" alt="image-20230905195605330"></p>
+<p>&emsp;通过使用全局二阶池化(GSoP)，GSoPBlock提高了通过SEBlock收集全局信息的能力。然而，这是以额外计算为代价的。因此，通常在几个剩余块之后添加单个GSoPBlock</p>
+<h3 id="SRM"><a href="#SRM" class="headerlink" title="SRM"></a>SRM</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.3" alt="image-20220228094420543"></p>
+<p><a href="https://arxiv.org/abs/1903.10829">SRM : A Style-based Recalibration Module for Convolutional Neural Networks</a></p>
+<p>$$Y &#x3D; F_{srm}(X, \theta) \cdot X &#x3D; \sigma(BN(CPC(SP(X)))) \cdot X$$</p>
+<ol>
+<li>queeze模块：使用style pooling(SP)，它结合了全局平均池化和全局标准差池化。（为什么输出为 ${C\times{d}}$：当只用全局平均池化就是${C\times{1}}$；当用了全局平均池化和全局标准差池化就是${C\times{2}}$；当用了全局平均池化和全局标准差池化和全局最大池化就是${C\times{3}}$）</li>
+<li>excitation模块：<ul>
+<li>与通道等宽的全连接层CFC(Channel-wise fully-connected layer) ，含义：通道维度由${[C,d]}$变为${[C,1]}$，即对于每一个通道，都有一个全连接层输入为d，输出为1</li>
+<li>利用**BN层和sigmoid函数(σ)**得到C维注意力向量</li>
 </ul>
 </li>
-</ul>
-<p>更新后的损失 ： $p(x_{t−1}∣x_t)&#x3D;∥z−f_θ*(x_t,t,y)∥$</p>
-<h3 id="Classifier-free-guidance"><a href="#Classifier-free-guidance" class="headerlink" title="Classifier free guidance"></a><a href="https://arxiv.org/abs/2207.12598">Classifier free guidance</a></h3><p>​    classifier free guidance的方式，只是改变了模型输入的内容，除了 conditional输入外（随机高斯噪声输入加引导信息）还有 unconditional 的 采样输入。两种输入都会被送到同一个 diffusion model 从而让其能够具有无条件和有条件生成的能力。得到有条件输出$f_{\theta }(x_{t},t,y)$和无条件输出$f_{\theta }(x_{t},t,\phi )$f后，就可以用前者监督后者，来引导扩散模型进行训练了。最后反向扩散做生成时，我们用无条件的生成,然后加上之前训练的偏移，也能达到类似有条件生成的效果。这样一来就摆脱了分类器的限制</p>
-<h1 id="DALL·E2"><a href="#DALL·E2" class="headerlink" title="DALL·E2"></a><a href="https://arxiv.org/abs/2204.13807">DALL·E2</a></h1><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/image-20230820125542764.png" alt="image-20230820125542764"></p>
-<p>​    prior：先验模型$P(z_i|y)$ ,根据标题$y$生成CLIP的图像特征$z_i$。</p>
-<p>​    decoder ：解码器$P(x|z_i,y)$，生成以CLIP图像特征$z_i$ （和可选的文本标题 $y$）为条件的图像$x$</p>
-<p>​    跟上面讲的一样，prior模型的输入就是CLIP编码的文本特征，其ground truth就是CLIP编码的图片特征，因为是图文对输入模型，CLIP是都能编码的。</p>
-<h2 id="decoder"><a href="#decoder" class="headerlink" title="decoder"></a>decoder</h2><p>​     decoder就是使用扩散模型，生成以CLIP图形特征（和可选标题$y$）为条件的图像，这部分就是在GLIDE基础上改进的。利用了<code>CLIP guidance</code>和<code>classifier-free guidance</code></p>
-<p>​     其次，为了提高分辨率，DALL·E2还用了层级式的生成，也就是训练了两个上采样扩散模型。一个将图像的分辨率从64×64上采样到256×256，另一个接着上采样的1024×1024。同时，为了提高上采样器的鲁棒性，还添加了噪声（第一个上采样阶段使用高斯模糊，对于第二个阶段，使用更多样化的BSR退化）。</p>
-<h2 id="prior"><a href="#prior" class="headerlink" title="prior"></a>prior</h2><p>​    <code>   prior</code>用于从文本特征生成图像特征，这部分作者试验了两种模型，两种模型都用了classifier-free guidance，因 为效果好。</p>
+</ol>
+<h3 id="GCT"><a href="#GCT" class="headerlink" title="GCT"></a>GCT</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.4" alt="image-20220228101545695"></p>
+<p><a href="https://arxiv.org/abs/1909.11519v1">Gated Channel Transformation for Visual Recognition</a></p>
+<p>&emsp;$$s&#x3D;F_{gct}(X,\theta)&#x3D;tanh(\gamma\cdot CN(\alpha \cdot Norm(X)) + \beta) + 1$$</p>
+<p>&emsp;$$Y &#x3D; s \cdot X + X$$</p>
+<ol>
+<li>Normalization($L_2 $):对输入特征图Norm，变为$C \times 1 \times1$ ,乘以可训练权重$\alpha$，输出结果作为第二部分的输入用$s_{in}$表示</li>
+<li>CN(channel normalization): $s_{out}&#x3D;\frac{\sqrt{C}}{Norm(s_{in})} \cdot s_{in}$</li>
+</ol>
+<h3 id="ECANet"><a href="#ECANet" class="headerlink" title="ECANet"></a>ECANet</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.5" alt="image-20220228105519461"></p>
+<p><a href="https://arxiv.org/abs/1910.03151">ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks</a></p>
+<p>&emsp;<strong>用一维卷积替换了SENet中的全连接层</strong></p>
+<p>&emsp;$$Y&#x3D;F_{eca}(X,\theta)\cdot X +X&#x3D;\sigma(Conv1D(GAP(X)))\cdot X + X $$</p>
+<p>&emsp;$$k&#x3D;\phi(C)&#x3D;|\frac{log_2(C)}{\gamma} + \frac{b}{\gamma}|_{odd}$$</p>
+<p>&emsp;文中对卷积核大小有自适应算法，即根据通道的长度，调整卷积核k的大小, 其中$\gamma&#x3D;2,b&#x3D;1$,odd表示k只能取奇整数</p>
+<h3 id="FcaNet"><a href="#FcaNet" class="headerlink" title="FcaNet"></a>FcaNet</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.6" alt="image-20220228113138822"></p>
+<p><a href="https://arxiv.org/abs/2012.11879">FcaNet: Frequency Channel Attention Networks</a></p>
+<p>&emsp;<strong>动机</strong>：在squeeze模块中仅使用全局平均池化(GAP)限制了表达能力。为了获得更强大的表示能力，他们重新思考了从压缩角度捕获的全局信息，并分析了频域中的GAP。他们证明了全局平均池是离散余弦变换（DCT）的一个特例，并利用这一观察结果提出了一种新的多光谱注意通道(multi-spectral channel attention)。<br>&emsp;$$Y&#x3D;F_{fca}(X,\theta)\cdot X&#x3D;\sigma(W_2 \times \delta(W_1\times[DCT(Group(X))])) \cdot X$$</p>
+<ol>
+<li>将输入特征图$x\in{R^{C\times{H}\times{W}}}$分解(Group)为许多部分$x^{i}\in{R^{C^{i}\times{H}\times{W}}}$，每一段长度相等</li>
+<li>对每一段${x^i}$应用2D 离散余弦变换(DCT, discrete cosine transform)。2D DCT可以使用预处理结果来减少计算</li>
+<li>在处理完每个部分后，所有结果都被连接到一个向量中通过FC-&gt;Relu-&gt;FC-&gt;sigmoid</li>
+</ol>
+<p><strong><del>2D-DCT:</del></strong></p>
+<h3 id="EncNet"><a href="#EncNet" class="headerlink" title="EncNet"></a>EncNet</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7" alt="image-20220228111112266"></p>
+<p><a href="https://arxiv.org/abs/1910.03151">Context Encoding for Semantic Segmentation</a></p>
+<p>&emsp;<strong>动机</strong>：受SENet的启发，提出了上下文编码模块（CEM, context encoding module），该模块结合了语义编码损失（SE-loss, semantic encoding loss），以建模场景上下文和对象类别概率之间的关系，从而利用全局场景上下文信息进行语义分割。<br><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7-2" alt="image-20220228112039757"></p>
+<p>&emsp;给定一个输入特征映射，CEM首先在训练阶段学习K个聚类中心D，${D&#x3D;{d_1,…,d_K}}$和一组平滑因子S，$ {S&#x3D;{s_1,…,s_K}}$。接下来，它使用软分配权重对输入中的局部描述子和相应的<strong>聚类中心</strong>之间的差异进行求和，以获得置换不变描述子。然后，为了提高计算效率，它将聚合应用于K个簇中心的描述符，而不是级联。形式上，CEM可以写成如上公式。</p>
+<h3 id="Bilinear-Attention"><a href="#Bilinear-Attention" class="headerlink" title="Bilinear Attention"></a>Bilinear Attention</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.9" alt="image-20230906104605049"></p>
+<p><a href="https://paperswithcode.com/paper/bilinear-attention-networks-for-person">bilinear-attention-networks-for-person</a></p>
+<p>$$\widetilde{x}&#x3D; Bi(φ(X)) &#x3D; Vec(UTri(φ(X)φ(X)^T))$$</p>
+<p>$$\widehat{x}&#x3D; ω(GAP(\widetilde{x})) ϕ(\widetilde{x})$$</p>
+<p>$$Y &#x3D; \sigma(\widehat{x}) X$$</p>
+<p>其中$φ,ϕ $用于嵌入，$UTri$提取上三角矩阵，$Vec$向量化</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.9-2" alt="image-20230906111036064"></p>
+<p>$$x_{ij} ∈ R^c , i ∈ {1, 2, . . . , h}, j ∈ {1, 2, . . . , w}$$</p>
+<p>&emsp;双注意块使用双线性池化来对沿着每个通道的局部成对特征交互进行建模，同时保留空间信息。与其他基于注意力的模型相比，该模型更加注重高阶统计信息。双注意可以被并入任何CNN骨干，以提高其代表能力，同时抑制噪声。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.8" alt="image-20220228113403545"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.1-1" alt="image-20230915100836060"></p>
+<table>
+<thead>
+<tr>
+<th><strong>Method</strong></th>
+<th><strong>Publication</strong></th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)-前面提到的注意力公式</th>
+<th align="center"><strong>Ranges</strong></th>
+<th align="center">S or H</th>
+<th align="center">Goals</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SENet</td>
+<td>CVPR2018</td>
+<td align="center">Cls,Det</td>
+<td align="center">global average pooling-&gt; MLP-&gt;sigmoid.</td>
+<td align="center">(0,1)</td>
+<td align="center">S</td>
+<td align="center">(I)(II)</td>
+</tr>
+<tr>
+<td>EncNet</td>
+<td>CVPR2018</td>
+<td align="center">SSeg</td>
+<td align="center">encoder -&gt; MLP  -&gt; sigmoid.</td>
+<td align="center">~</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+<tr>
+<td>GSoP-Net</td>
+<td>CVPR2019</td>
+<td align="center">Cls</td>
+<td align="center">2nd-order pooling -&gt; convolution &amp; MLP -&gt; sigmoid</td>
+<td align="center">~</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+<tr>
+<td>FcaNet</td>
+<td>ICCV2021</td>
+<td align="center">Cls,Det,  ISeg</td>
+<td align="center">discrete cosine transform -&gt; MLP -&gt; sigmoid.</td>
+<td align="center">~</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+<tr>
+<td>ECANet</td>
+<td>CVPR2020</td>
+<td align="center">Cls,Det,  ISeg</td>
+<td align="center">global average pooling -&gt; conv1d -&gt; sigmoid.</td>
+<td align="center">~</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+<tr>
+<td>SRM</td>
+<td>arXiv2019</td>
+<td align="center">Cls, ST</td>
+<td align="center">style pooling -&gt; convolution &amp; MLP -&gt; sigmoid.</td>
+<td align="center">~</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+<tr>
+<td>GCT</td>
+<td>CVPR2020</td>
+<td align="center">Cls,Det,  Action</td>
+<td align="center">compute L2-norm on spatial -&gt; channel  normalization -&gt; tanh.</td>
+<td align="center">(-1,1)</td>
+<td align="center">~</td>
+<td align="center">~</td>
+</tr>
+</tbody></table>
+<p>**I:**emphasize important channels</p>
+<p>**II:**capture global information</p>
+<h2 id="空间注意力-Spatial-Attention"><a href="#空间注意力-Spatial-Attention" class="headerlink" title="空间注意力(Spatial Attention)"></a>空间注意力(Spatial Attention)</h2><h3 id="RAM"><a href="#RAM" class="headerlink" title="RAM"></a>RAM</h3><p><a href="https://arxiv.org/abs/1406.6247">Recurrent Models of Visual Attention</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2-1" alt="image-20230904202557337"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.1" alt="这里写图片描述"></p>
+<h3 id="Glimpse-Network"><a href="#Glimpse-Network" class="headerlink" title="Glimpse Network"></a>Glimpse Network</h3><p><a href="https://arxiv.org/abs/1412.7755">Multiple Object Recognition with Visual Attention</a></p>
+<p>&emsp;多个Patch输入RNN网络利用时间逐步注意</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.2" alt="img"></p>
+<h3 id="Hard-and-soft-attention"><a href="#Hard-and-soft-attention" class="headerlink" title="Hard and soft attention"></a><del>Hard and soft attention</del></h3><p><a href="https://arxiv.org/abs/1502.03044">Show, Attend and Tell: Neural Image Caption Generation with Visual Attention</a></p>
+<p>&emsp;<strong>Hard Attention：</strong>一次选择一个图像的一个区域作为注意力，设成1，其他设为0。他是不能微分的，无法进行标准的反向传播，因此需要蒙特卡洛采样来计算各个反向传播阶段的精度。</p>
+<p>&emsp;**Soft Attention:**加权图像的每个像素。 高相关性区域乘以较大的权重，而低相关性区域标记为较小的权重。权重范围是（0-1）。他是可微的，可以正常进行反向传播。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.3" alt="image-20230906170818584"></p>
+<h3 id="Attention-Gate"><a href="#Attention-Gate" class="headerlink" title="Attention Gate"></a>Attention Gate</h3><p><a href="https://arxiv.org/abs/1804.03999">Attention U-Net: Learning Where to Look for the Pancreas</a></p>
+<p>&emsp;背景：在传统的Unet中，为了避免在decoder时丢失大量的空间精确细节信息，使用了skip的手法，直接将encoder中提取的map直接concat到decoder相对应的层。但是，提取的low-level feature有很多的冗余信息（刚开始提取的特征不是很好）。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.4" alt="image-20230907173044291"></p>
+<p>$$Y &#x3D; σ(ϕ(δ(φ_x(X) + φ_g(G)))) \cdot X$$</p>
+<p>$$ϕ(Z) &#x3D; φ_x(Z)&#x3D; BN(Conv(Z))$$</p>
+<p>其中$X$底层特征$G$为提取后的特征，$F_n$为深度</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Attention_block</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,F_g,F_l,F_int</span>):</span><br><span class="line">        <span class="built_in">super</span>(Attention_block,self).__init__()</span><br><span class="line">        self.W_g = nn.Sequential(</span><br><span class="line">            nn.Conv2d(F_g, F_int, kernel_size=<span class="number">1</span>,stride=<span class="number">1</span>,padding=<span class="number">0</span>,bias=<span class="literal">True</span>),</span><br><span class="line">            nn.BatchNorm2d(F_int)</span><br><span class="line">            )</span><br><span class="line">        </span><br><span class="line">        self.W_x = nn.Sequential(</span><br><span class="line">            nn.Conv2d(F_l, F_int, kernel_size=<span class="number">1</span>,stride=<span class="number">1</span>,padding=<span class="number">0</span>,bias=<span class="literal">True</span>), <span class="comment"># kernelSize=1</span></span><br><span class="line">            nn.BatchNorm2d(F_int)</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        self.psi = nn.Sequential(</span><br><span class="line">            nn.Conv2d(F_int, <span class="number">1</span>, kernel_size=<span class="number">1</span>,stride=<span class="number">1</span>,padding=<span class="number">0</span>,bias=<span class="literal">True</span>),</span><br><span class="line">            nn.BatchNorm2d(<span class="number">1</span>),</span><br><span class="line">            nn.Sigmoid()</span><br><span class="line">        )</span><br><span class="line">        </span><br><span class="line">        self.relu = nn.ReLU(inplace=<span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self,g,x</span>):</span><br><span class="line">        g1 = self.W_g(g) <span class="comment">#1x512x64x64-&gt;conv(512，256)/B.N.-&gt;1x256x64x64</span></span><br><span class="line">        x1 = self.W_x(x) <span class="comment">#1x512x64x64-&gt;conv(512，256)/B.N.-&gt;1x256x64x64</span></span><br><span class="line">        psi = self.relu(g1+x1)<span class="comment">#1x256x64x64di</span></span><br><span class="line">        psi = self.psi(psi)<span class="comment">#得到权重矩阵  1x256x64x64 -&gt; 1x1x64x64 -&gt;sigmoid 结果到（0，1）</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> x*psi <span class="comment">#与low-level feature相乘，将权重矩阵赋值进去</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.4-2" alt="image-20230907184027641"></p>
+<h3 id="STN"><a href="#STN" class="headerlink" title="STN"></a>STN</h3><p><a href="https://arxiv.org/abs/1506.02025">Spatial Transformer Networks</a></p>
+<p>**<a href="https://zhuanlan.zhihu.com/p/37110107">仿射变换与双线性插值</a>**，通过学习不同的变换形式来进行反转变换</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.5" alt="image-20230907192228696"></p>
 <ul>
-<li>AR（自回归模型）</li>
-<li>扩散模型：使用的是<code>Transformer decoder</code>处理序列。因为这里输入输出都是embedding序列，所以使用U-Net不太合适。</li>
+<li><p>Localisation Network-局部网络</p>
+<p>输入特征图，输出变换矩阵参数$A_\theta$</p>
+</li>
+<li><p>Parameterised Sampling Grid-参数化网格采样</p>
+<p>为了得到输出特征图的坐标点对应的输入特征图的坐标点的位置,s为输入图像的坐标，t为目标图像的坐标</p>
+<p>$$\begin{pmatrix} x^s_i\y^s_i\end{pmatrix}&#x3D;{\tau}<em>\theta(G_i)&#x3D;A_\theta \begin{pmatrix} x^t_i\y^t_i \1\end{pmatrix} &#x3D;\begin{vmatrix} {\theta}</em>{11} &amp;   {\theta}<em>{12}&amp;  {\theta}</em>{13}\ {\theta}<em>{21}  &amp; {\theta}</em>{22}  &amp; {\theta}_{23}\end{vmatrix}\begin{pmatrix} x^t_i\y^t_i \1\end{pmatrix}$$</p>
+</li>
+<li><p>Differentiable Image Sampling-差分图像采样</p>
+<p>这一步完成的任务就是利用期望的插值方式来计算出对应点的灰度值，这里以双向性插值为例讲解</p>
+</li>
 </ul>
-<h1 id="总结：大力出奇迹"><a href="#总结：大力出奇迹" class="headerlink" title="总结：大力出奇迹"></a>总结：大力出奇迹</h1><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/IMG_20230827_111312.jpg" alt="IMG_20230827_111312"></p>
-<p>  图像生成这一块的技巧很多，经常连一个模型总览图都很难画出来。但是讲完这么多之后，会发现这些技巧有的时候有用，有的时候没用。</p>
+<h3 id="DCN"><a href="#DCN" class="headerlink" title="DCN"></a>DCN</h3><p><a href="https://arxiv.org/abs/1703.06211">Deformable Convolutional Networks</a>，卷积位置的偏移</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.6-1" alt="image-20230907202222387"></p>
+<p>$$R &#x3D; {(−1, −1),(−1, 0), . . . ,(0, 1),(1, 1)}$$</p>
+<p>$$y(p_0) &#x3D;  \sum_{p_n \in R}^{} w(p_n) · x(p_0 + p_n + ∆p_n)$$</p>
+<p>$$x(p) &#x3D; \sum_{q}^{} G(q,p)\cdot x(q)$ $p &#x3D; p_0 + p_n + ∆p_n$$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.6-2" alt="image-20230907203318009"></p>
+<p>$$y(i, j)&#x3D;\sum_{p\in bin(i,j)} x(p_0+p+\bigtriangleup p_{ij})&#x2F;n_{ij}$$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.6-3" alt="image-20230907204000834"></p>
+<p>Position Sensitive ROI-Pooling-目标检测领域</p>
+<h3 id="Self-attention-and-variants"><a href="#Self-attention-and-variants" class="headerlink" title="Self-attention and variants"></a>Self-attention and variants</h3><p>&emsp;自注意力机制可以使看到整个graph，但是由于其的复杂度，导致无法进行大量的应用，如NonoLocal操作中计算为(H*W)^2，下面的各种变体将逐渐改进。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7-1" alt="image-20230908145858210"></p>
+<h4 id="CCNet"><a href="#CCNet" class="headerlink" title="CCNet"></a>CCNet</h4><p><a href="https://arxiv.org/abs/1811.11721">CCNet: Criss-Cross Attention for Semantic Segmentation</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7-1-1" alt="image-20230908195309759"></p>
+<p>&emsp;与Non-local相比减少了计算量。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7.1-2" alt="image-20230908195436472"></p>
+<p>&emsp;$H’$仅仅继承了水平和竖直方向的上下文信息还不足以进行语义分割。为了获得更丰富更密集的上下文信息，将特征图$H’$再次喂入注意模块中并得到特征图$H^{‘’}$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7.1-3" alt="image-20230908195759922"></p>
+<p>递归两次就能从所有像素中捕获long-range依赖从而生成密集丰富的上下文特征</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.7.1-4" alt="image-20230908195903926"></p>
+<p><strong>代码实现：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">from</span> torch.nn <span class="keyword">import</span> Softmax</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">INF</span>(<span class="params">B, H, W</span>):</span><br><span class="line">    <span class="keyword">return</span> -torch.diag(torch.tensor(<span class="built_in">float</span>(<span class="string">&quot;inf&quot;</span>)).repeat(H), <span class="number">0</span>).unsqueeze(<span class="number">0</span>).repeat(B * W, <span class="number">1</span>, <span class="number">1</span>)  <span class="comment"># 对角线上设置为负无穷，这样在计算注意力函数时中间值计算一次</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CrissCrossAttention</span>(nn.Module):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Criss-Cross Attention Module&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># a.reshape = a.view() + a.contiguous().view() contiguious进行深拷贝 view是reshape的浅拷贝</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_dim</span>):</span><br><span class="line">        <span class="built_in">super</span>(CrissCrossAttention, self).__init__()</span><br><span class="line">        self.query_conv = nn.Conv2d(in_channels=in_dim, out_channels=in_dim // <span class="number">8</span>, kernel_size=<span class="number">1</span>)</span><br><span class="line">        self.key_conv = nn.Conv2d(in_channels=in_dim, out_channels=in_dim // <span class="number">8</span>, kernel_size=<span class="number">1</span>)</span><br><span class="line">        self.value_conv = nn.Conv2d(in_channels=in_dim, out_channels=in_dim, kernel_size=<span class="number">1</span>)</span><br><span class="line">        self.softmax = Softmax(dim=<span class="number">3</span>)</span><br><span class="line">        self.INF = INF</span><br><span class="line">        self.gamma = nn.Parameter(torch.zeros(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        m_batchsize, _, height, width = x.size()</span><br><span class="line"></span><br><span class="line">        proj_query = self.query_conv(x) <span class="comment"># reduction</span></span><br><span class="line">        proj_query_H = proj_query.permute(<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>).contiguous().view(m_batchsize * width, -<span class="number">1</span>, height).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>)  <span class="comment"># BW * H * C</span></span><br><span class="line">        proj_query_W = proj_query.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>).contiguous().view(m_batchsize * height, -<span class="number">1</span>, width).permute(<span class="number">0</span>, <span class="number">2</span>,<span class="number">1</span>)  <span class="comment"># BH * W * C</span></span><br><span class="line"></span><br><span class="line">        proj_key = self.key_conv(x)</span><br><span class="line">        proj_key_H = proj_key.permute(<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>).contiguous().view(m_batchsize * width, -<span class="number">1</span>, height)  <span class="comment"># BW * C * H</span></span><br><span class="line">        proj_key_W = proj_key.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>).contiguous().view(m_batchsize * height, -<span class="number">1</span>, width)  <span class="comment"># BH * C * W</span></span><br><span class="line"></span><br><span class="line">        proj_value = self.value_conv(x) <span class="comment"># 通道数不变</span></span><br><span class="line">        proj_value_H = proj_value.permute(<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>).contiguous().view(m_batchsize * width, -<span class="number">1</span>, height)  <span class="comment"># BW * C * H</span></span><br><span class="line">        proj_value_W = proj_value.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>).contiguous().view(m_batchsize * height, -<span class="number">1</span>, width)  <span class="comment"># BH * C * W</span></span><br><span class="line"></span><br><span class="line">        energy_H = (torch.bmm(proj_query_H, proj_key_H) + self.INF(m_batchsize, height, width)).view(m_batchsize, width, height, height).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>)  <span class="comment"># B * H * W * H 生成行注意力分数</span></span><br><span class="line">        energy_W = torch.bmm(proj_query_W, proj_key_W).view(m_batchsize, height, width, width)  <span class="comment"># B * H * W * W 生成列注意力分数</span></span><br><span class="line">        concate = self.softmax(torch.cat([energy_H, energy_W], <span class="number">3</span>))  <span class="comment"># B * H * W * (H + W) concat起来做softmax</span></span><br><span class="line"></span><br><span class="line">        att_H = concate[:, :, :, <span class="number">0</span>:height].permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>).contiguous().view(m_batchsize * width, height,height)  <span class="comment"># BW * H * H</span></span><br><span class="line">        att_W = concate[:, :, :, height:height + width].contiguous().view(m_batchsize * height, width, width)  <span class="comment"># BH * W * W</span></span><br><span class="line">        out_H = torch.bmm(proj_value_H, att_H.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>)).view(m_batchsize, width, -<span class="number">1</span>, height).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>)  <span class="comment"># BW * C * H dot BW * H * H </span></span><br><span class="line">        out_W = torch.bmm(proj_value_W, att_W.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>)).view(m_batchsize, height, -<span class="number">1</span>, width).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>)</span><br><span class="line">        <span class="keyword">return</span> self.gamma * (out_H + out_W) + x</span><br><span class="line"></span><br><span class="line">model = CrissCrossAttention(<span class="number">64</span>)</span><br><span class="line">x = torch.randn(<span class="number">2</span>, <span class="number">64</span>, <span class="number">5</span>, <span class="number">6</span>)</span><br><span class="line">out = model(x)</span><br><span class="line"><span class="built_in">print</span>(out.shape)</span><br></pre></td></tr></table></figure>
+
+<h4 id="EMANet"><a href="#EMANet" class="headerlink" title="EMANet"></a><del>EMANet</del></h4><p><a href="https://arxiv.org/abs/1907.13426">Expectation-Maximization Attention Networks for Semantic Segmentation</a></p>
+<p>利用EMA算法逐步更新</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.2.1" alt="image-20230909110255603"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.2-2" alt="image-20230909110346426"></p>
+<h4 id="ANN"><a href="#ANN" class="headerlink" title="ANN"></a>ANN</h4><p><a href="https://arxiv.org/abs/1908.07678">Asymmetric Non-local Neural Networks for Semantic Segmentation</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.3" alt="image-20230909210921428"></p>
+<p>&emsp;先提出非对称注意力机制，在最后的$N*S$矩阵表示sample操作后的每个像素与之前像素是相似度</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.3-2" alt="image-20230909211115023"></p>
+<p>&emsp;<strong>APNB</strong>利用金字塔采样模块，在不牺牲性能的前提下，极大地减少了计算和内存消耗；<strong>AFNB</strong>是由<strong>APNB</strong>演化而来的，在充分考虑了长期相关性的前提下，融合了不同层次的特征，从而大大提高了性能。</p>
+<h4 id="GCNet"><a href="#GCNet" class="headerlink" title="GCNet"></a>GCNet</h4><p><a href="https://arxiv.org/abs/1904.11492">Gcnet: Non-local networks meet squeeze-excitation networks and beyond</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.4.1" alt="image-20230909211555368"></p>
+<p>&emsp;本文首先是从Non-local Network的角度出发，发现对于不同位置点的attention map是几乎一致的，说明non-local中每个点计算attention map存在很大的计算浪费，从而提出了简化的NL，也就是SNL,像是简化的SENet。关于这点，似乎有较大的争议，从论文本身来看，实验现象到论证过程都是完善的，但是有人在github项目中指出 OCNet和DANet两篇论文中的结论是attention map在不同位置是不一样的，似乎完全相关，作者目前也没有回复。</p>
+<h4 id="A-2Net"><a href="#A-2Net" class="headerlink" title="$A^2Net$"></a>$A^2Net$</h4><p><a href="https://paperswithcode.com/paper/a2-nets-double-attention-networks-1">$A^2$-Nets: Double Attention Networks</a></p>
+<p>&emsp;与SENet和GSoP-Net相似，也是非常的简单呢，是一个涨点神器,也是一个即插即用的小模块，<a href="https://zhuanlan.zhihu.com/p/62532887">双线性池化操作</a>,<strong>没怎么看懂</strong></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.5-1" alt="image-20230915162140693"></p>
+<p>&emsp;$$G_{bilinear}(A,B)&#x3D;AB^T&#x3D;\sum_{\forall i}^{} a_i b_j^T$$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.5.2" alt="image-20230909213800955"></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DoubleAttentionLayer</span>(nn.Module):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Implementation of Double Attention Network. NIPS 2018</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_channels: <span class="built_in">int</span>, c_m: <span class="built_in">int</span>, c_n: <span class="built_in">int</span>, reconstruct = <span class="literal">False</span></span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        in_channels</span></span><br><span class="line"><span class="string">        c_m</span></span><br><span class="line"><span class="string">        c_n</span></span><br><span class="line"><span class="string">        reconstruct: `bool` whether to re-construct output to have shape (B, in_channels, L, R)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="built_in">super</span>(DoubleAttentionLayer, self).__init__()</span><br><span class="line">        self.c_m = c_m</span><br><span class="line">        self.c_n = c_n</span><br><span class="line">        self.in_channels = in_channels</span><br><span class="line">        self.reconstruct = reconstruct</span><br><span class="line">        self.convA = nn.Conv2d(in_channels, c_m, kernel_size = <span class="number">1</span>)</span><br><span class="line">        self.convB = nn.Conv2d(in_channels, c_n, kernel_size = <span class="number">1</span>)</span><br><span class="line">        self.convV = nn.Conv2d(in_channels, c_n, kernel_size = <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span> self.reconstruct:</span><br><span class="line">            self.conv_reconstruct = nn.Conv2d(c_m, in_channels, kernel_size = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x: torch.Tensor</span>):</span><br><span class="line">        batch_size, c, h, w = x.size()</span><br><span class="line">        <span class="keyword">assert</span> c == self.in_channels, <span class="string">&#x27;input channel not equal!&#x27;</span></span><br><span class="line">        A = self.convA(x)  <span class="comment"># (B, c_m, h, w) because kernel size is 1</span></span><br><span class="line">        B = self.convB(x)  <span class="comment"># (B, c_n, h, w)</span></span><br><span class="line">        V = self.convV(x)  <span class="comment"># (B, c_n, h, w)</span></span><br><span class="line">        tmpA = A.view(batch_size, self.c_m, h * w)</span><br><span class="line">        attention_maps = B.view(batch_size, self.c_n, h * w)</span><br><span class="line">        attention_vectors = V.view(batch_size, self.c_n, h * w)</span><br><span class="line">        attention_maps = F.softmax(attention_maps, dim = -<span class="number">1</span>)  <span class="comment"># softmax on the last dimension to create attention maps</span></span><br><span class="line">        <span class="comment"># step 1: feature gathering</span></span><br><span class="line">        global_descriptors = torch.bmm(tmpA, attention_maps.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>))  <span class="comment"># (B, c_m, c_n)</span></span><br><span class="line">        <span class="comment"># step 2: feature distribution</span></span><br><span class="line">        attention_vectors = F.softmax(attention_vectors, dim = <span class="number">1</span>)  <span class="comment"># (B, c_n, h * w) attention on c_n dimension</span></span><br><span class="line">        tmpZ = global_descriptors.matmul(attention_vectors)  <span class="comment"># B, self.c_m, h * w bmm操作</span></span><br><span class="line">        tmpZ = tmpZ.view(batch_size, self.c_m, h, w)</span><br><span class="line">        <span class="keyword">if</span> self.reconstruct: tmpZ = self.conv_reconstruct(tmpZ)</span><br><span class="line">        <span class="keyword">return</span> tmpZ</span><br></pre></td></tr></table></figure>
+
+<h4 id="SASA"><a href="#SASA" class="headerlink" title="SASA"></a><del>SASA</del></h4><p><a href="https://arxiv.org/abs/1906.05909">Stand-Alone Self-Attention in Vision Models</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.7.11.1" alt="image-20230912093007692"></p>
+<p>未加入位置编码：</p>
+<p>$$y_{ij}&#x3D;\sum_{a,b \in N_{k}(i, j)}^{} softmax_{ij}(q_{ij}^Tk_{ab})v_{ab}$$</p>
+<p>原始的Attention操作不包含任何位置信息，which makes it permutation equivariant，也就是说如果两个token元素一样，位置不一样，其还是能得到相同的attention结果。所以原文中为每一个位置添加了一个相对位置编码</p>
+<p>$$y_{ij}&#x3D;\sum_{a,b \in N_{k}(i, j)}^{} softmax_{ij}(q_{ij}^Tk_{ab} + q_{ij}^Tr_{a-i, b-j})v_{ab}$$</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 实现过程我是看不出懂</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.nn.init <span class="keyword">as</span> init</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AttentionConv</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_channels, out_channels, kernel_size, stride=<span class="number">1</span>, padding=<span class="number">0</span>, groups=<span class="number">1</span>, bias=<span class="literal">False</span></span>):</span><br><span class="line">        <span class="built_in">super</span>(AttentionConv, self).__init__()</span><br><span class="line">        self.out_channels = out_channels</span><br><span class="line">        self.kernel_size = kernel_size</span><br><span class="line">        self.stride = stride</span><br><span class="line">        self.padding = padding</span><br><span class="line">        self.groups = groups</span><br><span class="line"></span><br><span class="line">        self.rel_h = nn.Parameter(torch.randn(out_channels // <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, kernel_size, <span class="number">1</span>), requires_grad=<span class="literal">True</span>)</span><br><span class="line">        self.rel_w = nn.Parameter(torch.randn(out_channels // <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, kernel_size), requires_grad=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        self.key_conv = nn.Conv2d(in_channels, out_channels, kernel_size=<span class="number">1</span>, bias=bias)</span><br><span class="line">        self.query_conv = nn.Conv2d(in_channels, out_channels, kernel_size=<span class="number">1</span>, bias=bias)</span><br><span class="line">        self.value_conv = nn.Conv2d(in_channels, out_channels, kernel_size=<span class="number">1</span>, bias=bias)</span><br><span class="line">        self.reset_parameters()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        batch, channels, height, width = x.size()</span><br><span class="line"></span><br><span class="line">        padded_x = F.pad(x, [self.padding, self.padding, self.padding, self.padding])</span><br><span class="line">        q_out = self.query_conv(x)</span><br><span class="line">        k_out = self.key_conv(padded_x)</span><br><span class="line">        v_out = self.value_conv(padded_x)</span><br><span class="line"></span><br><span class="line">        k_out = k_out.unfold(<span class="number">2</span>, self.kernel_size, self.stride).unfold(<span class="number">3</span>, self.kernel_size, self.stride)</span><br><span class="line">        v_out = v_out.unfold(<span class="number">2</span>, self.kernel_size, self.stride).unfold(<span class="number">3</span>, self.kernel_size, self.stride)</span><br><span class="line"></span><br><span class="line">        k_out_h, k_out_w = k_out.split(self.out_channels // <span class="number">2</span>, dim=<span class="number">1</span>)</span><br><span class="line">        k_out = torch.cat((k_out_h + self.rel_h, k_out_w + self.rel_w), dim=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        k_out = k_out.contiguous().view(batch, self.groups, self.out_channels // self.groups, height, width, -<span class="number">1</span>)</span><br><span class="line">        v_out = v_out.contiguous().view(batch, self.groups, self.out_channels // self.groups, height, width, -<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        q_out = q_out.view(batch, self.groups, self.out_channels // self.groups, height, width, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        out = q_out * k_out</span><br><span class="line">        out = F.softmax(out, dim=-<span class="number">1</span>)</span><br><span class="line">        out = torch.einsum(<span class="string">&#x27;bnchwk,bnchwk -&gt; bnchw&#x27;</span>, out, v_out).view(batch, -<span class="number">1</span>, height, width)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">reset_parameters</span>(<span class="params">self</span>):</span><br><span class="line">        init.kaiming_normal_(self.key_conv.weight, mode=<span class="string">&#x27;fan_out&#x27;</span>, nonlinearity=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line">        init.kaiming_normal_(self.value_conv.weight, mode=<span class="string">&#x27;fan_out&#x27;</span>, nonlinearity=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line">        init.kaiming_normal_(self.query_conv.weight, mode=<span class="string">&#x27;fan_out&#x27;</span>, nonlinearity=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        init.normal_(self.rel_h, <span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">        init.normal_(self.rel_w, <span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">temp = torch.randn((<span class="number">2</span>, <span class="number">3</span>, <span class="number">32</span>, <span class="number">32</span>))</span><br><span class="line">conv = AttentionConv(<span class="number">3</span>, <span class="number">16</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(conv(temp).size())</span><br></pre></td></tr></table></figure>
+
+<h3 id="ViT"><a href="#ViT" class="headerlink" title="ViT"></a>ViT</h3><p><a href="https://paperswithcode.com/method/vision-transformer">Vision Transformer</a></p>
+<p><strong>太经典了，就不写了</strong></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.2.8.1" alt="image-20230914211736105"></p>
+<h3 id="GENet"><a href="#GENet" class="headerlink" title="GENet"></a>GENet</h3><p><a href="https://arxiv.org/abs/1810.12348">Gather-Excite: Exploiting Feature Context in Convolutional Neural Networks</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.9.1" alt="image-20230912095149179"></p>
+<p>&emsp;$$y^c&#x3D;x\odot \sigma(interp(\xi _G(x)^c))$$</p>
+<p>&emsp;Gather，可以有效地在很大的空间范围内聚合特征响应，而Excite,可以将合并的信息重新分布到局部特征。SENet是GENet的特殊情况，当selection operator的范围是整个 feature map 的时候，形式就和 SENet 一样的。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Identity</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>(Identity, self).__init__()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Downblock</span>(nn.Module):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;C不变 减小尺寸&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, channels, kernel_size=<span class="number">3</span>, relu=<span class="literal">True</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span></span>):</span><br><span class="line">        <span class="built_in">super</span>(Downblock, self).__init__()</span><br><span class="line"></span><br><span class="line">        self.dwconv = nn.Conv2d(channels, channels, groups=channels, stride=stride,</span><br><span class="line">                                kernel_size=kernel_size, padding=padding, bias=<span class="literal">False</span>)</span><br><span class="line">        self.bn = nn.BatchNorm2d(channels)</span><br><span class="line">        self.relu = relu</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        x = self.dwconv(x)</span><br><span class="line">        x = self.bn(x)</span><br><span class="line">        <span class="keyword">if</span> self.relu:</span><br><span class="line">            x = F.relu(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GEBlock</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_planes, out_planes, stride, spatial, extent=<span class="number">0</span>, extra_params=<span class="literal">True</span>, mlp=<span class="literal">True</span>, dropRate=<span class="number">0.0</span></span>):</span><br><span class="line">        <span class="comment"># If extent is zero, assuming global.</span></span><br><span class="line">        <span class="built_in">super</span>(GEBlock, self).__init__()</span><br><span class="line">        self.bn1 = nn.BatchNorm2d(in_planes)</span><br><span class="line">        self.relu1 = nn.ReLU(inplace=<span class="literal">True</span>)</span><br><span class="line">        self.conv1 = nn.Conv2d(in_planes, out_planes, kernel_size=<span class="number">3</span>, stride=stride,</span><br><span class="line">                               padding=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br><span class="line">        self.bn2 = nn.BatchNorm2d(out_planes)</span><br><span class="line">        self.relu2 = nn.ReLU(inplace=<span class="literal">True</span>)</span><br><span class="line">        self.conv2 = nn.Conv2d(out_planes, out_planes, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>,</span><br><span class="line">                               padding=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br><span class="line">        self.droprate = dropRate</span><br><span class="line">        self.equalInOut = (in_planes == out_planes) <span class="comment"># 判断前后通道数是否相同</span></span><br><span class="line">        self.convShortcut = (<span class="keyword">not</span> self.equalInOut) <span class="keyword">and</span> nn.Conv2d(in_planes, out_planes, kernel_size=<span class="number">1</span>, stride=stride,</span><br><span class="line">                                                                padding=<span class="number">0</span>, bias=<span class="literal">False</span>) <span class="keyword">or</span> <span class="literal">None</span></span><br><span class="line">        self.extent = extent</span><br><span class="line">        <span class="keyword">if</span> extra_params <span class="keyword">is</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">if</span> extent == <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># Global DW Conv + BN</span></span><br><span class="line">                self.downop = Downblock(out_planes, relu=<span class="literal">False</span>, kernel_size=spatial, stride=<span class="number">1</span>, padding=<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">elif</span> extent == <span class="number">2</span>:</span><br><span class="line">                self.downop = Downblock(out_planes, relu=<span class="literal">False</span>)</span><br><span class="line">            <span class="keyword">elif</span> extent == <span class="number">4</span>:</span><br><span class="line">                self.downop = nn.Sequential(Downblock(out_planes, relu=<span class="literal">True</span>),</span><br><span class="line">                                            Downblock(out_planes, relu=<span class="literal">False</span>))</span><br><span class="line">            <span class="keyword">elif</span> extent == <span class="number">8</span>:</span><br><span class="line">                self.downop = nn.Sequential(Downblock(out_planes, relu=<span class="literal">True</span>),</span><br><span class="line">                                            Downblock(out_planes, relu=<span class="literal">True</span>),</span><br><span class="line">                                            Downblock(out_planes, relu=<span class="literal">False</span>))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">raise</span> NotImplementedError(<span class="string">&#x27;Extent must be 0,2,4 or 8 for now&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> extent == <span class="number">0</span>:</span><br><span class="line">                self.downop = nn.AdaptiveAvgPool2d(<span class="number">1</span>) <span class="comment"># 自适应性池化</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.downop = nn.AdaptiveAvgPool2d(spatial // extent)</span><br><span class="line">        <span class="keyword">if</span> mlp <span class="keyword">is</span> <span class="literal">True</span>:</span><br><span class="line">            self.mlp = nn.Sequential(nn.Conv2d(out_planes, out_planes // <span class="number">16</span>, kernel_size=<span class="number">1</span>, padding=<span class="number">0</span>, bias=<span class="literal">False</span>),</span><br><span class="line">                                     nn.ReLU(),</span><br><span class="line">                                     nn.Conv2d(out_planes // <span class="number">16</span>, out_planes, kernel_size=<span class="number">1</span>, padding=<span class="number">0</span>, bias=<span class="literal">False</span>),</span><br><span class="line">                                     ) <span class="comment"># 缩放结构</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.mlp = Identity()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.equalInOut:</span><br><span class="line">            x = self.relu1(self.bn1(x))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            out = self.relu1(self.bn1(x))</span><br><span class="line">        out = self.relu2(self.bn2(self.conv1(out <span class="keyword">if</span> self.equalInOut <span class="keyword">else</span> x)))</span><br><span class="line">        <span class="keyword">if</span> self.droprate &gt; <span class="number">0</span>:</span><br><span class="line">            out = F.dropout(out, p=self.droprate, training=self.training)</span><br><span class="line">        out = self.conv2(out)</span><br><span class="line">        <span class="comment"># Assuming squares because lazy.</span></span><br><span class="line">        shape_in = out.shape[-<span class="number">1</span>]</span><br><span class="line">        <span class="comment"># Down, up, sigmoid</span></span><br><span class="line">        <span class="built_in">map</span> = self.downop(out)</span><br><span class="line">        <span class="built_in">map</span> = self.mlp(<span class="built_in">map</span>)</span><br><span class="line">        <span class="built_in">map</span> = F.interpolate(<span class="built_in">map</span>, shape_in)</span><br><span class="line">        <span class="built_in">map</span> = torch.sigmoid(<span class="built_in">map</span>)</span><br><span class="line">        out = out * <span class="built_in">map</span></span><br><span class="line">        <span class="keyword">return</span> torch.add(x <span class="keyword">if</span> self.equalInOut <span class="keyword">else</span> self.convShortcut(x), out)</span><br></pre></td></tr></table></figure>
+
+<h3 id="PSANet"><a href="#PSANet" class="headerlink" title="PSANet"></a>PSANet</h3><p><a href="https://paperswithcode.com/paper/psanet-point-wise-spatial-attention-network">PSANet: Point-wise Spatial Attention Network for Scene Parsing</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.10" alt="image-20230912101539545"></p>
+<p>&emsp;这篇最大的亮点是从信息流的角度看待自注意力机制，但是网络设计有些牵强，解释有些生硬（我觉得也是），代码中上下两个架构都一样没怎么改变，表示不太理解，区别：</p>
+<ol>
+<li>有两个分支来学习关系；</li>
+<li>参数是自适应的而非仅利用相似度</li>
+</ol>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.10.2" alt="image-20230912102008822"></p>
+<p><a href="https://github.com/justld/PSANet_paddle/blob/main/paddleseg/models/psanet.py">codes</a></p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p><strong>其余论文：</strong></p>
+<ol>
+<li>GloRe(CVPR2019)：<a href="https://paperswithcode.com/paper/graph-based-global-reasoning-networks">Graph-Based Global Reasoning Networks</a></li>
+<li>OCRNet(ECCT2020)：<a href="https://paperswithcode.com/paper/object-contextual-representations-for">Segmentation Transformer: Object-Contextual Representations for Semantic Segmentation</a></li>
+<li>disentangled non-local(ECCV2020)：<a href="https://paperswithcode.com/paper/disentangled-non-local-neural-networks">Disentangled non-local neural networks</a></li>
+<li>HamNet(ICLR2021):<a href="https://paperswithcode.com/paper/is-attention-better-than-matrix-decomposition-1">Is Attention Better Than Matrix Decomposition?</a></li>
+<li>EANet:<a href="https://paperswithcode.com/paper/beyond-self-attention-external-attention">Beyond Self-attention: External Attention using Two Linear Layers for Visual Tasks</a></li>
+<li>LR-Net(ICCV2019)：<a href="https://paperswithcode.com/paper/190411491">Local Relation Networks for Image Recognition</a></li>
+<li>SAN(CVPR2020):<a href="https://paperswithcode.com/paper/exploring-self-attention-for-image">Exploring Self-attention for Image Recognition</a></li>
+</ol>
+<p><strong>RNN-based methods:</strong> </p>
 <ul>
-<li>DDPM提出将直接预测图像改为预测噪声，可以简化优化过程。但是DALL·E2这里又没有沿袭这种预测噪声的做法。</li>
-<li>DALL·E2提出如果有显式的生成图片特征的过程，模型效果会好很多，所以采用了两阶段生成方式。但是Imagen直接上一个U-Net就解决了，更简单，效果也很好。</li>
-<li>CLIP和DALL·E2都说自回归模型训练太贵了，训练太不高效了。但是在7月左右，谷歌又推出了Parti，用pathways模型做自回归的文本图像生成，效果直接超越了DALL·E2和Imagen。</li>
+<li>RAM</li>
+<li>Hard and soft att</li>
 </ul>
+<p><strong>Predict the relevant region explictly:</strong></p>
+<ul>
+<li>STN</li>
+<li>DCN</li>
+</ul>
+<p><strong>Predict the relevant region implictly:</strong></p>
+<ul>
+<li>GENet</li>
+<li>PSANet</li>
+</ul>
+<p><strong>Self-attention based methods:</strong></p>
+<ul>
+<li>Nono-Local</li>
+<li>SASA</li>
+<li>ViT</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>Method</strong></th>
+<th align="center">Publication</th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)</th>
+<th align="center">S&#x2F;H</th>
+<th align="center"><strong>Goals</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">RAM</td>
+<td align="center">NIPS2014</td>
+<td align="center">Cls</td>
+<td align="center">use RNN to recurrently predict important regions</td>
+<td align="center">H</td>
+<td align="center">(I)(II)</td>
+</tr>
+<tr>
+<td align="center">Hard and soft  attention</td>
+<td align="center">ICML2015</td>
+<td align="center">ICap</td>
+<td align="center">compute similarity between visual features and previous hidden state -&gt; interpret attention weight.</td>
+<td align="center">S, H</td>
+<td align="center">(I)</td>
+</tr>
+<tr>
+<td align="center">STN</td>
+<td align="center">NIPS2015</td>
+<td align="center">Cls,FGCls</td>
+<td align="center">use sub-network to predict an affine transformation.</td>
+<td align="center">H</td>
+<td align="center">(I) (III)</td>
+</tr>
+<tr>
+<td align="center">DCN</td>
+<td align="center">ICCV2017</td>
+<td align="center">Det,SSeg</td>
+<td align="center">use sub-network to predict offset coordinates.</td>
+<td align="center">H</td>
+<td align="center">(I) (III)</td>
+</tr>
+<tr>
+<td align="center">GENet</td>
+<td align="center">NIPS2018</td>
+<td align="center">Cls,Det</td>
+<td align="center">average pooling or depth-wise convolution -&gt;   interpolation -&gt; sigmoid</td>
+<td align="center">S</td>
+<td align="center">(I)</td>
+</tr>
+<tr>
+<td align="center">PSANet</td>
+<td align="center">ECCV2018</td>
+<td align="center">SSeg</td>
+<td align="center">predict an attention map using a sub-network.</td>
+<td align="center">S</td>
+<td align="center">(I) (IV)</td>
+</tr>
+<tr>
+<td align="center">Non-Local</td>
+<td align="center">CVPR2018</td>
+<td align="center">Action,Det, ISeg</td>
+<td align="center">Dot product between query and key -&gt; softmax</td>
+<td align="center">S</td>
+<td align="center">(I)(IV)  (V)</td>
+</tr>
+<tr>
+<td align="center">SASA</td>
+<td align="center">NeurIPS2019</td>
+<td align="center">Cls,Det</td>
+<td align="center">Dot product between  query and key -&gt; softmax.</td>
+<td align="center">S</td>
+<td align="center">(I)(V)</td>
+</tr>
+<tr>
+<td align="center">ViT</td>
+<td align="center">ICLR2021</td>
+<td align="center">Cls</td>
+<td align="center">divide the  feature map  into multiple groups -&gt; Dot product  between query and key -&gt; softmax.</td>
+<td align="center">S</td>
+<td align="center">(I)(IV) (VII)</td>
+</tr>
+</tbody></table>
+<p><strong>(I):</strong> 将网络聚焦于有区别的区域上<br><strong>(II):</strong> 避免对大输入图像进行过多计算<br><strong>(III):</strong> 提供给更多的变换不变性<br><strong>(IV):</strong> 捕获远依赖关系<br><strong>(V):</strong> 去噪输入特征图<br><strong>(VI):</strong> 自适应聚集领域信息<br><strong>(VII):</strong> 减少归纳性偏置(减小习惯性经验)</p>
+<h2 id="时间注意力-Temporal-Attention"><a href="#时间注意力-Temporal-Attention" class="headerlink" title="时间注意力(Temporal Attention)"></a>时间注意力(Temporal Attention)</h2><h3 id="GLTR"><a href="#GLTR" class="headerlink" title="GLTR"></a>GLTR</h3><p><a href="https://paperswithcode.com/paper/global-local-temporal-representations-for">Global-local temporal representations for video person re-identification</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.3.1.1" alt="image-20230912103017961"></p>
+<p>&emsp;融合帧的过程中，有短期融合和长期融合，$F$为提取图像得到的特征</p>
+<ol>
+<li>短期融合：利用一维空洞卷积，N个branch，其中每个branch的膨胀尺寸都是不一样的，论文里建议使用2的指数级</li>
+<li>长期融合：利用TSA</li>
+</ol>
+<h3 id="TAM"><a href="#TAM" class="headerlink" title="TAM"></a>TAM</h3><p><a href="https://paperswithcode.com/paper/tam-temporal-adaptive-module-for-video">Tam: Temporal adaptive module for video recognition</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.3.2.1" alt="image-20230912104149542"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.3.2.2" alt="image-20230912104335716"></p>
+<p>&emsp;时序自适应模块（TAM）为每个视频生成特定的时序建模核。该算法针对不同视频片段，灵活高效地生成动态时序核，自适应地进行时序信息聚合，包含局部和全局分支。</p>
+<p>&emsp;全局分支是TAM的核心，其基于全局时序信息生成视频相关的自适应卷积核。全局分支主要负责long-range时序建模，捕获视频中的long-range依赖。全局针对视频时序信息的多样性，为其生成动态的时序聚合卷积核。为了简化自适应卷积核的生成，并保持较高的inference效率，本方法提出了一种逐<strong>通道时序卷积核的生成方法</strong>。基于这种想法，我们期望所生成的自适应卷积核只考虑建模时序关系。</p>
+<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>Category</strong></th>
+<th align="center"><strong>Method</strong></th>
+<th align="center"><strong>Publication</strong></th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)</th>
+<th align="center">S or H</th>
+<th align="center"><strong>Goals</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Self-attention  based methods</td>
+<td align="center">GLTR</td>
+<td align="center">ICCV2019</td>
+<td align="center">ReID</td>
+<td align="center">dilated 1D Convs -&gt; self-attention in temporal di- mension</td>
+<td align="center">S</td>
+<td align="center">(I)(II)</td>
+</tr>
+<tr>
+<td align="center">Combine local  attention and global attention</td>
+<td align="center">TAM</td>
+<td align="center">Arxiv2020</td>
+<td align="center">Action</td>
+<td align="center">local: global spatial average  pooling -&gt; 1D Convs, b) global: global  spatial average pooling  -&gt; MLP -&gt; adaptive con-  volution</td>
+<td align="center">S</td>
+<td align="center">(II)(III)</td>
+</tr>
+</tbody></table>
+<p>**(I):**利用多尺度短期上下文信息</p>
+<p>**(II):**捕捉长期时间特征依赖</p>
+<p>**(III):**捕捉局部时间上下文</p>
+<h2 id="分支注意力-Branch-Attention"><a href="#分支注意力-Branch-Attention" class="headerlink" title="分支注意力(Branch Attention)"></a>分支注意力(Branch Attention)</h2><h3 id="SKNet"><a href="#SKNet" class="headerlink" title="SKNet"></a>SKNet</h3><p><a href="https://paperswithcode.com/paper/selective-kernel-networks">Selective kernel networks</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.4.1.1" alt="image-20230912210030778"></p>
+<p>&emsp;关注点主要是不同大小的感受野对于不同尺度的目标有不同的效果，目的是使得网络可以自动地利用对分类有效的感受野捕捉到的信息。<strong>提出了一种在CNN中对卷积核的动态选择机制</strong>，该机制允许每个神经元根据输入信息的多尺度自适应地调整其感受野（卷积核）的大小。</p>
+<ol>
+<li>Split：使用多个卷积核对X进行卷积，以形成多个分支。</li>
+<li>Fuse：首先通过元素求和从多个分支中融合出结果。（这部分和SE模块的处理大致相同），$F_{gp}$为全局池化，$F_{fc}$收缩激活</li>
+<li>Select：即有几个尺度的特征图（图中的例子是两个），则将squeeze出来的特征再通过几个全连接将特征数目回复到c，（假设我们用了三种RF，squeeze之后的特征要接三个全连接，每个全连接的神经元的数目都是c）这个图上应该在空线上加上FC会比较好理解吧。然后将这N个全连接后的结果拼起来（可以想象成一个cxN的矩阵），然后纵向的（每一列）进行softmax。如图中的蓝色方框所示——即不同尺度的同一个channel就有了不同的权重。</li>
+</ol>
+<h3 id="CondConv"><a href="#CondConv" class="headerlink" title="CondConv"></a>CondConv</h3><p><a href="https://paperswithcode.com/paper/soft-conditional-computation">CondConv: Conditionally Parameterized Convolutions for Efficient Inference</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.4.2.1" alt="image-20230912210957729"></p>
+<p>&emsp;CondConv的核心思想是带条件计算的分支集成的一种巧妙变换，首先它采用更细粒度的集成方式，每一个卷积层都拥有多套权重，卷积层的输入分别经过不同的权重卷积之后组合输出，简单来说，CondConv在卷积层设置多套卷积核，在推断时对卷积核施加SE模块，根据卷积层的输入决定各套卷积核的权重，最终加权求和得到一个为该输入量身定制的一套卷积核，最后执行一次卷积即可。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">from</span> torch.nn <span class="keyword">import</span> functional <span class="keyword">as</span> F</span><br><span class="line"><span class="comment"># 在这里发现我对卷积的过程认识不全面</span></span><br><span class="line"><span class="comment"># 和卷积核的维数 https://zh-v2.d2l.ai/chapter_convolutional-neural-networks/channels.html</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Attention</span>(nn.Module):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;类似SCNet,但这里c-&gt;k，输出权重&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_planes, K, init_weight=<span class="literal">True</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.avgpool = nn.AdaptiveAvgPool2d(<span class="number">1</span>)</span><br><span class="line">        self.net = nn.Conv2d(in_planes, K, kernel_size=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br><span class="line">        self.sigmoid = nn.Sigmoid()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        att = self.avgpool(x)  <span class="comment">#bs,dim,1,1</span></span><br><span class="line">        att = self.net(att).view(x.shape[<span class="number">0</span>], -<span class="number">1</span>)  </span><br><span class="line">        <span class="keyword">return</span> self.sigmoid(att) <span class="comment"># bs,K</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CondConv</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_planes, out_planes, kernel_size, stride, padding=<span class="number">0</span>, dilation=<span class="number">1</span>, grounps=<span class="number">1</span>, bias=<span class="literal">True</span>, K=<span class="number">4</span>,</span></span><br><span class="line"><span class="params">                 init_weight=<span class="literal">True</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.in_planes = in_planes</span><br><span class="line">        self.out_planes = out_planes</span><br><span class="line">        self.kernel_size = kernel_size</span><br><span class="line">        self.stride = stride</span><br><span class="line">        self.padding = padding</span><br><span class="line">        self.dilation = dilation</span><br><span class="line">        self.groups = grounps</span><br><span class="line">        self.bias = bias</span><br><span class="line">        self.K = K</span><br><span class="line">        self.init_weight = init_weight</span><br><span class="line">        self.attention = Attention(in_planes=in_planes, K=K, init_weight=init_weight)</span><br><span class="line"></span><br><span class="line">        self.weight = nn.Parameter(torch.randn(K, out_planes, in_planes // grounps, kernel_size, kernel_size),</span><br><span class="line">                                   requires_grad=<span class="literal">True</span>)  <span class="comment"># k, out, in/group, k, k</span></span><br><span class="line">        <span class="keyword">if</span> (bias):</span><br><span class="line">            self.bias = nn.Parameter(torch.randn(K, out_planes), requires_grad=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.bias = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        bs, in_planels, h, w = x.shape</span><br><span class="line">        softmax_att = self.attention(x) <span class="comment"># bs, K 获得注意力分数</span></span><br><span class="line">        x = x.view(<span class="number">1</span>, -<span class="number">1</span>, h, w)</span><br><span class="line">        weight = self.weight.view(self.K, -<span class="number">1</span>)  <span class="comment"># K,-1 个卷积</span></span><br><span class="line">        aggregate_weight = torch.mm(softmax_att, weight).view(bs * self.out_planes, self.in_planes // self.groups, self.kernel_size, self.kernel_size)  <span class="comment">#bs*out_p,in_p,k,k -- 卷积核增加了</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (self.bias <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>):</span><br><span class="line">            bias = self.bias.view(self.K, -<span class="number">1</span>)  <span class="comment">#K,out_p</span></span><br><span class="line">            aggregate_bias = torch.mm(softmax_att, bias).view(-<span class="number">1</span>)  <span class="comment">#bs,out_p</span></span><br><span class="line">            output = F.conv2d(x, weight=aggregate_weight, bias=aggregate_bias, stride=self.stride, padding=self.padding,</span><br><span class="line">                              groups=self.groups * bs, dilation=self.dilation)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            output = F.conv2d(x, weight=aggregate_weight, bias=<span class="literal">None</span>, stride=self.stride, padding=self.padding,</span><br><span class="line">                              groups=self.groups * bs, dilation=self.dilation) <span class="comment"># 卷积操作</span></span><br><span class="line">        output = output.view(bs, self.out_planes, h, w)</span><br><span class="line">        <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">input</span> = torch.randn(<span class="number">2</span>, <span class="number">32</span>, <span class="number">64</span>, <span class="number">64</span>)</span><br><span class="line">    m = CondConv(in_planes=<span class="number">32</span>, out_planes=<span class="number">64</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>, padding=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br><span class="line">    out = m(<span class="built_in">input</span>)</span><br><span class="line">    <span class="built_in">print</span>(out.shape)</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>Category</strong></th>
+<th align="center"><strong>Method</strong></th>
+<th align="center"><strong>Publication</strong></th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)</th>
+<th align="center">S&#x2F;H</th>
+<th><strong>Goals</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Combine different branches</td>
+<td align="center">SKNet</td>
+<td align="center">CVPR2019</td>
+<td align="center">Cls</td>
+<td align="center">global average pooling-&gt;MLP -&gt; softmax</td>
+<td align="center">S</td>
+<td>(II）(III)</td>
+</tr>
+<tr>
+<td align="center">Combine different convolution kernels</td>
+<td align="center">CondConv</td>
+<td align="center">NeurIPS2019</td>
+<td align="center">Cls,Det</td>
+<td align="center">global average pooling -&gt; linear layer -&gt; sigmoid</td>
+<td align="center">S</td>
+<td>(IV)</td>
+</tr>
+</tbody></table>
+<p>**(II):**动态融合不同的分支</p>
+<p>**(III):**自适应的选择接受域</p>
+<p>**(IV):**动态融合不同的卷积核</p>
+<h2 id="通道-空间注意力机制-Channel-Spatial-Attention"><a href="#通道-空间注意力机制-Channel-Spatial-Attention" class="headerlink" title="通道&amp;空间注意力机制(Channel&amp;Spatial Attention)"></a>通道&amp;空间注意力机制(Channel&amp;Spatial Attention)</h2><h3 id="Residual-Attention"><a href="#Residual-Attention" class="headerlink" title="Residual Attention"></a>Residual Attention</h3><p><a href="https://paperswithcode.com/paper/residual-attention-network-for-image">Residual Attention Network for Image Classification</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.2.5.1" alt="image-20230912211521470"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.1.2" alt="image-20230912211549164"></p>
+<h3 id="SCNet"><a href="#SCNet" class="headerlink" title="SCNet"></a>SCNet</h3><p><a href="https://paperswithcode.com/paper/improving-convolutional-networks-with-self">Improving Convolutional Networks With Self-Calibrated Convolutions</a></p>
+<p>&emsp;<strong>南开大学程明明组，他们组的每篇论文有对应的中文版</strong></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.2.1" alt="image-20230914160232645"></p>
+<p>&emsp;本文有设计复杂的网络体系结构来增强特征表示，而是引入了自校准卷积作为通过增加每层基本卷积变换来帮助卷积网络学习判别表示的有效方法。 类似于分组卷积，它将特定层的卷积过滤器分为多个部分，但不均匀地，每个部分中的过滤器以异构方式被利用。</p>
+<h3 id="Strip-Pooling"><a href="#Strip-Pooling" class="headerlink" title="Strip Pooling"></a>Strip Pooling</h3><p><a href="https://paperswithcode.com/paper/2003-13328">Strip Pooling: Rethinking Spatial Pooling for Scene Parsing</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.3.1" alt="image-20230914161657807"></p>
+<p>&emsp;<strong>条带池化模块（SPM）</strong>，以有效地扩大主干网络的感受野。更具体地说，SPM由两个途径组成，它们专注于沿水平或垂直空间维度对远程上下文进行编码。对于池化产生的特征图中的每一个空间位置，它会对其全局的水平和垂直信息进行编码，然后使用这些编码来平衡其自身的权重以进行特征优化。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.3.2" alt="image-20230914161811763"></p>
+<p>&emsp;提出了一种新颖的附加残差构建模块，称为<strong>混合池化模块（MPM）</strong>，其中金字塔池模块（PPM）为F3(a),以进一步在高语义级别上对远程依赖性进行建模。通过利用具有不同内核形状的池化操作来探查具有复杂场景的图像，可以收集信息丰富的上下文信息。为了证明所提出的基于池化的模块的有效性，我们提出了SPNet，它将这两个模块都整合到了ResNet 的主干网络中。实验表明，SPNet在流行的场景解析基准上达到了SOTA。</p>
+<h3 id="SCA-CNN"><a href="#SCA-CNN" class="headerlink" title="SCA-CNN"></a>SCA-CNN</h3><p><a href="https://paperswithcode.com/paper/sca-cnn-spatial-and-channel-wise-attention-in">SCA-CNN: Spatial and Channel-wise Attention in Convolutional Networks for Image Captioning</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.4.1" alt="image-20230914163052457"></p>
+<p>&emsp;类似于下面的CBAM，这里主要是偏向了图文结合。</p>
+<h3 id="CBAM-BAM"><a href="#CBAM-BAM" class="headerlink" title="CBAM &amp; BAM"></a>CBAM &amp; BAM</h3><p><a href="https://paperswithcode.com/paper/cbam-convolutional-block-attention-module">CBAM: convolutional block attention module</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.5.1" alt="image-20230914164028711"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.5.2" alt="image-20230914164304818"></p>
+<p>&emsp;这个和前面的SCA-CNN有着一样的线性结构。</p>
+<h3 id="scSE"><a href="#scSE" class="headerlink" title="scSE"></a>scSE</h3><p><a href="https://paperswithcode.com/paper/recalibrating-fully-convolutional-networks">Recalibrating fully convolutional networks with spatial and channel “squeeze and excitation” blocks</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.6.1" alt="image-20230914164811599"></p>
+<p>&emsp;这篇偏向于图像医疗方向，与CBAM相比，他是并行的，Channel和Spatial注意机制是相互竞争的。</p>
+<h3 id="DANet"><a href="#DANet" class="headerlink" title="DANet"></a>DANet</h3><p><a href="https://paperswithcode.com/paper/dual-attention-network-for-scene-segmentation">Dual attention network for scene segmentation</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.7.1" alt="image-20230914170711645"></p>
+<p>&emsp;对偶注意力网络，利用自注意力机制提高特征表示的判别性。这种方法在前面的空间注意力中经常提到。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.7.2" alt="image-20230914170913189"></p>
+<h3 id="RGA"><a href="#RGA" class="headerlink" title="RGA"></a>RGA</h3><p><a href="https://paperswithcode.com/paper/relation-aware-global-attention">Relation-aware global attention for person re-identification</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.8" alt="image-20230914173205457"></p>
+<p>&emsp;作者通过设计attention,让网络提取更具有区别度的特征信息。简单来说，就是给行人不同部位的特征加上一个权重，从而达到对区分特征的增强，无关特征的抑制。计算量偏大，下面是forward关于空间注意力机制的计算方法，具体看源码。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># spatial attention</span></span><br><span class="line">theta_xs = self.theta_spatial(x) <span class="comment"># b c/sp h w</span></span><br><span class="line">phi_xs = self.phi_spatial(x) <span class="comment"># b c/sp h w</span></span><br><span class="line">theta_xs = theta_xs.view(b, self.inter_channel, -<span class="number">1</span>)</span><br><span class="line">theta_xs = theta_xs.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>) <span class="comment"># b h*w c/sp</span></span><br><span class="line">phi_xs = phi_xs.view(b, self.inter_channel, -<span class="number">1</span>) <span class="comment"># b c/sp h*w</span></span><br><span class="line">Gs = torch.matmul(theta_xs, phi_xs) <span class="comment"># b h*w h*w</span></span><br><span class="line">Gs_in = Gs.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>).view(b, h*w, h, w) <span class="comment"># 为什么要改变维度？因为要横向纵向</span></span><br><span class="line">Gs_out = Gs.view(b, h*w, h, w)</span><br><span class="line">Gs_joint = torch.cat((Gs_in, Gs_out), <span class="number">1</span>)</span><br><span class="line">Gs_joint = self.gg_spatial(Gs_joint) <span class="comment"># b c/sp h*w hw</span></span><br><span class="line"></span><br><span class="line">g_xs = self.gx_spatial(x) <span class="comment"># b c/sp h w</span></span><br><span class="line">g_xs = torch.mean(g_xs, dim=<span class="number">1</span>, keepdim=<span class="literal">True</span>) <span class="comment"># b 1 h w</span></span><br><span class="line">ys = torch.cat((g_xs, Gs_joint), <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">W_ys = self.W_spatial(ys) <span class="comment"># b 1 h w</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> self.use_channel:</span><br><span class="line">   out = F.sigmoid(W_ys.expand_as(x)) * x</span><br><span class="line">   <span class="keyword">return</span> out</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   x = F.sigmoid(W_ys.expand_as(x)) * x</span><br></pre></td></tr></table></figure>
+
+<h3 id="Triplet-Attention"><a href="#Triplet-Attention" class="headerlink" title="Triplet Attention"></a>Triplet Attention</h3><p><a href="https://paperswithcode.com/paper/rotate-to-attend-convolutional-triplet">Rotate to attend: Convolutional triplet attention module</a></p>
+<p>&emsp;某乎评价：<strong>这。。。flops比GCNet高，点比GCNet低，果然是超过了GCNet。。。你永远可以相信印度哥</strong></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.9.2" alt="image-20230914201032888"></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.5.9.3" alt="image-20230914201119565"></p>
+<h3 id="总结-4"><a href="#总结-4" class="headerlink" title="总结"></a>总结</h3><p><strong>Jointly predictchannel &amp; spatial attention map:</strong></p>
+<ul>
+<li>Residual Attention </li>
+<li>SCNet </li>
+<li>Strip Pooling</li>
+</ul>
+<p><strong>Separately predict channel &amp;spatial attention maps:</strong></p>
+<ul>
+<li>SCA-CNN</li>
+<li>CBAM&#x2F;BAM</li>
+<li>scSE</li>
+<li>Dual Attention</li>
+<li>RGA</li>
+<li>Triplet Attention</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>Method</strong></th>
+<th align="center"><strong>Publication</strong></th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)</th>
+<th><strong>Goals</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Residual Attention</td>
+<td align="center">CVPR2017</td>
+<td align="center">Cls</td>
+<td align="center">top-down network-&gt;bottom down network-&gt;1×1 Convs-&gt;Sigmoid</td>
+<td>(I) (II)</td>
+</tr>
+<tr>
+<td align="center">SCNet</td>
+<td align="center">CVPR2020</td>
+<td align="center">Cls Det  ISeg KP</td>
+<td align="center">top-down network-&gt;bottom down network-&gt;identity add-&gt;sigmoid</td>
+<td>(II) (III)</td>
+</tr>
+<tr>
+<td align="center">Strip Pooling</td>
+<td align="center">CVPR2020</td>
+<td align="center">Seg</td>
+<td align="center">horizontal&#x2F;vertical lobal pooling-&gt;1D Conv-&gt;point-wise summation-&gt;1 × 1 Conv-&gt;Sigmoid</td>
+<td>(I)(II)(III)</td>
+</tr>
+<tr>
+<td align="center">SCA-CNN</td>
+<td align="center">CVPR2017</td>
+<td align="center">ICap</td>
+<td align="center">spatial: fuse hidden state -&gt; 1 × 1 Conv  -&gt; Softmax, b)channel:  global average pooling  -&gt; MLP -&gt; Softmax</td>
+<td>(I)(II) (III)</td>
+</tr>
+<tr>
+<td align="center">CBAM</td>
+<td align="center">ECCV2018</td>
+<td align="center">Cls Det</td>
+<td align="center">a)spatial:global pooling in channel dimension-&gt; Conv-&gt;Sigmoid; b)channel:global pooling in spatial dimension-&gt; MLP -&gt; Sigmoid</td>
+<td>(I)(II) (III)</td>
+</tr>
+<tr>
+<td align="center">BAM</td>
+<td align="center">BMVC2018</td>
+<td align="center">Cls Det</td>
+<td align="center">a)spatial: dilated Convs,  b) channel: global average pooling -&gt; MLP, c)fuse two branches</td>
+<td>(I)(II) (III)</td>
+</tr>
+<tr>
+<td align="center">scSE</td>
+<td align="center">TMI2018</td>
+<td align="center">Seg</td>
+<td align="center">a)spatial: 1 × 1 Conv -&gt; Sigmoid, b)channel: global average pooling-&gt; MLP-&gt; Sigmoid, c)fuse two branches</td>
+<td>(I)(II) (III)</td>
+</tr>
+<tr>
+<td align="center">Dual  Attention</td>
+<td align="center">CVPR2019</td>
+<td align="center">Seg</td>
+<td align="center">a)spatial: self-attention in spatial dimension, b)channel: self-attention in channel dimension, c) fuse two branches</td>
+<td>(I)(II) (III)</td>
+</tr>
+<tr>
+<td align="center">RGA</td>
+<td align="center">CVPR2020</td>
+<td align="center">ReID</td>
+<td align="center">use self-attention to capture pairwise relations -&gt; compute attention maps with the input and relation  vectors</td>
+<td>(I)(II)  (III)</td>
+</tr>
+<tr>
+<td align="center">Triplet  Attention</td>
+<td align="center">WACV2021</td>
+<td align="center">Cls Det</td>
+<td align="center">compute attention maps for pairs of domains -&gt;fuse different branches</td>
+<td>(I)(IV)</td>
+</tr>
+</tbody></table>
+<p>**(I):**将网络聚焦在区分区域上</p>
+<p>**(II):**强调重要通道</p>
+<p>**(III):**捕捉远程信息</p>
+<p>**(IV):**捕捉任意两个域之间的跨域互相作用</p>
+<h2 id="空间-时间注意力-Spatial-Temporal-Attention"><a href="#空间-时间注意力-Spatial-Temporal-Attention" class="headerlink" title="空间&amp;时间注意力(Spatial&amp;Temporal Attention)"></a>空间&amp;时间注意力(Spatial&amp;Temporal Attention)</h2><p>很多动作识别领域-<strong>不太了解</strong></p>
+<h3 id="STA-LSTM"><a href="#STA-LSTM" class="headerlink" title="STA-LSTM"></a>STA-LSTM</h3><p><a href="https://paperswithcode.com/paper/an-end-to-end-spatio-temporal-attention-model">An end-to-end spatio-temporal attention model for human action recognition from skeleton data</a></p>
+<p>&emsp;<strong>骨架识别</strong></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.1.1" alt="image-20230914202546443"></p>
+<p>&emsp;空间注意力：</p>
+<p>$$s_t&#x3D;U_stanh(W_{xs}x_t+W_{hs}h_{t-1}^s+b_s)+b_{us}$$</p>
+<p>$$\alpha <em>{t,k}&#x3D;\frac{exp(s_t,k)}{\sum</em>{i&#x3D;1}^{K}exp(s_t,i) } $$</p>
+<p>&emsp;时间注意力：</p>
+<p>$$\beta <em>t&#x3D;ReLU(w_\tilde{x}+w_\tilde{h} \tilde{h}</em>{t-1}+\tilde {b} )$$</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.1.2" alt="image-20230914202634777"></p>
+<h3 id="RSTAN"><a href="#RSTAN" class="headerlink" title="RSTAN"></a><del>RSTAN</del></h3><p><a href="https://ieeexplore.ieee.org/document/8123939">Recurrent spatial-temporal attention network for action recognition in videos</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/2.6.2.1" alt="image-20230914204115694"></p>
+<h3 id="STA"><a href="#STA" class="headerlink" title="STA"></a>STA</h3><p><a href="https://paperswithcode.com/paper/sta-spatial-temporal-attention-for-large">STA: Spatial-Temporal Attention for Large-Scale Video-based Person Re-Identification</a></p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.4.1" alt="image-20230914211054536"></p>
+<p>&emsp;首先通过随机采样将输入视频轨迹压缩为N帧。</p>
+<p>（1）每个选定的帧被送入骨干网络转换成特征图。然后，发送特征映射对我们提出的时空注意模型，对不同帧的每个空间区域分配一个注意分数，然后生成一个二维注意力得分矩阵。采用帧间正则化来限制不同帧之间的差异</p>
+<p>(3)利用注意力得分提取出注意力最高的空间区域特征图对所有帧进行评分，并根据分配的关注分数对空间区域特征图进行加权和运算。</p>
+<p>(4)然后，采用特征融合策略，将不同空间区域的空间特征图进行拼接生成将人体的两组特征映射作为全局表示和判别表示。</p>
+<p>(5)最后，利用全局池化层和全连接层将特征映射转换为矢量，实现对人的再识别。在训练中，我们将triplet损失和softmax损失结合起来。在测试过程中，我们选择后的特征向量第一个全连接层作为输入视频轨迹的表示。</p>
+<h3 id="STGCN"><a href="#STGCN" class="headerlink" title="STGCN"></a>STGCN</h3><p><a href="https://paperswithcode.com/paper/spatial-temporal-graph-convolutional-network">Spatial-Temporal Graph Convolutional Network for Video-Based Person Re-Identification</a></p>
+<ol>
+<li>使用GCN去建模同一帧内以及不同帧之间的身体不同部位的潜在关系，为行人重识别提供更多的区别特征和健壮信息。</li>
+<li>提出了一个结合的框架，综合考虑了时间和结构上的关联。</li>
+</ol>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.3.1" alt="image-20230914210212548"></p>
+<p>&emsp;<strong>时间：</strong>不同的颜色代表不同的patch，图中是将每个特征图水平的分割为P个patch，T帧就会得到 T*P 个patch，这些patch会被看做图中的节点，最终，对GCN的输出使用了最大池化来得到最终的特征。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.3.2" alt="image-20230914210257499"></p>
+<p>&emsp;<strong>空间：</strong>使用GCN来建模视频中每一帧不同的patch的空间关系（每一帧都有一个GCN），然后融合视频中每一帧的GCN特征得到他们的内在结构特征。</p>
+<p><img src="/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/1.6.3.3" alt="image-20230914210346322"></p>
+<h3 id="总结-5"><a href="#总结-5" class="headerlink" title="总结"></a>总结</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>Category</strong></th>
+<th align="center"><strong>Method</strong></th>
+<th align="center"><strong>Publication</strong></th>
+<th align="center"><strong>Tasks</strong></th>
+<th align="center">g(x)</th>
+<th align="center"><strong>Goals</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Separately predict spatial&amp;temporal attetion</td>
+<td align="center">STA-LSTM</td>
+<td align="center">AAAI2017</td>
+<td align="center">Action</td>
+<td align="center">a)spatial:fuse hidden  state-&gt;MLP-&gt; Softmax, b)temporal:fuse hidden state -&gt; MLP -&gt; ReLU</td>
+<td align="center">(I)</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">RSTAN</td>
+<td align="center">TIP2018</td>
+<td align="center">Action</td>
+<td align="center">a)spatial: fuse hidden  state -&gt; MLP -&gt; Softmax, b)temporal: fuse hidden state -&gt; MLP-&gt;Softmax</td>
+<td align="center">(I)(II)</td>
+</tr>
+<tr>
+<td align="center">Jointly predict  spatial&amp;temporal  attention</td>
+<td align="center">STA</td>
+<td align="center">AAAI2019</td>
+<td align="center">ReID</td>
+<td align="center">a) tenporal: produce perframe attention maps using l2 norm b) spatial: obtain spatial scores for each patch by summation using l1 norm</td>
+<td align="center">(I)</td>
+</tr>
+<tr>
+<td align="center">Pairwise relation-based method</td>
+<td align="center">STGCN</td>
+<td align="center">CVPR2020</td>
+<td align="center">ReID</td>
+<td align="center">construct a patch  graph  using pairwise similarity</td>
+<td align="center">(I)</td>
+</tr>
+</tbody></table>
+<h1 id="未来方向"><a href="#未来方向" class="headerlink" title="未来方向"></a>未来方向</h1><ol>
+<li><p><strong>Necessary and sufﬁcient condition for attention(注意力的充分必要条件)</strong></p>
+<p>  这里主要是基础理论方面，发现方程$Attention&#x3D;f(g(x),x)$是必要条件，但不是充分必要条件。例如，GoogleNet符合上述公式，但不属于注意机制。我们发现很难找到所有注意机制的充分必要条件。注意机制的必要和充分条件仍然值得探索，可以促进对注意机制的理解。</p>
+</li>
+<li><p><strong>General attention block(通用注意力机制模块)</strong></p>
+<p>  目前，需要为每个不同的任务设计一个特殊的注意机制，这需要花费相当大的努力来探索潜在的注意方法。通道关注虽然是图像分类的一个很好的选择，而空间注意力非常适合于密集预测任务，例如语义分割和对象检测。通道ATT是注意什么，而空间ATT是注意哪里，基于此我们是否可以存在一种统一的机制可以根据具体任务进行不同注意力之间的切换。</p>
+</li>
+<li><p><strong>Characterisation and interpretability(特征化和可解释性)</strong></p>
+<p>  注意机制是由人类视觉系统驱动的，是朝着构建可解释的计算机视觉系统的目标迈出的一步。通常，基于注意的模型是通过渲染注意图来理解的。然而，这只能对正在发生的事情给出一种直观的感觉，而不是精确的理解(提出时理论背景的缺陷)。然而，医疗诊断和自动驾驶系统等对安防或安全很重要的应用，往往有更严格的要求。在这些领域，需要更好地描述方法的工作方式，包括故障模式。开发可表征和可解释的注意力模型可以使它们更广泛地适用。</p>
+</li>
+<li><p><strong>Sparse activation(稀疏激活)</strong></p>
+<p>  可视化了一些注意图，得到了与ViT一致的结论，即注意机制可以产生稀疏激活(在后面的MAE工作中mask掉的Patch可以重建图像)。这些现象给了我们一个启发，稀疏激活可以在深度神经网络中取得较强的表现。值得注意的是，稀疏激活与人类的认知相似。这些都激励着我们去探索哪种建筑可以模拟人类的视觉系统。</p>
+</li>
+<li><p><strong>Attention-based pre-trained models(基于注意力机制的预训练模型)</strong></p>
+<p>  大规模的基于注意的预训练模型在自然语言处理中取得了巨大的成功。最近，<a href="https://paperswithcode.com/paper/an-empirical-study-of-training-self">MoCoV3</a>、<a href="https://paperswithcode.com/paper/dino-detr-with-improved-denoising-anchor-1">DINO</a>、<a href="https://paperswithcode.com/paper/beit-bert-pre-training-of-image-transformers">BEiT</a>和 <a href="https://paperswithcode.com/method/mae">MAE</a>已经证明，基于注意力的模型也非常适合于视觉任务。由于其适应不同输入的能力，<strong>基于注意力的模型可以处理看不见的物体</strong>，并且自然适合将预训练的权重转移到各种任务中。我们认为，预训练和注意模型的结合应该进一步探索:训练方法、模型结构、预训练任务和数据规模都值得研究。</p>
+</li>
+<li><p><strong>Optimization(部署)</strong></p>
+<p>  SGD和Adam非常适合优化卷积神经网络。对于视觉变形器，<a href="https://paperswithcode.com/method/adamw">AdamW</a>效果更好。最近，Chen 等人通过使用一种新的优化器，即锐度感知最小化器<a href="https://paperswithcode.com/paper/sharp-maml-sharpness-aware-model-agnostic">SAM</a>，显著改善了视觉变形器。很明显，基于注意力的网络和卷积神经网络是不同的模型;不同的优化方法可能对不同的模型效果更好。研究注意力模型的新优化方法可能是值得的。</p>
+</li>
+<li><p><strong>Deployment(部署)</strong></p>
+<p>  卷积神经网络具有简单，统一的结构，这使得它们易于部署在各种硬件设备上。然而，在边缘设备上优化复杂多变的基于注意力的模型是很困难的。尽管如此，基于注意力的模型提供了比卷积神经网络更好的结果，因此值得尝试寻找可以广泛部署的简单、高效和有效的基于注意力的模型。</p>
+</li>
+</ol>
 ]]></content>
       <categories>
-        <category>论文精读</category>
+        <category>综述文章</category>
       </categories>
       <tags>
-        <tag>扩散模型</tag>
-        <tag>论文精读</tag>
-        <tag>自编码器</tag>
-        <tag>Clip</tag>
-        <tag>生成图像</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>论文精读-视频理解综述-2021</title>
-    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/</url>
-    <content><![CDATA[<h1 id="0-综述"><a href="#0-综述" class="headerlink" title="0. 综述"></a>0. <a href="https://arxiv.org/abs/2012.06567">综述</a></h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/17419fc1a483496b95d7c3befa1e09f2.png"></p>
-<h1 id="1-Hand-Crafted-CNN"><a href="#1-Hand-Crafted-CNN" class="headerlink" title="1. Hand-Crafted- &gt;CNN"></a>1. Hand-Crafted- &gt;CNN</h1><h2 id="1-1-DeepVideo"><a href="#1-1-DeepVideo" class="headerlink" title="1.1 DeepVideo"></a>1.1 <a href="http://vision.stanford.edu/pdf/karpathy14.pdf">DeepVideo</a></h2><p> **&emsp;**探索可以用在视频上使用的各种神经网络：各种方法都差不多，第四种方法好些</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/356339da9c9342fd9a7310b4f66b5472.png"></p>
-<p><strong>&emsp;开始讲故事</strong></p>
-<p> <strong>&emsp;多分辨率神经网络</strong>：两个权值共享的网络，一个处理低分辨率的图像，一个处理高分辨率的图像（图片的中心区域），人为提高了注意力</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/0c5ae0bbb1ab4b4988b6b2888fa716cc.png"></p>
-<h1 id="2-Two-Stream"><a href="#2-Two-Stream" class="headerlink" title="2. Two-Stream"></a>2. Two-Stream</h1><p>&emsp;双流网络在这里指的是同时使用光流抽取的特征和图片（视频帧）本身的特征进行网络训练；经测试这种方法可以很大地提高网络捕捉动态效果的能力</p>
-<h2 id="2-1-Two-Stream-Networks"><a href="#2-1-Two-Stream-Networks" class="headerlink" title="2.1 Two-Stream Networks"></a>2.1 <a href="https://arxiv.org/abs/1406.2199">Two-Stream Networks</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/cfad261fe34944ceb7ce2a679ed6c198.png"></p>
-<p>&emsp;late fusion-&gt;early fusion; AlexNet-&gt;Resnet Vgg;  加入</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.2" alt="image-20230811154121029"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.3" alt="image-20230811154214236"></p>
-<h2 id="2-2-Beyond-Short-Snippets"><a href="#2-2-Beyond-Short-Snippets" class="headerlink" title="2.2 Beyond Short Snippets"></a>2.2 <a href="https://arxiv.org/abs/1503.08909">Beyond Short Snippets</a></h2><p>&emsp;想办法适应更长时间的视频、动作特征的提取等等。<strong>Pooling ，Lstm提取时序信息</strong>，但是LSTM效果不明显，可能是一个短的时序信息变化不大，内容相似，Lstm学习不到有用的信息，需要长视频&#x2F;变化大</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/e2cd961902be4bc9bb8a3bf3912cd0f5.png"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.2.2" alt="image-20230811154751109"></p>
-<h2 id="2-3-Convolutional-Fusion"><a href="#2-3-Convolutional-Fusion" class="headerlink" title="2.3 Convolutional Fusion"></a>2.3 <a href="https://arxiv.org/abs/1604.06573">Convolutional Fusion</a></h2><p>&emsp;当有时间流和空间流两个网路之后，如何保证时间和空间的特征图在同样的位置上他们产生的通道respones是差不多能联系起来的。</p>
-<p>通常对于一个具有三个维度特征的数据而言我们有很多的探究方向：</p>
-<ol>
-<li>Spatial fusion ： 空间特征融合</li>
-<li>Time fusion ： 时间维度特征融合</li>
-<li>在网络的一层进行特征融合</li>
-</ol>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.1" alt="image-20230811155528639"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.3" alt="image-20230812093737912"></p>
-<p>&emsp;时间维度上的融合</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.2" alt="image-20230811155626303"></p>
-<p>&emsp;蓝：空间 绿：时间</p>
-<h2 id="2-4-TSN"><a href="#2-4-TSN" class="headerlink" title="2.4 TSN"></a>2.4 <a href="https://arxiv.org/abs/1608.00859">TSN</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.4.1" alt="image-20230811155948188"></p>
-<p><strong>步骤</strong></p>
-<ol>
-<li>将视频分为多个段，从每段中抽取一帧的RGB图片，然后对这个图片进行光流计算</li>
-<li>重复工作，对不同段进行相同工作</li>
-<li>如果段分得比较小，那么抽取的特征在理论上是描述的同一个物体的运动特征</li>
-<li>最后进行一个特征融合，进行分类工作</li>
-</ol>
-<p><strong>技巧：</strong></p>
-<ol>
-<li>视频分段 </li>
-<li>ImageNet训练的模型应用到光流</li>
-<li>partial BN</li>
-<li>数据增强 专门对边角裁剪 改变长宽比 {256 224 192 168}</li>
-</ol>
-<h1 id="3-3D-ConvNet"><a href="#3-3D-ConvNet" class="headerlink" title="3. 3D ConvNet"></a>3. 3D ConvNet</h1><h2 id="3-1-C3D"><a href="#3-1-C3D" class="headerlink" title="3.1 C3D"></a>3.1 <a href="https://arxiv.org/abs/1412.0767v3">C3D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.1.1" alt="image-20230811161145952"></p>
-<p>&emsp;C3D主要是提供了一种抽取特征做其他任务的方法（因为训练一个大型的3D网络非常昂贵，很多研究者无法训练），C3D作者将训练好的模型的接口提供给其他人，其他人只需要输入视频就可以得到抽取的特征（4096序列），这样就可以根据抽取的特征进行后续处理了。</p>
-<h2 id="3-2-I3D-Inflated"><a href="#3-2-I3D-Inflated" class="headerlink" title="3.2 I3D-Inflated"></a>3.2 <a href="https://arxiv.org/abs/1705.07750">I3D-Inflated</a></h2><p><strong>贡献：</strong></p>
-<ol>
-<li>可以方便地将2D网络扩张到3D之中-直接复制权重，可以用巧妙的方法利用预训练模型</li>
-<li>提出了kinetics数据集</li>
-</ol>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.1" alt="image-20230811161448871"></p>
-<p>&emsp;Two-Stream 3D-ConvNet效果最好</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.2" alt="image-20230811161620887"></p>
-<p>&emsp;<strong>在空间、时间和网络深度上对感受野的增长进行调整：对于图片的两个空间维度，我们通常使用相同的卷积长度&#x2F;池化长度，但是在时间维度上并不相同，时间维度的kernel长度取决于帧率和图片大小。如果在时域内变化太块，它可能会混淆不同物体的边缘，破坏早期的特征检测，而如果它增长得太慢，它可能无法很好地捕捉场景的动态。动态性。</strong></p>
-<h2 id="3-3-Non-local"><a href="#3-3-Non-local" class="headerlink" title="3.3 Non-local"></a>3.3 <a href="https://arxiv.org/abs/1711.07971">Non-local</a></h2><p>&emsp;<strong>加入自注意力</strong>，<strong>即插即用</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.1" alt="image-20230811162201101"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.2" alt="image-20230811162305487"></p>
-<h2 id="3-4-R2-1D"><a href="#3-4-R2-1D" class="headerlink" title="3.4 R2+1D"></a>3.4 <a href="https://openaccess.thecvf.com/content_cvpr_2018/CameraReady/2648.pdf">R2+1D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.1" alt="image-20230811163007150"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.2" alt="image-20230811163038972"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.3" alt="image-20230811163124035"></p>
-<h2 id="3-5-SlowFast"><a href="#3-5-SlowFast" class="headerlink" title="3.5 SlowFast"></a>3.5 <a href="https://arxiv.org/abs/1812.03982">SlowFast</a></h2><p>&emsp;讲故事：慢的分支网络学习视频中的静态特征，快分支学习视频中的动态特征。</p>
-<ul>
-<li>慢分支使用小输入，大网络</li>
-<li>快分支使用大输入，小网络</li>
-<li>中间使用natural connection进行特征融合</li>
-</ul>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.1" alt="image-20230811163321352"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.2" alt="image-20230811163354776"></p>
-<h1 id="4-Video-Transformer"><a href="#4-Video-Transformer" class="headerlink" title="4. Video Transformer"></a>4. Video Transformer</h1><h2 id="4-1-Space-Time-Attention"><a href="#4-1-Space-Time-Attention" class="headerlink" title="4.1 Space-Time Attention"></a>4.1 <a href="https://arxiv.org/abs/2102.05095">Space-Time Attention</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.1.1" alt="image-20230811163530398"></p>
-<ul>
-<li>直接将Attention应用到图片的方法迁移到视频之中（空间注意力）</li>
-<li>在时间上和空间上分别做三个自注意力机制，进行融合</li>
-<li><strong>拆分为空间和时间上分别进行注意力机制计算（时间-&gt; 空间）</strong>文章提出</li>
-<li>local global拆分（在局部进行注意力计算）</li>
-<li>沿着特定的轴进行注意力计算（将三维拆分为三个一维进行注意力机制计算）</li>
-</ul>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.2.1" alt="image-20230811163643822"></p>
-<p>&emsp;想法简单、效果好、容易迁移、可以用于处理超过1min的视频</p>
-<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/5.1"></p>
-<p><strong>对于时间和空间相结合的一些策略可以借鉴</strong></p>
-<ol>
-<li>3D卷积怎么做：最新的方法都是做一些拆分，将3D卷积分为时间和空间分别的卷积</li>
-<li>特征融合的方法：early fusion、latent fusion</li>
-<li>三维网络中一些关键层（如BN）如何设置：只要第一层的BN？</li>
-<li>3D网络中的时间维度尽量不要做下采样</li>
-<li>Vision Transformer降维打击，提高精度、减小计算消耗、加大处理时长（看到更长的时序信息)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>论文精读</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>视频理解</tag>
-        <tag>3D卷积</tag>
-        <tag>双流网络</tag>
-        <tag>Transformer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>论文精读 对比学习综述 2021</title>
-    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/</url>
-    <content><![CDATA[<h1 id="1-百花齐放"><a href="#1-百花齐放" class="headerlink" title="1. 百花齐放"></a>1. 百花齐放</h1><p>&emsp;在第一阶段上，方法模型都没有统一，目标函数,代理任务也没有统一，所以说是一个百花齐放的年代</p>
-<h2 id="1-1-InstDisc"><a href="#1-1-InstDisc" class="headerlink" title="1.1 InstDisc"></a>1.1 <a href="https://arxiv.org/pdf/1805.01978.pdf">InstDisc</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.1" alt="image-20230731101249802"></p>
-<p>&emsp;<strong>基本思想：</strong>图片聚集在一起的原因，并不是这些图片有相似的语义标签信息，而是因为这些图片长得比较像。通过一个卷积神经网络来将图片进行编码成一个低维特征，然后使得这些特征在特征空间上都尽可能的区分开，因为个体判别认为每张图片都是自成一类，<strong>提出了个体判别任务</strong>。</p>
-<p>&emsp;<strong>Forward：</strong>假设模型的batchsize是256，有256张图片进入CNN网络，将256张图片编码为128维的向量。因为batchsize是256，因此有256个正样本。负样本来自memory bank，每次从memory bank中随机采样出4096个负数样本，利用 InfoNCE loss去更新CNN的参数。本次更新结束后，会将CNN编码得到的向量替换掉memory bank中原有的存储。就这样循环往复的更新CNN和memory bank，最后让模型收敛，就训练好一个CNN encoder了。</p>
-<h2 id="1-2-InvaSpread"><a href="#1-2-InvaSpread" class="headerlink" title="1.2 InvaSpread"></a>1.2 <a href="https://arxiv.org/pdf/1904.03436.pdf">InvaSpread</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.2" alt="image-20230731103807221"></p>
-<p>&emsp;<strong>基本思想：</strong>用mini batch中的数据作为负样本，使用一个编码器进行端到端的学习，所选取的字典长度不够大。</p>
-<p>&emsp;<strong>Forward：</strong>首先利用数据增广，将每个图片增广一次，也就是将256张图片变为512个图片了。之后将512张图片通过CNN编码为向量，并使用一个全连接层将数据的维度降低。之后将$x{i}$和其经过增广后的图$\widetilde{x}{i}$作为正样本，其余的512-2张图片都认为是负样本。所以总计有256个正例，有2×（256-1）张负例。之后的在特征空间中$x{i}$ 与$\widetilde{x}{i}$的距离应该尽可能相近，而$x{i}$与$\widetilde{x}_{j}$的距离应该尽可能相远。</p>
-<p>&emsp;<strong>以上两篇工作都是使用个体判别 Instance Discrimination 作为代理任务的</strong></p>
-<h2 id="1-3-CPC"><a href="#1-3-CPC" class="headerlink" title="1.3 CPC"></a>1.3 <a href="https://arxiv.org/pdf/1807.03748.pdf">CPC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.3" alt="image-20230731112441320"></p>
-<p>&emsp;<strong>基本思想：</strong>有一个持续的序列，把之前时刻的输入喂给编码器，返回的特征再喂给一个自回归模型gar（auto-regressive，一般的自回归模型是RNN或LSTM），然后得到一个context representation，这是一个代表上下文的特征表示。如果context representation足够好，那么其应该可以做出一些合理的预测，所以可以用$c_{t}$预测未来时刻的特征输出$z_{t+i}$</p>
-<p>&emsp;<strong>生成式的代理任务</strong></p>
-<h2 id="1-4-CMC"><a href="#1-4-CMC" class="headerlink" title="1.4 CMC"></a>1.4 <a href="https://arxiv.org/pdf/1906.05849.pdf">CMC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.4" alt="image-20230731113140008"></p>
-<p>&emsp;<strong>基本思想：</strong>CMC想学一个非常强大的特征，其具有视角的不变性（不管是看见了一只狗，还是听到了狗叫声，都能判断出这是个狗）。所以，CMC的工作目的就是去增大这个互信息，就是所有视角之间的互信息。如果能学到一种特征，能够抓住所有视角下的这个关键的因素，那么这个特征就比较好。<strong>最大化互信息</strong></p>
-<p>&emsp;<strong>方法：</strong>输入view来自于不同的传感器，或者说是不同的模态，但是这些所有的输入其实对应的都是一整的图片，一个东西，那么它们就应该互为正样本，相互配对。而这些相互配对的视角在特征空间中应该尽可能的相近，而与其他的视角尽可能的远离。Teacher和student编码得到的相同图片的向量互为正例，不同图片得到的输出作为负例，利用对比学习的思路进行知识蒸馏。</p>
-<p>&emsp;<strong>问题：</strong>在于multi view的工作可能需要多个编码器进行编码，训练代价可能有点高。比如CLIP，就是用大型的语言编码器BERT对语言模型进行编码，用视觉模型VIT对视觉信息进行编码。</p>
-<p>InfoMin是CMC的作者做的一个分析型的延伸性工作，要是提出了一个InfoMin的原则，InfoMin的本意是不能一味的最大化这个互信息，而是要不多不少刚刚好，去选择合适的数据增强与合适的对比学习的视角。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>&emsp;可以看到以上的工作代理任务不尽相同，其中有个体判别，有预测未来，还有多视角多模态。使用的目标函数也不尽相同，有NCE，infoNCE以及其变体。使用的模型也可以是不同的，比如InvaSpread使用的是相同的编码器对key和query进行编码，CMC对key和query使用的是不同的编码，是百花齐放的。</p>
-<h1 id="2-CV双雄"><a href="#2-CV双雄" class="headerlink" title="2. CV双雄"></a>2. CV双雄</h1><h2 id="2-1-MoCo-v1"><a href="#2-1-MoCo-v1" class="headerlink" title="2.1 MoCo v1"></a>2.1 <a href="https://arxiv.org/pdf/1911.05722.pdf">MoCo v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1" alt="image-20230731142805835"></p>
-<p>&emsp;<strong>基本思想：</strong>将一系列的对比学习方法归纳为一个字典查询的问题building dynamic dictionaries。将负样本图片通过编码器后所得的输出看成是一个特征key，将正样本图片通过另外一个编码器所得到的输出看成是一个query。对比学习本质上，就是希望在字典中找到与query最匹配的那个key，而这个key是正样本通过一些列的数据增强变化获得，所以语义信息应该相同，在特征空间上也应该类似，而与其他的负样本的特征key应该尽可能的远离，损失函数InfoNEC</p>
-<p>&emsp;<strong>贡献：</strong></p>
-<ol>
-<li>queue 数据结构</li>
-<li>Momentum Encoder  $θ_k←mθ{_k}+(1−m)θq$</li>
-<li>Shuffling BN -　BN可能导致信息泄露</li>
-</ol>
-<p><strong>对比：</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1-2" alt="image-20230731144205429"></p>
-<p><strong>方法：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Algorithm 1 Pseudocode of MoCo in a PyTorch-like style</span></span><br><span class="line"><span class="comment"># f_q, f_k: encoder networks for query and key</span></span><br><span class="line"><span class="comment"># queue: dictionary as a queue of K keys (CxK)</span></span><br><span class="line"><span class="comment"># m: momentum</span></span><br><span class="line"><span class="comment"># t: temperature</span></span><br><span class="line">f_k.params = f_q.params <span class="comment"># initialize</span></span><br><span class="line">	<span class="keyword">for</span> x <span class="keyword">in</span> loader: 	<span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">	x_q = aug(x)		<span class="comment"># a randomly augmented version</span></span><br><span class="line">	x_k = aug(x)		<span class="comment"># another randomly augmented version</span></span><br><span class="line">	</span><br><span class="line">	q = f_q.forward(x_q) 	<span class="comment"># queries: NxC (256x128)</span></span><br><span class="line">	k = f_k.forward(x_k) 	<span class="comment"># keys: NxC (256x128)</span></span><br><span class="line">	k = k.detach() 			<span class="comment"># no gradient to keys</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># positive logits: Nx1 (256x1)</span></span><br><span class="line">	l_pos = bmm(q.view(N,<span class="number">1</span>,C), k.view(N,C,<span class="number">1</span>))	<span class="comment"># q·k+</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># negative logits: NxK (256x65536)</span></span><br><span class="line">	l_neg = mm(q.view(N,C), queue.view(C,K))	<span class="comment"># sum q·ki</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># logits: Nx(1+K) (256x65537)</span></span><br><span class="line">	logits = cat([l_pos, l_neg], dim=<span class="number">1</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># contrastive loss, Eqn.(1)</span></span><br><span class="line">	labels = zeros(N) <span class="comment"># positives are the 0-th；利用pytorch函数特性</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/t, labels)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># SGD update: query network</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	update(f_q.params)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># momentum update: key network</span></span><br><span class="line">	f_k.params = m * f_k.params+(<span class="number">1</span>-m) * f_q.params</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># update dictionary</span></span><br><span class="line">	enqueue(queue, k) 	<span class="comment"># enqueue the current minibatch</span></span><br><span class="line">	dequeue(queue) 		<span class="comment"># dequeue the earliest minibatch</span></span><br><span class="line"><span class="comment"># bmm: batch matrix multiplication; mm: matrix multiplication; cat: concatenation.</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-2-SimCLR-v1"><a href="#2-2-SimCLR-v1" class="headerlink" title="2.2 SimCLR v1"></a>2.2 <a href="https://arxiv.org/pdf/2002.05709.pdf">SimCLR v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2" alt="image-20230731144944108"></p>
-<p>&emsp;<strong>思路：</strong>假如有一个minibatch的图片，对整个minibatch的所有图片做数据增强，对图片x xx做不同的数据增强就会得$x_{i}$和$x_{j}$ 同一个图片延申得到的两个图片就是正样本，比如batchSize是n的话，那么正样本就是n，这个batchsize剩下的所有的样本以及其经过数据增强后得到的都是负样本，也就是2(n-1)。有了正负样本之后，对其进行编码，通过一个编码器$f ( ⋅ )$得到正负样本的编码结。SimCLR的创新点就是在得到数据的编码之后在后面加了一个编码层$g ( ⋅ )$函数，就是一个MLP层，得到较低维度的特征$z_{i}$和 $z_{j}$ ，用其进行对比学习，拉近正例之间的距离，拉远负例之间的距离。但是需要注意的一点就是投影函数仅仅在训练的时候才使用，在测试的时候是不使用的，测试的时候仅仅使用编码器$f(·)$ 。加上投影函数的目的也仅仅是想让模型训练的更好。</p>
-<p><strong>与InvaSpread相比：</strong></p>
-<ol>
-<li><p>SimCLR使用了更多的数据增强 其中随机的裁剪以及随机的色彩变换最重要</p>
-</li>
-<li><p>加入了投影的$g ( ⋅ )$ 函数</p>
-</li>
-<li><p>就是SimCLR用了更大的batchsize，且训练的时间更久</p>
-</li>
-</ol>
-<p>&emsp;<strong>损失函数：</strong>the normalized temperature-scaled cross entropy loss</p>
-<p><strong>方法：</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2-2" alt="image-20230731152831099"></p>
-<h2 id="2-3-MoCo-v2"><a href="#2-3-MoCo-v2" class="headerlink" title="2.3 MoCo v2"></a>2.3 <a href="https://arxiv.org/pdf/2003.04297.pdf">MoCo v2</a></h2><p><strong>改进：</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.3" alt="image-20230731153325242"></p>
-<p>更省钱！！</p>
-<h2 id="2-4-SimCLR-v2"><a href="#2-4-SimCLR-v2" class="headerlink" title="2.4 SimCLR v2"></a>2.4 <a href="https://arxiv.org/pdf/2006.10029.pdf">SimCLR v2</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.4" alt="image-20230731153856595"></p>
-<h2 id="2-5-SWaV"><a href="#2-5-SWaV" class="headerlink" title="2.5 SWaV"></a>2.5 <a href="https://arxiv.org/pdf/2006.09882.pdf">SWaV</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.5" alt="image-20230731154140013"></p>
-<p>&emsp;<strong>基本思想：</strong>给定同样的一张图片，如果去生成不同的视角（views），希望可以用一个视角得到的特征去预测另外一个视角的得到的特征，因为所有的这些视角的特征按道理来说都应该是非常接近的。然后SWaV将对比学习和之前的聚类的方法合在的一起，这样做也不是偶然，因为聚类也是无监督特征表示学习的方法，而且它也希望相似的物体都聚集在一个聚类中心附近，不相似的物体推到别的聚类中心</p>
-<p>&emsp;<strong>方法：</strong>聚类中心C CC就是Prototypes，作为一个矩阵维度是$d $$ *k$（d是特征的维度128维，k是聚类中心的数目3000）SwAV前向过程依旧是一个实例x通过两次数据增强变为 $x_{1}$ 和$x_{2}$ ，之后利用编码器对其进行编码，从而得到嵌入向量$z_{1}$ 和$z_{2}$ 。但是有了$z_{1}$和$z_{2}$ 之后，并不是直接在特征上去做对比学习的loss，而且让 $z_{1}$和$z_{2}$和聚类中心C进行聚类，从而得到ground truth的标签$Q_{1}$ 和$Q_{2}$ 。如果说两个特征比较相似或者是含有等量的信息，按道理来说应该是可以相互预测的。也就是说，用$z_{1}$ 和C作点乘按道理是可以去预测$Q_{2}$的，反过来用$z_{2}$ 和C作点乘按道理是可以去预测$Q_{1}$ 的，SwAV通过这种换位交叉预测的方法来对模型进行训练更新参数。</p>
-<p><strong>keys:</strong></p>
-<ol>
-<li>Multi-crop：两个160×160的crop去注意全局特征，选择四个96×96的crop去注意局部特征</li>
-<li>聚类</li>
-</ol>
-<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>&emsp;到了第二阶段，其实很多细节都趋于统一了，比如目标函数都是使用infoNCE，模型都归一为用一个encoder+projection head了，大家都采用了一个更强的数据增强，都想用一个动量编码器，也都尝试训练更久，最后在ImageNet上的准确度也逐渐逼近于有监督的基线模型。</p>
-<h1 id="3-不用负样本"><a href="#3-不用负样本" class="headerlink" title="3. 不用负样本"></a>3. 不用负样本</h1><h2 id="3-1-BYOL"><a href="#3-1-BYOL" class="headerlink" title="3.1 BYOL"></a>3.1 <a href="https://arxiv.org/pdf/2006.07733.pdf">BYOL</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.1" alt="image-20230731161241934"></p>
-<p>&emsp;在之前的对比学习工作中，是让$z_{\theta}$和$z_{\xi}^{‘}$尽可能的相似，而在BYOL这里，又加了一层predictor的全连接层$q_{\theta}$ ，$q_{\theta}$ 的网络结构和$g_{\theta}$ 的网络结构是完全一样的$z_{\theta}$ 通过$q_{\theta}$又得到了一个新的特征$q_{\theta}(z_{\theta})$现在的目的是想让特征$q_{\theta}(z_{\theta})$与$z_{\xi}^{‘}$</p>
-<p>&emsp;图中的sg表示<code>stop gradient</code>，这里是没有梯度的。模型的上一支相当于<code>query</code>编码器，下面一支相当于<code>key</code>编码器，而<code>key</code>编码器都是通过<code>query</code>编码器来动量更新。不同是代理任务不一样，BYOL相当于是自己一个视角的特征去预测另外一个视角的特征，通过这种预测性的任务来完成模型的训练。</p>
-<p>&emsp;<strong>损失函数：</strong>MSE</p>
-<h2 id="3-2-SimSiam"><a href="#3-2-SimSiam" class="headerlink" title="3.2 SimSiam"></a>3.2 <a href="https://arxiv.org/pdf/2011.10566.pdf">SimSiam</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2" alt="image-20230731163008906"></p>
-<p>&emsp;<strong>基本思想：</strong>实例x xx经过数据增强变为$x_{1}$ 和$x_{2}$ ，之后经过孪生的编码器$f ( ⋅ )$ ，得到嵌入$z_{1}$和$z_{2}$  ，之后经过预测层得到$p_{1}$ 和$p_{2}$ ，之后让$p_{1}$ 预测$z_{2}$，用$ p_{2}$去预测$z_{1}$，进行模型的训练。</p>
-<p><strong>伪代码：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f: backbone + projection mlp</span></span><br><span class="line"><span class="comment"># h: prediction mlp</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># random augmentation</span></span><br><span class="line">	z1, z2 = f(x1), f(x2) <span class="comment"># projections, n-by-d</span></span><br><span class="line">	p1, p2 = h(z1), h(z2) <span class="comment"># predictions, n-by-d</span></span><br><span class="line">	</span><br><span class="line">	L = D(p1, z2)/<span class="number">2</span> + D(p2, z1)/<span class="number">2</span> <span class="comment"># loss</span></span><br><span class="line">	</span><br><span class="line">	L.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	update(f, h) <span class="comment"># SGD update</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">D</span>(<span class="params">p, z</span>): <span class="comment"># negative cosine similarity   负余弦相似性</span></span><br><span class="line">	z = z.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	</span><br><span class="line">	p = normalize(p, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	z = normalize(z, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	<span class="keyword">return</span> -(p*z).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;SimSiam能够成功训练的原因，不会发生模型坍塌，主要就是因为有<code>stop gradient</code>这个操作的存在。由于<code>stop gradient</code>，可以将SimSiam的结构看成是一个EM算法，相当于是在解决两个子问题，而模型更新也在交替进行，相当于不断的更新聚类中心。</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2-2" alt="image-20230731164336674"></p>
-<h1 id="4-Transformer"><a href="#4-Transformer" class="headerlink" title="4. Transformer"></a>4. Transformer</h1><p>&emsp;在vision transformer之后，因为其大大提升了encoder的效果，所以很多对比学习任务打算使用vision transformer作为backbone进行对比学习，涌现出了两篇工作，分别是MoCov3和DINO。</p>
-<h2 id="4-1-MoCo-v3"><a href="#4-1-MoCo-v3" class="headerlink" title="4.1 MoCo v3"></a>4.1 <a href="https://arxiv.org/pdf/2104.02057.pdf">MoCo v3</a></h2><p>骨干网络从ResNet 替换为 ViT</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f_q: encoder: backbone + proj mlp + pred mlp</span></span><br><span class="line"><span class="comment"># f_k: momentum encoder: backbone + proj mlp</span></span><br><span class="line"><span class="comment"># m: momentum coefficient</span></span><br><span class="line"><span class="comment"># tau: temperature</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># augmentation</span></span><br><span class="line">	q1, q2 = f_q(x1), f_q(x2) <span class="comment"># queries: [N, C] each</span></span><br><span class="line">	k1, k2 = f_k(x1), f_k(x2) <span class="comment"># keys: [N, C] each</span></span><br><span class="line">	</span><br><span class="line">	loss = ctr(q1, k2) + ctr(q2, k1) <span class="comment"># symmetrized</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	</span><br><span class="line">	update(f_q) <span class="comment"># optimizer update: f_q</span></span><br><span class="line">	f_k = m*f_k + (<span class="number">1</span>-m)*f_q <span class="comment"># momentum update: f_k</span></span><br><span class="line">	</span><br><span class="line"><span class="comment"># contrastive loss</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ctr</span>(<span class="params">q, k</span>):</span><br><span class="line">	logits = mm(q, k.t()) <span class="comment"># [N, N] pairs</span></span><br><span class="line">	labels = <span class="built_in">range</span>(N) <span class="comment"># positives are in diagonal</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/tau, labels)</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span> * tau * loss</span><br><span class="line">	</span><br><span class="line"><span class="comment"># Notes: mm is matrix multiplication. k.t() is k’s transpose. The prediction head is excluded from f k (and thus the momentum update).</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>第一阶段的Patch投影时冻住，有效解决梯度波动问题</p>
-<h2 id="4-2-DINO"><a href="#4-2-DINO" class="headerlink" title="4.2 DINO"></a>4.2 <a href="https://arxiv.org/pdf/2104.14294.pdf">DINO</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.1" alt="image-20230731165738061"></p>
-<p>&emsp;这里想表达的意思是一个完全不用任何标签信息训练出来的Vision Transformers，如果将其自注意力图拿出来进行可视化，可以发现其可以非常准确的抓住每个物体的轮廓，这个效果甚至可以直接匹配对这个物体作语义分割。</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.2" alt="image-20230731165935686"></p>
-<p>&emsp;DINO的前向过程都是类似的，当有一个图片x的两个视角$x_{1}$和$x_{2}$之后，$ x_{1}$和$x_{2}$分别通过学生网络编码器$g_{\theta s}$和教师网络编码器$g_{\theta t}$得到两个特征$p_{1}$和$p_{2}$，其中编码器结构中同样包含projection head和prediction head。而为了避免模型的坍塌，DINO做了一个额外的工作centering，这个操作就是把整个batch里的样本都算一个均值，然后减掉这个均值其实就是centering。最后也是有一个stop gradient的操作，然后用$p_{1}$预测$p_{2}$ </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># gs, gt: student and teacher networks</span></span><br><span class="line"><span class="comment"># C: center (K)</span></span><br><span class="line"><span class="comment"># tps, tpt: student and teacher temperatures</span></span><br><span class="line"><span class="comment"># l, m: network and center momentum rates</span></span><br><span class="line"></span><br><span class="line">gt.params = gs.params</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = augment(x), augment(x) <span class="comment"># random views</span></span><br><span class="line">	</span><br><span class="line">	s1, s2 = gs(x1), gs(x2) <span class="comment"># student output n-by-K</span></span><br><span class="line">	t1, t2 = gt(x1), gt(x2) <span class="comment"># teacher output n-by-K</span></span><br><span class="line">	</span><br><span class="line">	loss = H(t1, s2)/<span class="number">2</span> + H(t2, s1)/<span class="number">2</span></span><br><span class="line">	loss.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># student, teacher and center updates</span></span><br><span class="line">	update(gs) <span class="comment"># SGD</span></span><br><span class="line">	gt.params = l*gt.params + (<span class="number">1</span>-l)*gs.params</span><br><span class="line">	C = m*C + (<span class="number">1</span>-m)*cat([t1, t2]).mean(dim=<span class="number">0</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">H</span>(<span class="params">t, s</span>):</span><br><span class="line">	t = t.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	s = softmax(s / tps, dim=<span class="number">1</span>)</span><br><span class="line">	t = softmax((t - C) / tpt, dim=<span class="number">1</span>) <span class="comment"># center + sharpen</span></span><br><span class="line">	<span class="keyword">return</span> - (t * log(s)).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/5" alt="image-20230731222419004"></p>
-]]></content>
-      <categories>
-        <category>论文精读</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>对比学习</tag>
-        <tag>MoCo</tag>
-        <tag>SimCLR</tag>
+        <tag>注意力机制</tag>
+        <tag>计算机视觉</tag>
+        <tag>综述阅读</tag>
       </tags>
   </entry>
 </search>
