@@ -48,11 +48,11 @@
 <meta property="og:image" content="https://milkyfun0.github.io/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/3.3.3">
 <meta property="og:image" content="https://milkyfun0.github.io/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/4">
 <meta property="article:published_time" content="2023-08-31T05:07:01.000Z">
-<meta property="article:modified_time" content="2023-08-31T05:38:27.634Z">
+<meta property="article:modified_time" content="2023-09-16T13:02:09.273Z">
 <meta property="article:author" content="404">
 <meta property="article:tag" content="Clip">
-<meta property="article:tag" content="Transformer">
 <meta property="article:tag" content="对比学习">
+<meta property="article:tag" content="Transformer">
 <meta property="article:tag" content="Bert">
 <meta property="article:tag" content="MAE">
 <meta property="article:tag" content="多模态">
@@ -257,9 +257,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-08-31 13:07:01 / 修改时间：13:38:27" itemprop="dateCreated datePublished" datetime="2023-08-31T13:07:01+08:00">2023-08-31</time>
+      <time title="创建时间：2023-08-31 13:07:01" itemprop="dateCreated datePublished" datetime="2023-08-31T13:07:01+08:00">2023-08-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-16 21:02:09" itemprop="dateModified" datetime="2023-09-16T21:02:09+08:00">2023-09-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -285,14 +291,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>6.5k</span>
+      <span>7.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>12 分钟</span>
+      <span>14 分钟</span>
     </span>
 </div>
 
@@ -336,7 +342,42 @@
 </ul>
 </li>
 </ol>
-<h1 id="Transformer-Encoder"><a href="#Transformer-Encoder" class="headerlink" title="Transformer Encoder"></a>Transformer Encoder</h1><h2 id="VilT"><a href="#VilT" class="headerlink" title="VilT"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/method/vilt">VilT</a></h2><p>&emsp;图文多模态任务，关键是提取视觉特征和文本特征，然后对齐。在之前的多模态研究工作中，视觉侧通常需要一个目标检测器来确定图像中物体所在的区域，再提取各区域的特征。ViT 将 Transformer 迁移到视觉领域之后，人们意识到，直接使用 patch projection 来处理图像输入也是可行的。</p>
+<table>
+<thead>
+<tr>
+<th align="center">损失</th>
+<th align="center">缩写</th>
+<th align="center">全称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">文本匹配</td>
+<td align="center">ITM</td>
+<td align="center">Image Text Matching</td>
+</tr>
+<tr>
+<td align="center">掩码语言模型</td>
+<td align="center">MLM</td>
+<td align="center">Masked Language Modeling</td>
+</tr>
+<tr>
+<td align="center">文本图像对齐</td>
+<td align="center">WPA</td>
+<td align="center">Word Patch ALignment</td>
+</tr>
+<tr>
+<td align="center">图像文本对比</td>
+<td align="center">ITC</td>
+<td align="center">Image-Text Contrastive</td>
+</tr>
+<tr>
+<td align="center">激活图像-文本</td>
+<td align="center">LM</td>
+<td align="center">Language Modeling</td>
+</tr>
+</tbody></table>
+<h1 id="Transformer-Encoder"><a href="#Transformer-Encoder" class="headerlink" title="Transformer Encoder"></a>Transformer Encoder</h1><h2 id="VilT"><a href="#VilT" class="headerlink" title="VilT"></a>VilT</h2><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/method/vilt">Vision-and-Language Transformer Without Convolution or Region Supervision</a></p>
+<p>&emsp;图文多模态任务，关键是提取视觉特征和文本特征，然后对齐。在之前的多模态研究工作中，视觉侧通常需要一个目标检测器来确定图像中物体所在的区域，再提取各区域的特征。ViT 将 Transformer 迁移到视觉领域之后，人们意识到，直接使用 patch projection 来处理图像输入也是可行的。</p>
 <p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/1.1.1.png"></p>
 <p>&emsp;在 (a)(b)(c)中视觉端都是复杂的网络，也就 (d) ViLT中把重点放到了模态交互中：	</p>
 <p>&emsp;各模型代表工作：</p>
@@ -345,76 +386,85 @@
 <p>&emsp;(c): OSCAR, ViLBERT, UNITER</p>
 <p>&emsp;(d): ViLT</p>
 <p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/1.1.2" alt="image-20230830104128076"></p>
-<p>&emsp;<strong>模型结构</strong>：首先分别使用词嵌入和可学习的线性映射来提取文本和视觉嵌入，然后通过一个 Transformer 来进行特征交互</p>
+<p>&emsp;<strong>模型结构</strong>：首先分别使用词嵌入和可学习的线性映射来提取文本和视觉嵌入，然后通过一个 Transformer 来进行特征交互，Transformer的输入是在每一个token&#x3D; Img&#x2F;Text标识+位置编码+特征 的基础上</p>
 <p>&emsp;<strong>损失函数</strong>：</p>
 <ul>
 <li>文本匹配ITM：判断输入的文本与图像是否匹配（二分类）</li>
 <li>掩码MLM：完形填空</li>
-<li><em><strong>文本图像对齐WPA：</strong></em></li>
+<li><strong>文本图像对齐WPA：</strong>最优运输理论(把几何和概率联合起来的一个理论)中，学习图像和文本中这两个之间的分布，理论上这两个分布是非常接近的</li>
 </ul>
 <p><strong>局限性</strong>：</p>
 <ol>
 <li>线性映射虽然降低了复杂度，文本端的 tokenizer 已经有一定语义理解能力了，而视觉端的 patch embedding 是随机初始化的</li>
 <li>ViLT 的推理很快，但是训练时间长</li>
 </ol>
-<h2 id="ALBEF"><a href="#ALBEF" class="headerlink" title="ALBEF"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/method/albef">ALBEF</a></h2><p><strong>贡献</strong>：</p>
+<h2 id="ALBEF"><a href="#ALBEF" class="headerlink" title="ALBEF"></a>ALBEF</h2><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/method/albef">Align before Fuse: Vision and Language Representation Learning with Momentum Distillation</a> </p>
+<p><strong>贡献</strong>：</p>
 <ol>
-<li>以往的模型图像利用预训练模型，而不是端到端训练，因此文本与图像没有“对齐”，ALBEF 提出在进行多模态交互之前，先通过一个对比损失（其实就是 CLIP 中的 ITC 损失）来对齐图像和文本数据。</li>
+<li>以往的模型图像利用预训练模型，而不是端到端训练，因此文本与图像没有“对齐”(图像特征和文本特征之间的信息不对等)，ALBEF 提出在进行多模态交互之前，先通过一个对比损失（其实就是 CLIP 中的 ITC 损失）来对齐图像和文本数据。</li>
 <li>在训练时，通过动量蒸馏（momentum distillation）这种自训练的学习方式来从网络图文对数据中学习，缓解原始数据中噪声较大的问题。</li>
-<li><em><strong>改进训练方式，通过自学习生成伪标签的方式来进行数据清洗，改进数据的质量。在理论上，A论文通过互信息最大化的角度，解释了不同的多模态任务，其实就是在为图文对提供不同的视角（view），类似于在做一种数据增强，使得训练得到的多模态模型能理解不同模态下的语义，即具备 Semantic Preserving 的能力。</strong></em></li>
+<li><strong>改进训练方式，通过自学习生成伪标签的方式来进行数据清洗，改进数据的质量。在理论上，论文通过互信息最大化的角度，解释了不同的多模态任务，其实就是在为图文对提供不同的视角（view），类似于在做一种数据增强，使得训练得到的多模态模型能理解不同模态下的语义，即具备 Semantic Preserving 的能力。</strong></li>
 </ol>
+<p>&emsp;ITM<strong>如何进行计算的不太清楚</strong></p>
 <h3 id="模型结构与损失函数"><a href="#模型结构与损失函数" class="headerlink" title="模型结构与损失函数"></a><strong>模型结构与损失函数</strong></h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/1.2.1" alt="image-20230830151756427"></p>
 <p>&emsp;模型使用Transfomer层 12X 表示12层trans，模型结构与分析结果一致：视觉编码器相对较大、模态交互网络复杂，ALBEF 也选择了较为有效的 MLM、ITC、ITM 损失函数。</p>
 <p><strong>细节</strong>：</p>
 <ol>
 <li>Momentum Model是用于进行自训练学习的动量模型，根据主模型进行动量更新，类似 MoCo。</li>
-<li>ITM 损失需要模型判断出输入图像和文本是否匹配，即一个二分类问题。直接与当前批次中所有的样本进行比对过于简单，对模态交互训练的帮助不大。ALBEF 中通过ITC损失计算得到的各样本间的余弦相似度，为ITM损失进行难负样本挖掘，<em><strong>取除正样本外相似度最高的作为负样本。</strong></em></li>
+<li>ALBEF使用ViT-B&#x2F;16（12层的transformer）作为图像输入的编码器，并用ImageNet-1k上预训练的权重初始化它；使用6层的transfomer作为文本输入的编码器，并用 $Bert_{base}$ 的前6层作为初始化；使用$Bert_{base}$的后6层权重作为模态融合层的初始化。通过多模态编码器各层的交叉注意，实现图像特征与文本特征的融合</li>
+<li>ITM 损失需要模型判断出输入图像和文本是否匹配，即一个二分类问题。直接与当前批次中所有的样本进行比对过于简单，对模态交互训练的帮助不大。ALBEF 中通过ITC损失计算得到的各样本间的余弦相似度，为ITM损失进行难负样本挖掘，<strong>取除正样本外相似度最高的作为负样本</strong>。</li>
 <li>在计算 ITC 和 ITM 两种损失时，模型的输入是原始图像和原始文本，而在计算 MLM 损失时，模型的输入则是原始图像和经过 mask 的文本。因此，ALBEF 训练时的每一轮迭代需要经过两次前向传播的过程。多模态学习的方法通常训练时长较长，就是因为需要进行多次前向传播，计算不同的损失。</li>
 </ol>
 <h3 id="动量蒸馏"><a href="#动量蒸馏" class="headerlink" title="动量蒸馏"></a><strong>动量蒸馏</strong></h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/1.2.2" alt="image-20230830153644591"></p>
-<p>&emsp;<strong>背景</strong>：ALBEF 中动量蒸馏的提出，是为了解决网络图文对训练数据噪声过大的问题。网上爬取的图文对训练数据，称为 Alt text（Alternative Text），这种训练数据无需人工标注，规模巨大，是近年来多模态学习主要使用的训练数据。但是这种数据的缺点是噪声较大。很多网络图片和它的描述文本是不对应的。比如一张青山绿水的景点照片，网络上的对应文字不会是“一座很美丽的山，下面有清澈的河流”这种我们想要的描述性的文本，而很可能会是这个景点的名字，如“桂林山水”。从语义的角度来说，这样的图文对是<strong>弱关联</strong>（weakly correlated）的，不是我们想要的训练样本。这种弱关联的训练样本中可能出现某些负样本的图文匹配程度，<strong>比GT中正样本的 one-hot 标签的匹配程度更高的情况</strong>，不利于 ITC 和 MLM 两种任务的训练。</p>
-<p>&emsp;ALBEF 中除了梯度更新的主模型之外，还有一个动量模型，用于为主模型的训练生成 multi-hot 的伪标签。动量模型通过滑动指数平均（EMA  $v_t&#x3D;β∗v_{t−1}+(1−β)∗v_t$ ）的方式，根据主模型进行动量更新。这样，除了 GT 中的 one-hot 标签，<em><strong>我们就又得到了 multi-hot 的伪标签</strong></em>，用于 ITC 和 MLM 任务的损失计算。补充一句，对于 ITM 任务，由于其本身就是基于 GT 的二分类任务，并且通过 ITC 中计算的相似度结果进行了难负例挖掘，因此无需进行动量计算。</p>
+<p>&emsp;<strong>背景</strong>：ALBEF中动量蒸馏的提出，是为了<strong>解决网络图文对训练数据噪声过大</strong>的问题。网上爬取的图文对训练数据，称为 Alt text（Alternative Text），这种训练数据无需人工标注，规模巨大，是近年来多模态学习主要使用的训练数据。但是这种数据的缺点是噪声较大。很多网络图片和它的描述文本是不对应的。比如一张青山绿水的景点照片，网络上的对应文字不会是“一座很美丽的山，下面有清澈的河流”这种我们想要的描述性的文本，而很可能会是这个景点的名字，如“桂林山水”。从语义的角度来说，这样的图文对是<strong>弱关联</strong>（weakly correlated）的，不是我们想要的训练样本。这种弱关联的训练样本中可能出现某些负样本的图文匹配程度，<strong>比数据集中正样本的 one-hot 标签的匹配程度更高的情况</strong>，不利于 ITC 和 MLM 两种任务的训练。</p>
+<p>&emsp;ALBEF 中除了梯度更新的主模型之外，还有一个动量模型，用于为主模型的训练生成 multi-hot 的伪标签。动量模型通过滑动指数平均（EMA  $v_t&#x3D;β∗v_{t−1}+(1−β)∗v_t$，这里可以直接用两种损失的权重相加而不是都做一次梯度回传）的方式，根据主模型进行动量更新。这样，除了 GT 中的 one-hot 标签，<strong>又得到了multi-hot的伪标签</strong>，用于 ITC 和 MLM 任务的损失计算。补充一句，对于 ITM 任务，由于其本身就是基于 GT 的二分类任务，并且通过 ITC 中计算的相似度结果进行了难负例挖掘，因此无需进行动量计算。</p>
 <h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/1.2.3" alt="image-20230830154631434"></p>
-<h2 id="VLMo"><a href="#VLMo" class="headerlink" title="VLMo"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/vlmo-unified-vision-language-pre-training">VLMo</a></h2><p>&emsp;<strong>背景</strong>：编码器模型（dual-encoder 2.1.(b)）的优点是在进行检索等任务时，可以预先对数据库中的数据进行特征提取，运行效率高。缺点是模态交互部分只有一个简单的余弦相似度的计算，过于简单，在视觉推理等模态交互复杂的任务上表现较差。与之相反的，融合编码器模型（fusion-encoder，结构如图 1 (c&#x2F;d)）的优点是模态交互充分，缺点是无法预先进行特征提取，效率稍差。为了解决这种冲突，VLMo 提出了 MoME（Mixture of Multi Expert）<strong>，由不同的 “专家” 来处理不同类型（文本&#x2F;图像）的输入数据</strong>。简单来说，就是在每个 Tranformer 块中：自注意力层权重在不同类型输入间共享，而 FFN 层权重则根据输入类型的不同而不同。</p>
+<h2 id="VLMo"><a href="#VLMo" class="headerlink" title="VLMo"></a>VLMo</h2><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/vlmo-unified-vision-language-pre-training">VLMo: Unified Vision-Language Pre-Training with Mixture-of-Modality-Experts</a></p>
+<p><strong>它是如何自己选择每个专家系统的？？？？</strong></p>
+<p>&emsp;<strong>背景</strong>：编码器模型（dual-encoder 2.1.(b)）的优点是在进行检索等任务时，可以预先对数据库中的数据进行特征提取，运行效率高。缺点是模态交互部分只有一个简单的余弦相似度的计算，过于简单，在视觉推理等模态交互复杂的任务上表现较差。与之相反的，融合编码器模型（fusion-encoder，结构如图 1 (c&#x2F;d)）的优点是模态交互充分，缺点是无法预先进行特征提取，效率稍差。为了解决这种冲突，VLMo 提出了 MoME（Mixture of Multi Expert）<strong>，由不同的 “专家” 来处理不同类型（文本&#x2F;图像）的输入数据</strong>。简单来说，就是在每个 Tranformer 块中：自注意力层权重在不同类型输入间共享，而 FFN 层权重则根据输入类型的不同而不同。</p>
 <h3 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/2.3.1" alt="image-20230830162218795"></p>
 <p>&emsp;其中 MoME 的结构设计可以借助左侧小图理解，整体是一个标准的 Transformer Block，区别在于 FFN 层有三组参数，分别对应视觉信号、文本信号和图文信号。在接受不同的输入信号时，会使用对应的 FFN 层参数进行计算。</p>
 <p>&emsp;在预训练任务的选择上，VLMo 与 ALBEF 一致，同样使用 ITC、ITM 和 MLM 三种任务，并且同样借助 ITC 为 ITM 进行难负例挖掘。在进行不同的任务时，会使用 MoME 结构中不同的 FFN 层参数进行训练。</p>
 <ul>
 <li>ITC：在计算 ITC 损失时，VLMo 的模型是一种 “dual encoder” 模型，以双塔的结构分别对文本和图像进行嵌入。</li>
-<li>ITM、MLM：在计算 ITM、MLM 损失时，VLMo 模型又成了一种 “fusion encoder” 模型，分别提取图像文本的特征之后，再用 F FF 层 Transformer Block 进行模态融合。</li>
+<li>ITM、MLM：在计算 ITM、MLM 损失时，VLMo 模型又成了一种 “fusion encoder” 模型，分别提取图像文本的特征之后，再用 F层 Transformer Block 进行模态融合。</li>
 </ul>
-<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/2.3.2" alt="image-20230830164408540"></p>
-<p>&emsp;MoME 结构最大的优势就是灵活。在训练时，对应不同的任务时使用不同结构计算损失函数，并更新对应参数。这样的训练有一个缺点是需要做多次模型前向。在推理时，灵活性的优势得到体现。如果要做检索类任务，可以用单独的文本&#x2F;图像编码器去提取特征，提高处理效率；而如果要做推理类任务，又可以通过图文编码器进行充分的模态交互。巧妙地解决了前言部分提到的两种结构的冲突。<br>&emsp;另一个优化是引入图像、文本单独领域内的大规模数据，对各自 FFN 专家进行预训练。图 7 展示了 VLMo 的分阶段训练方式，图中虚线的部分是冻结的参数。训练共分为三个阶段。首先，VLMo 先在单独的图像数据上训练自注意力层和视觉 FFN 专家；然后，在单独的文本数据上训练文本 FFN 专家；最后，在多模态数据上训练自注意力层和三种 FFN 专家。</p>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><p>&emsp;MoME 结构最大的优势就是灵活。在训练时，对应不同的任务时使用不同结构计算损失函数，并更新对应参数。这样的训练有一个缺点是需要做多次模型前向。在推理时，灵活性的优势得到体现。如果要做检索类任务，可以用单独的文本&#x2F;图像编码器去提取特征，提高处理效率；而如果要做推理类任务，又可以通过图文编码器进行充分的模态交互。巧妙地解决了前言部分提到的两种结构的冲突。</p>
+<p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/2.3.2" alt="image-20230830164408540"><br>&emsp;另一个优化是引入图像、文本单独领域内的大规模数据，对各自 FFN 专家进行预训练。展示了 VLMo 的分阶段训练方式，图中虚线的部分是冻结的参数。训练共分为三个阶段。首先，VLMo 先在单独的图像数据上训练自注意力层和视觉 FFN 专家；然后，在单独的文本数据上训练文本 FFN 专家；最后，在多模态数据上训练自注意力层和三种 FFN 专家。</p>
 <p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/2.3.21" alt="image-20230830164745153"></p>
-<p>&emsp;单独的文本数据上进行训练时，自注意力层是冻结的。也就是说，通过图像数据训练出的自注意力层，在文本数据上甚至连微调都不需要，就能工作得很好。那么，不仅让人猜想：如果换过来，先文本，在视觉，效果会怎样呢？是否不同模态间的注意力是可以通用的呢？这有待后续工作的进一步探索。</p>
+<p>&emsp;单独的文本数据上进行训练时，自注意力层是冻结的。也就是说，通过图像数据训练出的自注意力层，在文本数据上甚至连微调都不需要，就能工作得很好。那么，不仅让人猜想：如果换过来，<strong>先文本，在视觉，效果会怎样呢</strong>？是否不同模态间的注意力是可以通用的呢？这有待后续工作的进一步探索。</p>
 <h3 id="实验-1"><a href="#实验-1" class="headerlink" title="实验"></a>实验</h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/2.3.3" alt="image-20230830164819593"></p>
-<h1 id="Transformer-Encoder-Decoder"><a href="#Transformer-Encoder-Decoder" class="headerlink" title="Transformer Encoder-Decoder"></a>Transformer Encoder-Decoder</h1><h2 id="BLIP"><a href="#BLIP" class="headerlink" title="BLIP"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/blip-bootstrapping-language-image-pre">BLIP</a></h2><p>&emsp;BLIP，论文标题为 Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation。BLIP 的两个关键点都包含在标题内，一是 bootstrapping，是数据方面的改进，指的是用含噪声的数据训练出模型后，再用某些方法得到更干净的数据，用这些干净的数据训练出更好的模型；二是 unified，指的是 BLIP 作为一种 encoder-decoder 架构，不只能做 understanding 类的任务（如上一节介绍的下游任务），也能做 generation 类的任务，如图像字幕 image captioning。</p>
+<h1 id="Transformer-Encoder-Decoder"><a href="#Transformer-Encoder-Decoder" class="headerlink" title="Transformer Encoder-Decoder"></a>Transformer Encoder-Decoder</h1><h2 id="BLIP"><a href="#BLIP" class="headerlink" title="BLIP"></a>BLIP</h2><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/blip-bootstrapping-language-image-pre">BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a></p>
+<p>&emsp;BLIP，论文标题为 Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation。BLIP 的两个关键点都包含在标题内，一是 bootstrapping，是数据方面的改进，指的是用含噪声的数据训练出模型后，再用某些方法得到更干净的数据，用这些干净的数据训练出更好的模型；二是 unified，指的是 BLIP 作为一种 encoder-decoder 架构，不只能做 understanding 类的任务（如上一节介绍的下游任务），也能做 generation 类的任务，如图像字幕 image captioning。</p>
 <h3 id="模型结构-1"><a href="#模型结构-1" class="headerlink" title="模型结构"></a>模型结构</h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/3.1.1" alt="image-20230830171502503"></p>
 <p>&emsp;<strong>图中相同的颜色表示相同的参数</strong>。细分开来，BLIP 模型共包含四个网络。图中左侧是一个标准的ViT模型，用于处理图像数据。右侧三个网络都用于处理文本数据，但他们的细节有所不同。三个文本特征提取网络分别与图像特征提取网络配合，计算不同损失函数，token也不同。</p>
 <ul>
 <li>Text Encoder:提取文本特征，用于与视觉特征计算ITC损失，不与视觉特征计算交叉注意力。</li>
 <li>Image-gounded Text Encoder:与视觉特征计算交叉注意力，提取文本特征用于计算ITM损失。</li>
-<li>Image-gounded Text Decoder:与视觉特征计算交叉注意力，用于进行LM语言建模训练。为了进行语言建模训练，需要 mask 掉后面的单词。因此该网络的注意力层是Causal SA，而非Bi-SA。</li>
+<li>Image-gounded Text Decoder:与视觉特征计算交叉注意力，用于进行LM语言(根据图像生成文本)建模训练。为了进行语言建模训练，需要 mask 掉后面的单词。因此该网络的注意力层是Causal SA，而非Bi-SA。</li>
 <li>与 ALBEF 一样，同样采用动量模型为 ITC 生成伪标签；同样使用 ITC 为 ITM 进行难负例挖掘。（BLIP 与 ABLEF 来自同一研究团队）</li>
 </ul>
 <p>&emsp;BLIP 的整个模型称为 <strong>MED（Mixture of Encoder and Decoder）</strong>。虽然看起来模型很多，但实际上大部分网络是共享参数的，因此实际模型参数增加并不多。</p>
 <h3 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/3.1.2" alt="image-20230830222447374"></p>
-<p>&emsp;图中I,T分别表示图像数据和文本数据；红色、绿色字体分别表示噪声较大、较小的文本；下标h,w,s分别表示人工标注数据、网络数据和模型生成数据。<br>&emsp;<strong>流程</strong>：BLIP 先使用含噪声的数据训练一个 MED 模型，然后将该模型的 Image-grounded Text Encoder 和 Image-grounded Text Decoder 在人工标注的 COCO 数据集上进行微调，分别作为 Filter 和 Captioner。FIlter 对噪声较大的网络数据和生成数据进行过滤清洗，得到较为可靠的训练数据，Captioner 为图像数据生成对应的文本。再根据这些可靠的训练数据，训练更好地 MED 模型，从而实现 bootstraping 训练。</p>
+<p>&emsp;图中I,T分别表示图像数据和文本数据；红色、绿色字体分别表示噪声较大、较小的文本；下标h,w,s分别表示人工标注数据、网络数据和模型生成数据。先用训练好的Encoder和Decoder在CoCo数据集上微调。</p>
+<p>&emsp;<strong>流程</strong>：BLIP 先使用含噪声的数据训练一个 MED 模型，然后将该模型的 Image-grounded Text Encoder 和 Image-grounded Text Decoder 在人工标注的 COCO 数据集上进行微调，分别作为 Filter 和 Captioner。FIlter 对噪声较大的网络数据和生成数据进行过滤清洗（即不匹配的图文对），得到较为可靠的训练数据，Captioner 为图像数据生成对应的文本，两者结合在一起，再根据这些可靠的训练数据，训练更好地 MED 模型，从而实现 bootstraping 训练。</p>
 <h3 id="实验-2"><a href="#实验-2" class="headerlink" title="实验"></a>实验</h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/3.1.2-2" alt="image-20230830224533205"></p>
 <p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/3.2.3" alt="image-20230830224754531"></p>
 <p>&emsp;注意 BLIP 中训练数据的处理与模型训练是解耦的，也就是说，也可以通过 large 模型数据处理，根据所得数据训练 base 模型。实际上，BLIP 中 Captioner + Filter 的数据处理策略可以为任何需要图像文本对来训练的模型进行数据生成和清洗，可以视作为多模态学习领域的一个通用的数据处理工具。</p>
-<h2 id="CoCa"><a href="#CoCa" class="headerlink" title="CoCa"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/coca-contrastive-captioners-are-image-text">CoCa</a></h2><p>&emsp;CoCa（Contrastive Captioning）使用对比损失和文本生成损失进行训练，结构与 ALBEF 十分接近。</p>
+<h2 id="CoCa"><a href="#CoCa" class="headerlink" title="CoCa"></a>CoCa</h2><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/coca-contrastive-captioners-are-image-text">CoCa: Contrastive Captioners are Image-Text Foundation Models</a></p>
+<p>&emsp;CoCa（Contrastive Captioning）使用对比损失和文本生成损失进行训练，结构与 ALBEF 十分接近。</p>
 <h3 id="模型结构-2"><a href="#模型结构-2" class="headerlink" title="模型结构"></a>模型结构</h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/3.2.1" alt="image-20230830230020093"></p>
 <ul>
 <li>CoCa 左侧处理文本和进行多模态交互的网络是一个文本解码器（Text Decoder）而非文本编码器</li>
 <li>目标函数为 ITC 对比损失和文本解码器的语言建模损失</li>
 <li>使用文本解码器，模型能够处理生成式多模态任务（如 image captioning）</li>
-<li>在图像编码器的最后使用可学习的 attention pooling 进行降采样</li>
+<li>在图像编码器的最后使用可学习的 <strong>attention pooling</strong>(可学的池化方法) 进行降采样</li>
 <li>CoCa 没有使用 ITM 损失，减少了模型参数每次迭代所需前向传播的次数，大大降低了训练时间</li>
 </ul>
 <h3 id="实验-3"><a href="#实验-3" class="headerlink" title="实验"></a>实验</h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/3.2.2" alt="image-20230830230623980"></p>
 <p>&emsp;CoCa 的性能对比实验采用了一种十分新颖的多边形图的方式来展现，非常直观、非常震撼地展示了 CoCa 相对于现有工作的性能提升。</p>
-<h2 id="BEITv3"><a href="#BEITv3" class="headerlink" title="BEITv3"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/image-as-a-foreign-language-beit-pretraining">BEITv3</a></h2><p>&emsp;BEITv3 的关键词就是大一统（big convergence），输入形式大一统，目标函数大一统，模型大一统。BEITv3 将图像也视作一种语言（Imglish），与文本输入（English），图像文本对输入（parallel sentence）一起，实现了输入形式的大一统。在输入形式统一之后，也不需要 ITC、ITM、MLM、WPA 等其他目标函数，而是可以使用统一的mask modeling 来驱动训练。模型层面上，自从 ViT 在视觉领域取得成功之后，Transformer 架构已有一统多模态模型的趋势。虽然在纯视觉领域，CNN 与 Transformer 谁更适合至今尚无定论，但如果要实现多模态模型大一统，Transformer 无疑更加适合。BEITv3 使用本组之前工作 VLMo 中提出的 MoME（本文中称为 Multi-way Transformer），对不同模态使用不同的专家 FFN，实现统一。</p>
+<h2 id="BEITv3"><a href="#BEITv3" class="headerlink" title="BEITv3"></a>BEITv3</h2><p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/image-as-a-foreign-language-beit-pretraining">Image as a Foreign Language: BEiT Pretraining for All Vision and Vision-Language Tasks</a></p>
+<p>&emsp;BEITv3 的关键词就是大一统（big convergence），输入形式大一统，目标函数大一统，模型大一统。BEITv3 将图像也视作一种语言（Imglish），与文本输入（English），图像文本对输入（parallel sentence）一起，实现了输入形式的大一统。在输入形式统一之后，也不需要 ITC、ITM、MLM、WPA 等其他目标函数，<strong>而是可以使用统一的mask modeling 来驱动训练</strong>。模型层面上，自从 ViT 在视觉领域取得成功之后，Transformer 架构已有一统多模态模型的趋势。虽然在纯视觉领域，CNN 与 Transformer 谁更适合至今尚无定论，但如果要实现多模态模型大一统，Transformer 无疑更加适合。BEITv3 使用本组之前工作 VLMo 中提出的 MoME（本文中称为 Multi-way Transformer），对不同模态使用不同的专家 FFN，实现统一。</p>
 <h3 id="模型架构"><a href="#模型架构" class="headerlink" title="模型架构"></a>模型架构</h3><p><img src="/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/3.3.1" alt="image-20230830232407963"></p>
 <p>&emsp;模型结构就是之前介绍过的 VLMo 中的 MoME，自注意力层权重共享，根据不同的输入来选择不同的 FFN 专家。与 VLMo 不同之处在于训练的目标函数，是大一统的 masked data modeling，即遮住部分数据，要求模型还原出被遮住的数据。</p>
 <p>&emsp;BEiTv3 在单模态和多模态的数据上进行掩码数据建模（masked data modeling） 对 Multiway Transformers 进行预训练。预训练完成后，模型可以迁移到视觉任务和 VL 多模态任务上。</p>
@@ -446,8 +496,8 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/Clip/" rel="tag"># Clip</a>
-              <a href="/tags/Transformer/" rel="tag"># Transformer</a>
               <a href="/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/" rel="tag"># 对比学习</a>
+              <a href="/tags/Transformer/" rel="tag"># Transformer</a>
               <a href="/tags/Bert/" rel="tag"># Bert</a>
               <a href="/tags/MAE/" rel="tag"># MAE</a>
               <a href="/tags/%E5%A4%9A%E6%A8%A1%E6%80%81/" rel="tag"># 多模态</a>
@@ -497,13 +547,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">51k</span>
+    <span title="站点总字数">52k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:34</span>
+    <span title="站点阅读时长">1:35</span>
   </span>
 </div>
 <div class="busuanzi-count">
