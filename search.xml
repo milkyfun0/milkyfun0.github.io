@@ -4,8 +4,13 @@
     <title>更新计划</title>
     <url>/2023/08/22/hello-world/</url>
     <content><![CDATA[<ul>
+<li><p><strong>20230916</strong></p>
+<p>综述文章 多模态综述</p>
+<p>TransFormer 原论文复现</p>
+<p>语音特征提取技术</p>
+</li>
 <li><p><strong>20230901</strong> </p>
-<p><del><a href="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">综述文章 CV 中的注意力机制 2022</a></del> 已完成20230918 后续新文章会补上</p>
+<p><del><a href="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">综述文章 CV 中的注意力机制 2022</a></del> 已完成20230918 后续有看新文章会补上</p>
 </li>
 <li><p><strong>20230831</strong> </p>
 <p>论文精读系列 Clip串讲</p>
@@ -974,8 +979,8 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>对比学习</tag>
         <tag>Transformer</tag>
+        <tag>对比学习</tag>
         <tag>Bert</tag>
         <tag>MAE</tag>
         <tag>多模态</tag>
