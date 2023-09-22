@@ -1022,9 +1022,9 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>对比学习</tag>
         <tag>Clip</tag>
         <tag>Transformer</tag>
+        <tag>对比学习</tag>
         <tag>Bert</tag>
         <tag>MAE</tag>
         <tag>多模态</tag>
@@ -1093,7 +1093,8 @@
 </li>
 <li><p>time embedding：U-Net模型输入，除了当前时刻的$x_{t}$ ，还有一个输入time embedding（类似transformer里的正弦位置编码），主要用于告诉 U-Net模型，现在到了反向过程的第几步。</p>
 </li>
-<li><p>目标函数：DDPM采用了一个U-Net 结构的Autoencoder来对t时刻的高斯噪声z进行预测。训练目标即希望预测的噪声和真实的噪声一致，所以目标函数为预测噪声和z 的L1 Loss：$p(\mathbf{x}<em>{t-1} \vert \mathbf{x}<em>t)&#x3D;\left | z-f</em>{\theta }(x</em>{t},t) \right |$， t为时间</p>
+<li><p>目标函数：DDPM采用了一个U-Net 结构的Autoencoder来对t时刻的高斯噪声z进行预测。训练目标即希望预测的噪声和真实的噪声一致，所以目标函数为预测噪声和z 的L1 Loss：</p>
+<p>$p(\mathbf{x}<em>{t-1} \vert \mathbf{x}<em>t)&#x3D;\left | f</em>{\theta}(x</em>{t},t) \right|$， t为时间</p>
 </li>
 <li><p>只预测正态分布的均值</p>
 <p>正态分布由均值和方差决定。作者在这里发现，其实模型不需要学方差，只需要学习均值就行。</p>
@@ -1143,8 +1144,8 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
         <tag>扩散模型</tag>
+        <tag>论文精读</tag>
         <tag>自编码器</tag>
         <tag>Clip</tag>
         <tag>生成图像</tag>
@@ -1338,8 +1339,8 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>对比学习</tag>
         <tag>论文精读</tag>
+        <tag>对比学习</tag>
         <tag>MoCo</tag>
         <tag>SimCLR</tag>
       </tags>
