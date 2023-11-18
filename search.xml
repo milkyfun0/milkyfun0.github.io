@@ -1,28 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>更新计划</title>
-    <url>/2023/08/22/hello-world/</url>
-    <content><![CDATA[<ul>
-<li><p><strong>20230916</strong></p>
-<p>综述文章 多模态综述</p>
-<p>TransFormer 原论文复现</p>
-<p>语音特征提取技术</p>
-</li>
-<li><p><strong>20230901</strong> </p>
-<p><del><a href="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">综述文章 CV 中的注意力机制 2022</a></del> 已完成20230916 后续有看新文章会补上</p>
-</li>
-<li><p><strong>20230831</strong> </p>
-<p>论文精读系列 Clip串讲</p>
-<p><del>论文精读系列 多模态博客订正</del> 20230917</p>
-</li>
-<li><p><del><strong>20230829</strong></del></p>
-<p><del>论文精读系列 多模态串讲</del></p>
-</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
     <title>论文精读-DELL·E2-2022</title>
     <url>/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/</url>
     <content><![CDATA[<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/2e470107269d4e44a8e352fc87dd49ce.png"></p>
@@ -141,6 +119,28 @@
         <tag>Clip</tag>
         <tag>生成图像</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>更新计划</title>
+    <url>/2023/08/22/hello-world/</url>
+    <content><![CDATA[<ul>
+<li><p><strong>20230916</strong></p>
+<p>综述文章 多模态综述</p>
+<p>TransFormer 原论文复现</p>
+<p>语音特征提取技术</p>
+</li>
+<li><p><strong>20230901</strong> </p>
+<p><del><a href="https://milkyfun0.github.io/2023/09/18/%E7%BB%BC%E8%BF%B0%E6%96%87%E7%AB%A0/CV%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">综述文章 CV 中的注意力机制 2022</a></del> 已完成20230916 后续有看新文章会补上</p>
+</li>
+<li><p><strong>20230831</strong> </p>
+<p>论文精读系列 Clip串讲</p>
+<p><del>论文精读系列 多模态博客订正</del> 20230917</p>
+</li>
+<li><p><del><strong>20230829</strong></del></p>
+<p><del>论文精读系列 多模态串讲</del></p>
+</li>
+</ul>
+]]></content>
   </entry>
   <entry>
     <title>论文精读 对比学习综述 2021</title>
@@ -1151,6 +1151,66 @@
       </tags>
   </entry>
   <entry>
+    <title>10-11月进度总结 检索方面</title>
+    <url>/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h1 id="Video-Retrieval"><a href="#Video-Retrieval" class="headerlink" title="Video Retrieval"></a>Video Retrieval</h1><p>&emsp;主要解决的是如何利用CLip（等）从时间维度融合</p>
+<h2 id="X-Pool-2022"><a href="#X-Pool-2022" class="headerlink" title="X-Pool(2022)"></a>X-Pool(2022)</h2><p><strong>Cross-Modal Language-Video Attention for Text-Video Retrieval</strong></p>
+<p>&emsp;选择与文本相关的文本Token相近的视觉Token</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100200730.png" alt="image-20231118100200730"></p>
+<h2 id="X-Clip-2022"><a href="#X-Clip-2022" class="headerlink" title="X-Clip(2022)"></a>X-Clip(2022)</h2><p><strong>Expanding Language-Image Pretrained Models for General Video Recognition</strong></p>
+<p>&emsp;时间维度融合的新方法，先融合到时间维度再利用融合后的特征返回和图像维度融合</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100600504.png" alt="image-20231118100600504"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100630051.png" alt="image-20231118100630051"></p>
+<h2 id="TS2-Net"><a href="#TS2-Net" class="headerlink" title="TS2-Net"></a>TS2-Net</h2><p><strong>TS2-Net: Token Shift and Selection Transformer for Text-Video Retrieval</strong></p>
+<p>&emsp;时间维度融合，利用Token之间的平移捕捉变动差别</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100927351.png" alt="image-20231118100927351"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100942559.png" alt="image-20231118100942559"></p>
+<h2 id="EMCL-2022"><a href="#EMCL-2022" class="headerlink" title="EMCL(2022)"></a>EMCL(2022)</h2><p><strong>Expectation-Maximization Contrastive Learning for Compact Video-and-Language Representations</strong></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101102419.png" alt="image-20231118101102419"></p>
+<h2 id="DRL-2022"><a href="#DRL-2022" class="headerlink" title="DRL(2022)"></a>DRL(2022)</h2><p><strong>Disentangled Representation Learning for Text-Video Retrieval</strong></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101328656.png" alt="image-20231118101328656"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101340854.png" alt="image-20231118101340854"></p>
+<h2 id="CLIP4Clip-2021"><a href="#CLIP4Clip-2021" class="headerlink" title="CLIP4Clip(2021)"></a>CLIP4Clip(2021)</h2><p><strong>An Empirical Study of CLIP for End to End Video Clip Retrieval</strong></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101514862.png" alt="image-20231118101514862"></p>
+<h2 id="CenterCLIP-2022"><a href="#CenterCLIP-2022" class="headerlink" title="CenterCLIP(2022)"></a>CenterCLIP(2022)</h2><p><strong>Token Clustering for Efficient Text-Video Retrieval</strong></p>
+<p>&emsp;去除冗余信息 </p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101632756.png" alt="image-20231118101632756"></p>
+<h2 id="Prompt-Switch-2023"><a href="#Prompt-Switch-2023" class="headerlink" title="Prompt Switch(2023)"></a>Prompt Switch(2023)</h2><p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101724910.png" alt="image-20231118101724910"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101753781.png" alt="image-20231118101753781"></p>
+<h2 id="Cap4Video-2023"><a href="#Cap4Video-2023" class="headerlink" title="Cap4Video(2023)"></a>Cap4Video(2023)</h2><p><strong>Cap4Video What Can Auxiliary Captions Do for Text-Video Retrieval</strong></p>
+<p>&emsp;利用</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102034385.png" alt="image-20231118102034385"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102051534.png" alt="image-20231118102051534"></p>
+<h2 id="UATVR-2023"><a href="#UATVR-2023" class="headerlink" title="UATVR(2023)"></a>UATVR(2023)</h2><p> <strong>UATVR: Uncertainty-Adaptive Text-Video Retrieval</strong></p>
+<p>&emsp;粗细粒度的偏重就有不确定性，本文针对这一问题，提出了不确定性的自适应检索方法</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118112636621.png" alt="image-20231118112636621"></p>
+<h2 id="UCOFIA-2023"><a href="#UCOFIA-2023" class="headerlink" title="UCOFIA(2023)"></a>UCOFIA(2023)</h2><p><strong>Unified Coarse-to-Fine Alignment for Video-Text Retrieval</strong></p>
+<p>&emsp;如何规范的利用视频和文本进行粗细粒度对齐，减轻不想关信息的影响</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118113036134.png" alt="image-20231118113036134"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118113204634.png" alt="image-20231118113204634"></p>
+<h1 id="General-Methods"><a href="#General-Methods" class="headerlink" title="General Methods"></a>General Methods</h1><h2 id="Cross-Modal-Retrieval-with-Querybank-Normalisation"><a href="#Cross-Modal-Retrieval-with-Querybank-Normalisation" class="headerlink" title="Cross Modal Retrieval with Querybank Normalisation"></a>Cross Modal Retrieval with Querybank Normalisation</h2><p>&emsp;主要解决的是检索中某一个样本对大部分相似度过高的情况</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102559410.png" alt="image-20231118102559410"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102620534.png" alt="image-20231118102620534"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102640705.png" alt="image-20231118102640705"></p>
+<h1 id="Image-Retrieval"><a href="#Image-Retrieval" class="headerlink" title="Image Retrieval"></a>Image Retrieval</h1><h2 id="Exploring-a-Fine-Grained-Multiscale-Method-for-Cross-Modal-Remote-Sensing-Image-Retrieval"><a href="#Exploring-a-Fine-Grained-Multiscale-Method-for-Cross-Modal-Remote-Sensing-Image-Retrieval" class="headerlink" title="Exploring a Fine-Grained Multiscale Method for Cross-Modal Remote Sensing Image Retrieval"></a>Exploring a Fine-Grained Multiscale Method for Cross-Modal Remote Sensing Image Retrieval</h2><p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103213139.png" alt="image-20231118103213139"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103233612.png" alt="image-20231118103233612"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103259193.png" alt="image-20231118103259193"></p>
+<h2 id="A-Lightweight-Multi-Scale-Crossmodal-Text-Image-Retrieval-Method-in-Remote-Sensing"><a href="#A-Lightweight-Multi-Scale-Crossmodal-Text-Image-Retrieval-Method-in-Remote-Sensing" class="headerlink" title="A Lightweight Multi-Scale Crossmodal Text-Image Retrieval Method in Remote Sensing"></a>A Lightweight Multi-Scale Crossmodal Text-Image Retrieval Method in Remote Sensing</h2><p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103006857.png" alt="image-20231118103006857"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103016724.png" alt="image-20231118103016724"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103027602.png" alt="image-20231118103027602"></p>
+]]></content>
+      <categories>
+        <category>每月总结</category>
+      </categories>
+      <tags>
+        <tag>Clip</tag>
+        <tag>Transformer</tag>
+        <tag>Video Retrieval</tag>
+        <tag>Image Retrieval</tag>
+        <tag>多模态</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>论文精读-多模态综述-2023</title>
     <url>/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/</url>
     <content><![CDATA[<h1 id="多模态表征学习的下游任务"><a href="#多模态表征学习的下游任务" class="headerlink" title="多模态表征学习的下游任务"></a>多模态表征学习的下游任务</h1><ol>
@@ -1339,9 +1399,9 @@
         <tag>Clip</tag>
         <tag>对比学习</tag>
         <tag>Transformer</tag>
+        <tag>多模态</tag>
         <tag>Bert</tag>
         <tag>MAE</tag>
-        <tag>多模态</tag>
         <tag>特征融合</tag>
       </tags>
   </entry>
