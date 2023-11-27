@@ -1,126 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>论文精读-DELL·E2-2022</title>
-    <url>/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/</url>
-    <content><![CDATA[<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/2e470107269d4e44a8e352fc87dd49ce.png"></p>
-<p>   生成器<code>G</code>从给定噪声中（一般是指均匀分布或者正态分布）采样来合成数据，判别器<code>D</code>用于判别样本是真实样本还是G生成的样本。<code>G</code>的目标就是尽量生成真实的图片去欺骗判别网络<code>D</code>，使<code>D</code>犯错；而<code>D</code>的目标就是尽量把<code>G</code>生成的图片和真实的图片分别开来</p>
-<p>局限性：</p>
-<ol>
-<li>训练不够稳定</li>
-<li>GANs生成的多样性不够好</li>
-<li>GANs是隐式生成，不够优美</li>
-</ol>
-<h2 id="AE（Autoencoder）和-DAE-Denoising-Autoencoder"><a href="#AE（Autoencoder）和-DAE-Denoising-Autoencoder" class="headerlink" title="AE（Autoencoder）和 DAE(Denoising Autoencoder)"></a><a href="https://paperswithcode.com/method/autoencoder">AE（Autoencoder）</a>和 DAE(Denoising Autoencoder)</h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/60fd506454ac4280a0d015385d25944a.png"></p>
-<p><code>  DAE</code>（Denoising Autoencoder），就是先把原图$x$进行一定程度的打乱</p>
-<h2 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a><a href="https://paperswithcode.com/paper/auto-encoding-variational-bayes">VAE</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0879f80567c94e0892037517d797b997.png" alt="在这里插入图片描述"></p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/v2-df06f2d1471615dae76b1e09488091b5_720w.webp" alt="img"></p>
-<p>​      VAE（Variational Auto-Encoder-变分自编码器）就是借助了这种encoder-decoder的结构去做生成，和AE最主要的区别就是不再去学习中间的bottleneck特征了，而是去学习一种分布。</p>
-<p>  作者假设中间的分布是一个高斯分布（用均值μ 和方差σ 来描述）。具体来说，就是将输入x进行编码得到特征之后，再接一些FC层，去预测中间分布的μ 和σ 。</p>
-<p>  μ 和σ 训练好之后，就可以扔掉encoder了。推理时直接从训练好的分布去采样一些z 出来（ $z&#x3D;\mu +\sigma \cdot \varepsilon$），然后进行解码，这样VAE就可以用来做生成了</p>
-<p><a href="https://spaces.ac.cn/archives/5253">变分自编码器（一）：原来是这么一回事</a></p>
-<h2 id="VQ-VAE"><a href="#VQ-VAE" class="headerlink" title="VQ-VAE"></a>VQ-VAE</h2><h3 id="VQ-VAE-1"><a href="#VQ-VAE-1" class="headerlink" title="VQ-VAE"></a><a href="https://paperswithcode.com/paper/neural-discrete-representation-learning">VQ-VAE</a></h3><p>​    如果还是之前VAE的模式，就不好把模型做大，分布也不好学。取而代之的不是去直接预测分布z，而是用一个codebook代替。codebook可以理解为聚类的中心，大小一般是K*D（K&#x3D;8192，Dim&#x3D;512&#x2F;768），也就是有8192个长为D的向量（聚类中心）</p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE" alt="image-20230824173457718"></p>
-<p>​     $x$输入编码器得到高宽分别为$( h , w )$ 的特征图f，然后计算特征图里的向量和codebook里的向量（聚类中心）的相似性。接着把和特征图最接近的聚类中心向量的编号（1-8192）存到矩阵z里面。训练完成之后，不再需要编码特征f ff，而是取出矩阵z中的编号对应的codebook里面的向量，生成一个新的特征图q（量化特征quantised feature）。最后和之前一样，使用q解码重构原图。此时这个量化特征就非常可控了，因为它们永远都是从codebook里面来的，而非随机生成，这样优化起来相对容易。</p>
-<p>​    编码器输出$z ( x )$ 会mapped到最相近（nearest）的点$e 2$ 。红色线的梯度$\triangledown _{z}$L，迫使encoder在下一次forword时改变其输出（参数更新）</p>
-<p>​    VQ-VAE也可以用来做CV领域的自监督学习，比如BEIT就是把<strong>DALL·E训练好的codebook拿来用。将图片经过上面同样的过程quantise成的特征图作为ground truth</strong>，自监督模型来训练一个网络。后续还有VL-BEIT（vision language BEIT）的工作，也是类似的思路，只不过是用一个Transformer编码器来做多模态的任务。</p>
-<p><strong>局限性：</strong></p>
-<p> 如果想让VA-VAE做生成，就需要单独训练一个<code>prior</code>网络，在论文里，作者就是训练了一个<code>pixcl-CNN</code>（利用训练好的codebook去做生成）。</p>
-<h3 id="VQ-VAE-2"><a href="#VQ-VAE-2" class="headerlink" title="VQ-VAE 2"></a><a href="https://paperswithcode.com/paper/190600446">VQ-VAE 2</a></h3><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE-2" alt="image-20230824173625860"></p>
-<p>​    本身是对VQ-VAE的简单改进，是一个层级式的结构。VQ-VAE2不仅做局部的建模，而且还做全局的建模（加入attention），所以模型的表达能力更强了。同时根据codebook学了一个prior，所以生成的效果非常好。总体来说VQ-VAE2是一个两阶段的过程：</p>
-<ul>
-<li><p>训练编解码器，使其能够很好的复现图像</p>
-</li>
-<li><p>训练PixelCNN自回归模型，使其能够拟合编码表分布，从而通过随机采样，生成图片</p>
-</li>
-</ul>
-<p>​    stage1：训练一个分层的VQ-VAE用于图像编码到离散隐空间</p>
-<p>​    输入图像 x，通过编码器生成向量$E ( x )$ ，然后采用最近邻重构，将$E ( x )$ 替换为codebook的中的一个nearest prototype vector。codebook可以理解为离散的编码表，举一张人脸图像为例codebook就包括头发颜色，脸型，表情和肤色等等。因此，量化就是通过编码表，把自编码器生成的向量$E ( x ) $离散化：</p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/9a09c6f4ab7c42d6b1fafd9695559e2e.png" alt="在这里插入图片描述"></p>
-<p>​    stage2：在离散隐空间上拟合一个PixelCNN先验</p>
-<ul>
-<li>经过Stage1，将图片编码为了整数矩阵，所以在Stage2用自回归模型PixelCNN，来对编码矩阵进行拟合（即建模先验分布）</li>
-<li>通过PixelCNN得到编码分布后，就可以随机生成一个新的编码矩阵，然后通过编码表E EE映射为浮点数矩阵，最后经过deocder重构得到一张图片</li>
-</ul>
-<p>​    原文中还有再加<code>middle level</code>，实验结果表明加了middle level之后，生成的图像清晰度更高）</p>
-<p><a href="https://spaces.ac.cn/archives/6760">VQ-VAE的简明介绍：量子化自编码器</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/461693342">生成模型之PixelCNN</a></p>
-<h2 id="扩散模型"><a href="#扩散模型" class="headerlink" title="扩散模型"></a>扩散模型</h2><p>扩散模型包含两个过程：前向扩散过程（forword）和反向生成过程（reverse）：</p>
-<ul>
-<li>前向扩散过程：对数据逐渐增加高斯噪音直至数据变成随机噪音的过程（噪音化）</li>
-<li>反向生成过程：从随机噪音开始逐步去噪音直至生成一张图像（去噪）</li>
-</ul>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png" alt="在这里插入图片描述"></p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/316d832ce0a14e518e0aea30c5afee0b.png" alt="在这里插入图片描述"></p>
-<p><strong>BackBone（大部分扩散模型选用<code>U-Net</code>）</strong></p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/441e5fb6708b405183fbda1ad3b64c01.png" alt="在这里插入图片描述"></p>
-<p>​    <code>  U-Net</code>里还有一些<code>skip connection</code>的操作，可以直接将前面的信息传递给后面，以恢复更多的细节。后续还有一些改进，比如在<code>U-Net</code>里加一些attention操作，可以使图像生成的更好，共享参数。</p>
-<p><strong>局限性：</strong>训练推理慢</p>
-<h3 id="DDPM"><a href="#DDPM" class="headerlink" title="DDPM"></a><a href="https://paperswithcode.com/paper/denoising-diffusion-probabilistic-models">DDPM</a></h3><p><strong>贡献 ：</strong></p>
-<ol>
-<li><p>从预测转换图像改进为预测噪声，每次直接从$x_{t}$预测$x_{t-1}$，这种图像到图像的转化不太好优化。所以作者考虑直接去预测从$x_{t}$<br>到$x_{t-1}$ 这一步所添加的噪声$\varepsilon$，这样就简化了问题。</p>
-</li>
-<li><p>time embedding：U-Net模型输入，除了当前时刻的$x_{t}$ ，还有一个输入time embedding（类似transformer里的正弦位置编码），主要用于告诉 U-Net模型，现在到了反向过程的第几步。</p>
-</li>
-<li><p>目标函数：DDPM采用了一个U-Net 结构的Autoencoder来对t时刻的高斯噪声z进行预测。训练目标即希望预测的噪声和真实的噪声一致，所以目标函数为预测噪声和z 的L1 Loss：</p>
-<p>$p(\mathbf{x}<em>{t-1} \vert \mathbf{x}<em>t)&#x3D;\left | f</em>{\theta}(x</em>{t},t) \right|$， t为时间</p>
-</li>
-<li><p>只预测正态分布的均值</p>
-<p>正态分布由均值和方差决定。作者在这里发现，其实模型不需要学方差，只需要学习均值就行。</p>
-</li>
-</ol>
-<h3 id="Improved-DDPM"><a href="#Improved-DDPM" class="headerlink" title="Improved DDPM"></a><a href="https://arxiv.org/abs/2102.09672">Improved DDPM</a></h3><p>​    <code>improved DDPM</code>作者就觉得如果方差效果应该会更好，改了之后果然取样和生成效果都好了很多。</p>
-<p><code>DDPM</code>添加噪声时采用的线性的<code>variance schedule</code>改为余弦schedule，效果更好（类似学习率从线性改为余弦）</p>
-<h3 id="ADM-Nets"><a href="#ADM-Nets" class="headerlink" title="ADM Nets"></a><a href="https://paperswithcode.com/paper/diffusion-models-beat-gans-on-image-synthesis">ADM Nets</a></h3><ul>
-<li><p>使用大模型：加大加宽网络、使用更多的自注意力头attention head，加大自注意力scale（single-scale attention改为multi-scale attention）</p>
-</li>
-<li><p>提出了新的归一化方式——<code>Adaptive Group Normalization</code>，在文章就是根据步数进行<strong>自适应的归一化</strong>。这个方法是对group归一化的一个改进：</p>
-<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/8bad0b6ededd4d8f8149d4bd0881c514.png" alt="在这里插入图片描述"></p>
-<p>$AdaGN(h,y&#x3D;[y_s,y_b])&#x3D;y_s*GroupNorm(h)+y_b$</p>
-<p>上面公式中的$h$是残差块激活函数的输出，$y$是一个线性层对时步和后面用到的类别信息的嵌入。组归一化是对输入的通道方向进行分组归一化的归一化方法.</p>
-</li>
-<li><p>使用<code>classifier guidance</code>的方法，引导模型进行采样和生成。这样不仅使生成的图片更逼真，而且加速了反向采样过程。论文中，只需要25次采样，就可以从噪声生成图片。</p>
-<ul>
-<li>训练一个简单是图片分类器</li>
-<li>CLIP guidance：将简单的分类器换成CLIP之后，文本和图像就联系起来了</li>
-<li>image侧引导：除了利用图像重建进行像素级别的引导，还可以做图像特征和风格层面的引导，只需要一个gram matrix就行。</li>
-<li>text侧：可以用训练好的NLP大模型做引导</li>
-</ul>
-</li>
-</ul>
-<p>更新后的损失 ： $p(x_{t−1}∣x_t)&#x3D;∥z−f_θ*(x_t,t,y)∥$</p>
-<h3 id="Classifier-free-guidance"><a href="#Classifier-free-guidance" class="headerlink" title="Classifier free guidance"></a><a href="https://arxiv.org/abs/2207.12598">Classifier free guidance</a></h3><p>​    classifier free guidance的方式，只是改变了模型输入的内容，除了 conditional输入外（随机高斯噪声输入加引导信息）还有 unconditional 的 采样输入。两种输入都会被送到同一个 diffusion model 从而让其能够具有无条件和有条件生成的能力。得到有条件输出$f_{\theta }(x_{t},t,y)$和无条件输出$f_{\theta }(x_{t},t,\phi )$f后，就可以用前者监督后者，来引导扩散模型进行训练了。最后反向扩散做生成时，我们用无条件的生成,然后加上之前训练的偏移，也能达到类似有条件生成的效果。这样一来就摆脱了分类器的限制</p>
-<h1 id="DALL·E2"><a href="#DALL·E2" class="headerlink" title="DALL·E2"></a><a href="https://arxiv.org/abs/2204.13807">DALL·E2</a></h1><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/image-20230820125542764.png" alt="image-20230820125542764"></p>
-<p>​    prior：先验模型$P(z_i|y)$ ,根据标题$y$生成CLIP的图像特征$z_i$。</p>
-<p>​    decoder ：解码器$P(x|z_i,y)$，生成以CLIP图像特征$z_i$ （和可选的文本标题 $y$）为条件的图像$x$</p>
-<p>​    跟上面讲的一样，prior模型的输入就是CLIP编码的文本特征，其ground truth就是CLIP编码的图片特征，因为是图文对输入模型，CLIP是都能编码的。</p>
-<h2 id="decoder"><a href="#decoder" class="headerlink" title="decoder"></a>decoder</h2><p>​     decoder就是使用扩散模型，生成以CLIP图形特征（和可选标题$y$）为条件的图像，这部分就是在GLIDE基础上改进的。利用了<code>CLIP guidance</code>和<code>classifier-free guidance</code></p>
-<p>​     其次，为了提高分辨率，DALL·E2还用了层级式的生成，也就是训练了两个上采样扩散模型。一个将图像的分辨率从64×64上采样到256×256，另一个接着上采样的1024×1024。同时，为了提高上采样器的鲁棒性，还添加了噪声（第一个上采样阶段使用高斯模糊，对于第二个阶段，使用更多样化的BSR退化）。</p>
-<h2 id="prior"><a href="#prior" class="headerlink" title="prior"></a>prior</h2><p>​    <code>   prior</code>用于从文本特征生成图像特征，这部分作者试验了两种模型，两种模型都用了classifier-free guidance，因 为效果好。</p>
-<ul>
-<li>AR（自回归模型）</li>
-<li>扩散模型：使用的是<code>Transformer decoder</code>处理序列。因为这里输入输出都是embedding序列，所以使用U-Net不太合适。</li>
-</ul>
-<h1 id="总结：大力出奇迹"><a href="#总结：大力出奇迹" class="headerlink" title="总结：大力出奇迹"></a>总结：大力出奇迹</h1><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/IMG_20230827_111312.jpg" alt="IMG_20230827_111312"></p>
-<p>  图像生成这一块的技巧很多，经常连一个模型总览图都很难画出来。但是讲完这么多之后，会发现这些技巧有的时候有用，有的时候没用。</p>
-<ul>
-<li>DDPM提出将直接预测图像改为预测噪声，可以简化优化过程。但是DALL·E2这里又没有沿袭这种预测噪声的做法。</li>
-<li>DALL·E2提出如果有显式的生成图片特征的过程，模型效果会好很多，所以采用了两阶段生成方式。但是Imagen直接上一个U-Net就解决了，更简单，效果也很好。</li>
-<li>CLIP和DALL·E2都说自回归模型训练太贵了，训练太不高效了。但是在7月左右，谷歌又推出了Parti，用pathways模型做自回归的文本图像生成，效果直接超越了DALL·E2和Imagen。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>论文精读</category>
-      </categories>
-      <tags>
-        <tag>扩散模型</tag>
-        <tag>论文精读</tag>
-        <tag>自编码器</tag>
-        <tag>Clip</tag>
-        <tag>生成图像</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>更新计划</title>
     <url>/2023/08/22/hello-world/</url>
     <content><![CDATA[<ul>
@@ -143,197 +23,133 @@
 ]]></content>
   </entry>
   <entry>
-    <title>论文精读 对比学习综述 2021</title>
-    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/</url>
-    <content><![CDATA[<h1 id="1-百花齐放"><a href="#1-百花齐放" class="headerlink" title="1. 百花齐放"></a>1. 百花齐放</h1><p>&emsp;在第一阶段上，方法模型都没有统一，目标函数,代理任务也没有统一，所以说是一个百花齐放的年代</p>
-<h2 id="1-1-InstDisc"><a href="#1-1-InstDisc" class="headerlink" title="1.1 InstDisc"></a>1.1 <a href="https://arxiv.org/pdf/1805.01978.pdf">InstDisc</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.1" alt="image-20230731101249802"></p>
-<p>&emsp;<strong>基本思想：</strong>图片聚集在一起的原因，并不是这些图片有相似的语义标签信息，而是因为这些图片长得比较像。通过一个卷积神经网络来将图片进行编码成一个低维特征，然后使得这些特征在特征空间上都尽可能的区分开，因为个体判别认为每张图片都是自成一类，<strong>提出了个体判别任务</strong>。</p>
-<p>&emsp;<strong>Forward：</strong>假设模型的batchsize是256，有256张图片进入CNN网络，将256张图片编码为128维的向量。因为batchsize是256，因此有256个正样本。负样本来自memory bank，每次从memory bank中随机采样出4096个负数样本，利用 InfoNCE loss去更新CNN的参数。本次更新结束后，会将CNN编码得到的向量替换掉memory bank中原有的存储。就这样循环往复的更新CNN和memory bank，最后让模型收敛，就训练好一个CNN encoder了。</p>
-<h2 id="1-2-InvaSpread"><a href="#1-2-InvaSpread" class="headerlink" title="1.2 InvaSpread"></a>1.2 <a href="https://arxiv.org/pdf/1904.03436.pdf">InvaSpread</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.2" alt="image-20230731103807221"></p>
-<p>&emsp;<strong>基本思想：</strong>用mini batch中的数据作为负样本，使用一个编码器进行端到端的学习，所选取的字典长度不够大。</p>
-<p>&emsp;<strong>Forward：</strong>首先利用数据增广，将每个图片增广一次，也就是将256张图片变为512个图片了。之后将512张图片通过CNN编码为向量，并使用一个全连接层将数据的维度降低。之后将$x{i}$和其经过增广后的图$\widetilde{x}{i}$作为正样本，其余的512-2张图片都认为是负样本。所以总计有256个正例，有2×（256-1）张负例。之后的在特征空间中$x{i}$ 与$\widetilde{x}{i}$的距离应该尽可能相近，而$x{i}$与$\widetilde{x}_{j}$的距离应该尽可能相远。</p>
-<p>&emsp;<strong>以上两篇工作都是使用个体判别 Instance Discrimination 作为代理任务的</strong></p>
-<h2 id="1-3-CPC"><a href="#1-3-CPC" class="headerlink" title="1.3 CPC"></a>1.3 <a href="https://arxiv.org/pdf/1807.03748.pdf">CPC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.3" alt="image-20230731112441320"></p>
-<p>&emsp;<strong>基本思想：</strong>有一个持续的序列，把之前时刻的输入喂给编码器，返回的特征再喂给一个自回归模型gar（auto-regressive，一般的自回归模型是RNN或LSTM），然后得到一个context representation，这是一个代表上下文的特征表示。如果context representation足够好，那么其应该可以做出一些合理的预测，所以可以用$c_{t}$预测未来时刻的特征输出$z_{t+i}$</p>
-<p>&emsp;<strong>生成式的代理任务</strong></p>
-<h2 id="1-4-CMC"><a href="#1-4-CMC" class="headerlink" title="1.4 CMC"></a>1.4 <a href="https://arxiv.org/pdf/1906.05849.pdf">CMC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.4" alt="image-20230731113140008"></p>
-<p>&emsp;<strong>基本思想：</strong>CMC想学一个非常强大的特征，其具有视角的不变性（不管是看见了一只狗，还是听到了狗叫声，都能判断出这是个狗）。所以，CMC的工作目的就是去增大这个互信息，就是所有视角之间的互信息。如果能学到一种特征，能够抓住所有视角下的这个关键的因素，那么这个特征就比较好。<strong>最大化互信息</strong></p>
-<p>&emsp;<strong>方法：</strong>输入view来自于不同的传感器，或者说是不同的模态，但是这些所有的输入其实对应的都是一整的图片，一个东西，那么它们就应该互为正样本，相互配对。而这些相互配对的视角在特征空间中应该尽可能的相近，而与其他的视角尽可能的远离。Teacher和student编码得到的相同图片的向量互为正例，不同图片得到的输出作为负例，利用对比学习的思路进行知识蒸馏。</p>
-<p>&emsp;<strong>问题：</strong>在于multi view的工作可能需要多个编码器进行编码，训练代价可能有点高。比如CLIP，就是用大型的语言编码器BERT对语言模型进行编码，用视觉模型VIT对视觉信息进行编码。</p>
-<p>InfoMin是CMC的作者做的一个分析型的延伸性工作，要是提出了一个InfoMin的原则，InfoMin的本意是不能一味的最大化这个互信息，而是要不多不少刚刚好，去选择合适的数据增强与合适的对比学习的视角。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>&emsp;可以看到以上的工作代理任务不尽相同，其中有个体判别，有预测未来，还有多视角多模态。使用的目标函数也不尽相同，有NCE，infoNCE以及其变体。使用的模型也可以是不同的，比如InvaSpread使用的是相同的编码器对key和query进行编码，CMC对key和query使用的是不同的编码，是百花齐放的。</p>
-<h1 id="2-CV双雄"><a href="#2-CV双雄" class="headerlink" title="2. CV双雄"></a>2. CV双雄</h1><h2 id="2-1-MoCo-v1"><a href="#2-1-MoCo-v1" class="headerlink" title="2.1 MoCo v1"></a>2.1 <a href="https://arxiv.org/pdf/1911.05722.pdf">MoCo v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1" alt="image-20230731142805835"></p>
-<p>&emsp;<strong>基本思想：</strong>将一系列的对比学习方法归纳为一个字典查询的问题building dynamic dictionaries。将负样本图片通过编码器后所得的输出看成是一个特征key，将正样本图片通过另外一个编码器所得到的输出看成是一个query。对比学习本质上，就是希望在字典中找到与query最匹配的那个key，而这个key是正样本通过一些列的数据增强变化获得，所以语义信息应该相同，在特征空间上也应该类似，而与其他的负样本的特征key应该尽可能的远离，损失函数InfoNEC</p>
-<p>&emsp;<strong>贡献：</strong></p>
-<ol>
-<li>queue 数据结构</li>
-<li>Momentum Encoder  $θ_k←mθ{_k}+(1−m)θq$</li>
-<li>Shuffling BN -　BN可能导致信息泄露</li>
-</ol>
-<p><strong>对比：</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1-2" alt="image-20230731144205429"></p>
-<p><strong>方法：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Algorithm 1 Pseudocode of MoCo in a PyTorch-like style</span></span><br><span class="line"><span class="comment"># f_q, f_k: encoder networks for query and key</span></span><br><span class="line"><span class="comment"># queue: dictionary as a queue of K keys (CxK)</span></span><br><span class="line"><span class="comment"># m: momentum</span></span><br><span class="line"><span class="comment"># t: temperature</span></span><br><span class="line">f_k.params = f_q.params <span class="comment"># initialize</span></span><br><span class="line">	<span class="keyword">for</span> x <span class="keyword">in</span> loader: 	<span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">		x_q = aug(x)		<span class="comment"># a randomly augmented version</span></span><br><span class="line">		x_k = aug(x)		<span class="comment"># another randomly augmented version</span></span><br><span class="line">	</span><br><span class="line">	q = f_q.forward(x_q) 	<span class="comment"># queries: NxC (256x128)</span></span><br><span class="line">	k = f_k.forward(x_k) 	<span class="comment"># keys: NxC (256x128)</span></span><br><span class="line">	k = k.detach() 			<span class="comment"># no gradient to keys</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># positive logits: Nx1 (256x1)</span></span><br><span class="line">	l_pos = bmm(q.view(N,<span class="number">1</span>,C), k.view(N,C,<span class="number">1</span>))	<span class="comment"># q·k+</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># negative logits: NxK (256x65536)</span></span><br><span class="line">	l_neg = mm(q.view(N,C), queue.view(C,K))	<span class="comment"># sum q·ki</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># logits: Nx(1+K) (256x65537)</span></span><br><span class="line">	logits = cat([l_pos, l_neg], dim=<span class="number">1</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># contrastive loss, Eqn.(1)</span></span><br><span class="line">	labels = zeros(N) <span class="comment"># positives are the 0-th；利用pytorch函数特性</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/t, labels)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># SGD update: query network</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	update(f_q.params)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># momentum update: key network</span></span><br><span class="line">	f_k.params = m * f_k.params+(<span class="number">1</span>-m) * f_q.params</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># update dictionary</span></span><br><span class="line">	enqueue(queue, k) 	<span class="comment"># enqueue the current minibatch</span></span><br><span class="line">	dequeue(queue) 		<span class="comment"># dequeue the earliest minibatch</span></span><br><span class="line"><span class="comment"># bmm: batch matrix multiplication; mm: matrix multiplication; cat: concatenation.</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-2-SimCLR-v1"><a href="#2-2-SimCLR-v1" class="headerlink" title="2.2 SimCLR v1"></a>2.2 <a href="https://arxiv.org/pdf/2002.05709.pdf">SimCLR v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2" alt="image-20230731144944108"></p>
-<p>&emsp;<strong>思路：</strong>假如有一个minibatch的图片，对整个minibatch的所有图片做数据增强，对图片x xx做不同的数据增强就会得$x_{i}$和$x_{j}$ 同一个图片延申得到的两个图片就是正样本，比如batchSize是n的话，那么正样本就是n，这个batchsize剩下的所有的样本以及其经过数据增强后得到的都是负样本，也就是2(n-1)。有了正负样本之后，对其进行编码，通过一个编码器$f ( ⋅ )$得到正负样本的编码结。SimCLR的创新点就是在得到数据的编码之后在后面加了一个编码层$g ( ⋅ )$函数，就是一个MLP层，得到较低维度的特征$z_{i}$和 $z_{j}$ ，用其进行对比学习，拉近正例之间的距离，拉远负例之间的距离。但是需要注意的一点就是投影函数仅仅在训练的时候才使用，在测试的时候是不使用的，测试的时候仅仅使用编码器$f(·)$ 。加上投影函数的目的也仅仅是想让模型训练的更好。</p>
-<p><strong>与InvaSpread相比：</strong></p>
-<ol>
-<li><p>SimCLR使用了更多的数据增强 其中随机的裁剪以及随机的色彩变换最重要</p>
-</li>
-<li><p>加入了投影的$g ( ⋅ )$ 函数</p>
-</li>
-<li><p>就是SimCLR用了更大的batchsize，且训练的时间更久</p>
-</li>
-</ol>
-<p>&emsp;<strong>损失函数：</strong>the normalized temperature-scaled cross entropy loss</p>
-<p><strong>方法：</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2-2" alt="image-20230731152831099"></p>
-<h2 id="2-3-MoCo-v2"><a href="#2-3-MoCo-v2" class="headerlink" title="2.3 MoCo v2"></a>2.3 <a href="https://arxiv.org/pdf/2003.04297.pdf">MoCo v2</a></h2><p><strong>改进：</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.3" alt="image-20230731153325242"></p>
-<p>更省钱！！</p>
-<h2 id="2-4-SimCLR-v2"><a href="#2-4-SimCLR-v2" class="headerlink" title="2.4 SimCLR v2"></a>2.4 <a href="https://arxiv.org/pdf/2006.10029.pdf">SimCLR v2</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.4" alt="image-20230731153856595"></p>
-<h2 id="2-5-SWaV"><a href="#2-5-SWaV" class="headerlink" title="2.5 SWaV"></a>2.5 <a href="https://arxiv.org/pdf/2006.09882.pdf">SWaV</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.5" alt="image-20230731154140013"></p>
-<p>&emsp;<strong>基本思想：</strong>给定同样的一张图片，如果去生成不同的视角（views），希望可以用一个视角得到的特征去预测另外一个视角的得到的特征，因为所有的这些视角的特征按道理来说都应该是非常接近的。然后SWaV将对比学习和之前的聚类的方法合在的一起，这样做也不是偶然，因为聚类也是无监督特征表示学习的方法，而且它也希望相似的物体都聚集在一个聚类中心附近，不相似的物体推到别的聚类中心</p>
-<p>&emsp;<strong>方法：</strong>聚类中心C CC就是Prototypes，作为一个矩阵维度是$d $$ *k$（d是特征的维度128维，k是聚类中心的数目3000）SwAV前向过程依旧是一个实例x通过两次数据增强变为 $x_{1}$ 和$x_{2}$ ，之后利用编码器对其进行编码，从而得到嵌入向量$z_{1}$ 和$z_{2}$ 。但是有了$z_{1}$和$z_{2}$ 之后，并不是直接在特征上去做对比学习的loss，而且让 $z_{1}$和$z_{2}$和聚类中心C进行聚类，从而得到ground truth的标签$Q_{1}$ 和$Q_{2}$ 。如果说两个特征比较相似或者是含有等量的信息，按道理来说应该是可以相互预测的。也就是说，用$z_{1}$ 和C作点乘按道理是可以去预测$Q_{2}$的，反过来用$z_{2}$ 和C作点乘按道理是可以去预测$Q_{1}$ 的，SwAV通过这种换位交叉预测的方法来对模型进行训练更新参数。</p>
-<p><strong>keys:</strong></p>
-<ol>
-<li>Multi-crop：两个160×160的crop去注意全局特征，选择四个96×96的crop去注意局部特征</li>
-<li>聚类</li>
-</ol>
-<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>&emsp;到了第二阶段，其实很多细节都趋于统一了，比如目标函数都是使用infoNCE，模型都归一为用一个encoder+projection head了，大家都采用了一个更强的数据增强，都想用一个动量编码器，也都尝试训练更久，最后在ImageNet上的准确度也逐渐逼近于有监督的基线模型。</p>
-<h1 id="3-不用负样本"><a href="#3-不用负样本" class="headerlink" title="3. 不用负样本"></a>3. 不用负样本</h1><h2 id="3-1-BYOL"><a href="#3-1-BYOL" class="headerlink" title="3.1 BYOL"></a>3.1 <a href="https://arxiv.org/pdf/2006.07733.pdf">BYOL</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.1" alt="image-20230731161241934"></p>
-<p>&emsp;在之前的对比学习工作中，是让$z_{\theta}$和$z_{\xi}^{‘}$尽可能的相似，而在BYOL这里，又加了一层predictor的全连接层$q_{\theta}$ ，$q_{\theta}$ 的网络结构和$g_{\theta}$ 的网络结构是完全一样的$z_{\theta}$ 通过$q_{\theta}$又得到了一个新的特征$q_{\theta}(z_{\theta})$现在的目的是想让特征$q_{\theta}(z_{\theta})$与$z_{\xi}^{‘}$</p>
-<p>&emsp;图中的sg表示<code>stop gradient</code>，这里是没有梯度的。模型的上一支相当于<code>query</code>编码器，下面一支相当于<code>key</code>编码器，而<code>key</code>编码器都是通过<code>query</code>编码器来动量更新。不同是代理任务不一样，BYOL相当于是自己一个视角的特征去预测另外一个视角的特征，通过这种预测性的任务来完成模型的训练。</p>
-<p>&emsp;<strong>损失函数：</strong>MSE</p>
-<h2 id="3-2-SimSiam"><a href="#3-2-SimSiam" class="headerlink" title="3.2 SimSiam"></a>3.2 <a href="https://arxiv.org/pdf/2011.10566.pdf">SimSiam</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2" alt="image-20230731163008906"></p>
-<p>&emsp;<strong>基本思想：</strong>实例x xx经过数据增强变为$x_{1}$ 和$x_{2}$ ，之后经过孪生的编码器$f ( ⋅ )$ ，得到嵌入$z_{1}$和$z_{2}$  ，之后经过预测层得到$p_{1}$ 和$p_{2}$ ，之后让$p_{1}$ 预测$z_{2}$，用$ p_{2}$去预测$z_{1}$，进行模型的训练。</p>
-<p><strong>伪代码：</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f: backbone + projection mlp</span></span><br><span class="line"><span class="comment"># h: prediction mlp</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># random augmentation</span></span><br><span class="line">	z1, z2 = f(x1), f(x2) <span class="comment"># projections, n-by-d</span></span><br><span class="line">	p1, p2 = h(z1), h(z2) <span class="comment"># predictions, n-by-d</span></span><br><span class="line">	</span><br><span class="line">	L = D(p1, z2)/<span class="number">2</span> + D(p2, z1)/<span class="number">2</span> <span class="comment"># loss</span></span><br><span class="line">	</span><br><span class="line">	L.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	update(f, h) <span class="comment"># SGD update</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">D</span>(<span class="params">p, z</span>): <span class="comment"># negative cosine similarity   负余弦相似性</span></span><br><span class="line">	z = z.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	</span><br><span class="line">	p = normalize(p, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	z = normalize(z, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	<span class="keyword">return</span> -(p*z).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;SimSiam能够成功训练的原因，不会发生模型坍塌，主要就是因为有<code>stop gradient</code>这个操作的存在。由于<code>stop gradient</code>，可以将SimSiam的结构看成是一个EM算法，相当于是在解决两个子问题，而模型更新也在交替进行，相当于不断的更新聚类中心。</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2-2" alt="image-20230731164336674"></p>
-<h1 id="4-Transformer"><a href="#4-Transformer" class="headerlink" title="4. Transformer"></a>4. Transformer</h1><p>&emsp;在vision transformer之后，因为其大大提升了encoder的效果，所以很多对比学习任务打算使用vision transformer作为backbone进行对比学习，涌现出了两篇工作，分别是MoCov3和DINO。</p>
-<h2 id="4-1-MoCo-v3"><a href="#4-1-MoCo-v3" class="headerlink" title="4.1 MoCo v3"></a>4.1 <a href="https://arxiv.org/pdf/2104.02057.pdf">MoCo v3</a></h2><p>骨干网络从ResNet 替换为 ViT</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f_q: encoder: backbone + proj mlp + pred mlp</span></span><br><span class="line"><span class="comment"># f_k: momentum encoder: backbone + proj mlp</span></span><br><span class="line"><span class="comment"># m: momentum coefficient</span></span><br><span class="line"><span class="comment"># tau: temperature</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># augmentation</span></span><br><span class="line">	q1, q2 = f_q(x1), f_q(x2) <span class="comment"># queries: [N, C] each</span></span><br><span class="line">	k1, k2 = f_k(x1), f_k(x2) <span class="comment"># keys: [N, C] each</span></span><br><span class="line">	</span><br><span class="line">	loss = ctr(q1, k2) + ctr(q2, k1) <span class="comment"># symmetrized</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	</span><br><span class="line">	update(f_q) <span class="comment"># optimizer update: f_q</span></span><br><span class="line">	f_k = m*f_k + (<span class="number">1</span>-m)*f_q <span class="comment"># momentum update: f_k</span></span><br><span class="line">	</span><br><span class="line"><span class="comment"># contrastive loss</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ctr</span>(<span class="params">q, k</span>):</span><br><span class="line">	logits = mm(q, k.t()) <span class="comment"># [N, N] pairs</span></span><br><span class="line">	labels = <span class="built_in">range</span>(N) <span class="comment"># positives are in diagonal</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/tau, labels)</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span> * tau * loss</span><br><span class="line">	</span><br><span class="line"><span class="comment"># Notes: mm is matrix multiplication. k.t() is k’s transpose. The prediction head is excluded from f k (and thus the momentum update).</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>第一阶段的Patch投影时冻住，有效解决梯度波动问题</p>
-<h2 id="4-2-DINO"><a href="#4-2-DINO" class="headerlink" title="4.2 DINO"></a>4.2 <a href="https://arxiv.org/pdf/2104.14294.pdf">DINO</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.1" alt="image-20230731165738061"></p>
-<p>&emsp;这里想表达的意思是一个完全不用任何标签信息训练出来的Vision Transformers，如果将其自注意力图拿出来进行可视化，可以发现其可以非常准确的抓住每个物体的轮廓，这个效果甚至可以直接匹配对这个物体作语义分割。</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.2" alt="image-20230731165935686"></p>
-<p>&emsp;DINO的前向过程都是类似的，当有一个图片x的两个视角$x_{1}$和$x_{2}$之后，$ x_{1}$和$x_{2}$分别通过学生网络编码器$g_{\theta s}$和教师网络编码器$g_{\theta t}$得到两个特征$p_{1}$和$p_{2}$，其中编码器结构中同样包含projection head和prediction head。而为了避免模型的坍塌，DINO做了一个额外的工作centering，这个操作就是把整个batch里的样本都算一个均值，然后减掉这个均值其实就是centering。最后也是有一个stop gradient的操作，然后用$p_{1}$预测$p_{2}$ </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># gs, gt: student and teacher networks</span></span><br><span class="line"><span class="comment"># C: center (K)</span></span><br><span class="line"><span class="comment"># tps, tpt: student and teacher temperatures</span></span><br><span class="line"><span class="comment"># l, m: network and center momentum rates</span></span><br><span class="line"></span><br><span class="line">gt.params = gs.params</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = augment(x), augment(x) <span class="comment"># random views</span></span><br><span class="line">	</span><br><span class="line">	s1, s2 = gs(x1), gs(x2) <span class="comment"># student output n-by-K</span></span><br><span class="line">	t1, t2 = gt(x1), gt(x2) <span class="comment"># teacher output n-by-K</span></span><br><span class="line">	</span><br><span class="line">	loss = H(t1, s2)/<span class="number">2</span> + H(t2, s1)/<span class="number">2</span></span><br><span class="line">	loss.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># student, teacher and center updates</span></span><br><span class="line">	update(gs) <span class="comment"># SGD</span></span><br><span class="line">	gt.params = l*gt.params + (<span class="number">1</span>-l)*gs.params</span><br><span class="line">	C = m*C + (<span class="number">1</span>-m)*cat([t1, t2]).mean(dim=<span class="number">0</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">H</span>(<span class="params">t, s</span>):</span><br><span class="line">	t = t.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	s = softmax(s / tps, dim=<span class="number">1</span>)</span><br><span class="line">	t = softmax((t - C) / tpt, dim=<span class="number">1</span>) <span class="comment"># center + sharpen</span></span><br><span class="line">	<span class="keyword">return</span> - (t * log(s)).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/5" alt="image-20230731222419004"></p>
+    <title>2023.11.28 组会内容</title>
+    <url>/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/</url>
+    <content><![CDATA[<h1 id="预备知识："><a href="#预备知识：" class="headerlink" title="预备知识："></a>预备知识：</h1><p><a href="https://openaccess.thecvf.com/content_ECCV_2018/papers/Ying_Zhang_Deep_Cross-Modal_Projection_ECCV_2018_paper.pdf">Deep Cross-Modal Projection Learning for Image-Text Matching</a>大工卢老师 ECCV14</p>
+<h2 id="跨模态投影匹配-CMPM"><a href="#跨模态投影匹配-CMPM" class="headerlink" title="跨模态投影匹配 (CMPM)"></a>跨模态投影匹配 (CMPM)</h2><p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127150805835.png" alt="image-20231127150805835"></p>
+<p>$$\left { (x_i, z_j), y_{i,j} \right }_{j&#x3D;1}^n$$, $y&#x3D;1 | y&#x3D;0$</p>
+<p>$$p_{i,j} &#x3D; \frac{exp(x^T_i \bar{z_j)}}{\sum_{k&#x3D;1}^{n}  exp(x^T_i \bar{z_k})}  s.t.\bar{z_j}&#x3D;\frac{z_j}{\parallel z_j \parallel } $$</p>
+<p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127151546043.png" alt="image-20231127151546043"></p>
+<p>$$q_{i,j} &#x3D; \frac{y_{i, j}}{\sum_{k&#x3D;1}^{n}y_{i,k} }$$</p>
+<p>$$L_i &#x3D; \sum_{j&#x3D;1}^{n}p_{i,j} log\frac{p_{i,j}}{q_{i,k} + \epsilon } &#x3D;KL(p_i|q_i)$$</p>
+<p>$$L_{i2t}&#x3D;\frac{1}{n} \sum_{j&#x3D;1}^{n}L_i $$</p>
+<p>$$L_{cmpm}&#x3D;L_{i2t} + L_{t2i}$$</p>
+<p>&emsp;<del>对于给定的一幅图像，在计算匹配损失时考虑了小批文本中所有的正、负候选文本，从而避免了传统的双向rankingloss的专用抽样过程。</del></p>
+<h2 id="跨模态投影分类损失-CMPC"><a href="#跨模态投影分类损失-CMPC" class="headerlink" title="跨模态投影分类损失(CMPC)"></a>跨模态投影分类损失(CMPC)</h2><p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127162734941.png" alt="image-20231127162734941"></p>
+<p>&emsp;norm-softmax loss的直观解释如上图所示。可以看到，对于原始softmax，分类结果取决于$\left|\boldsymbol{W}<em>{k}\right||\boldsymbol{x}| \cos \left(\theta</em>{k}\right),(k&#x3D;1,2)$，其中$θ_k$表示角度在$x$和 $W_k$ 之间。对于norm-softmax，所有的权重向量都被归一化为相同的长度，分类结果只能依赖于$|\boldsymbol{x}| \cos \left(\theta_{k}\right)$。这种限制鼓励特征 x 沿着权重向量更紧凑地分布，以便正确分类。</p>
+<p>$$L_{ipt}&#x3D;\frac{1}{N} \sum_{i}^{} -log(\frac{exp(W^T_{y_i}\hat{x_i})}{\sum_{j}^{}exp(W^T_{j} \hat{ {x_i}})})<br> \space     \space     \space s.t. \left | W_j \right |&#x3D;r,\hat{x_i}&#x3D;x^T_{i}\bar{z_i} \cdot \bar{z_i} $$</p>
+<p>$$L_{t2i}&#x3D;\frac{1}{N} \sum_{i}^{} -log(\frac{exp(W^T_{y_i}\hat{z_i})}{\sum_{j}^{}exp(W^T_{j} \hat{ {z_i}})})<br> \space\space\space s.t. \left | W_j \right |&#x3D;r,\hat{z_i}&#x3D;z^T_{i}\bar{x_i} \cdot \bar{x_i}$$</p>
+<p>$$L_{cmpc} &#x3D; L_{i2t} + L_{t2i}$$</p>
+<p>&emsp;跨模态投影将图像-文本的相似性整合到分类中，从而加强了匹配对之间的关联</p>
+<h2 id="ID-Loss"><a href="#ID-Loss" class="headerlink" title="ID Loss"></a>ID Loss</h2><p>&emsp; 将样本分为几个类，常用为softmax函数</p>
+<p>$$L_{id} &#x3D; -\frac{1}{n} \sum_{i&#x3D;1}^{n}log(p(y_i|x_i)) $$</p>
+<h1 id="多模态对齐"><a href="#多模态对齐" class="headerlink" title="多模态对齐"></a>多模态对齐</h1><h2 id="Cross-Modal-Implicit-Relation-Reasoning-and-Aligning-for-Text-to-Image-Person-Retrieval-CVPR23"><a href="#Cross-Modal-Implicit-Relation-Reasoning-and-Aligning-for-Text-to-Image-Person-Retrieval-CVPR23" class="headerlink" title="Cross-Modal Implicit Relation Reasoning and Aligning for Text-to-Image Person Retrieval CVPR23"></a><a href="https://arxiv.org/abs/2303.12501">Cross-Modal Implicit Relation Reasoning and Aligning for Text-to-Image Person Retrieval</a> CVPR23</h2><h3 id="主要目的"><a href="#主要目的" class="headerlink" title="主要目的"></a>主要目的</h3><p>&emsp;实现多模态数据的底层对齐能力，首先设计了一个<strong>隐式关系推理模块在掩蔽语言建模（MLM）范式</strong>。为了全局对齐视觉和文本嵌入，提出了相似性分布匹配，以最小化图像-文本相似性分布和归一化标签匹配分布之间的KL分歧。</p>
+<p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127164224137.png" alt="image-20231127164224137"></p>
+<h3 id="问题与解决"><a href="#问题与解决" class="headerlink" title="问题与解决"></a>问题与解决</h3><p>1.受限于变化的投影长度，CMPM因此不能精确地控制投影概率分布，<strong>使得在模型更新期间难以关注硬阴性样</strong>本。为了探索更有效的跨模态匹配目标，提出了一种图像-文本相似性分布匹配（SDM）损失</p>
+<p>2.以前的一些方法要么冻结了部分参数，要么只引入了CLIP的图像编码器，这导致它们无法充分利用CLIP在图像-文本匹配中的强大功能，这里直接进行使用</p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127164625428.png" alt="image-20231127164625428"></p>
+<p>&emsp;这里随机15%打上掩码，然后用ImageFeature 预测</p>
+<p>&emsp;Similarity Distribution Matching (SDM)</p>
+<p>$$p_{i,j} &#x3D; \frac{exp(sim(f^v_i, f_j^t)&#x2F;\tau )}{\sum_{k&#x3D;1}^{n}  exp(sim(f^v_i, f_k^t)&#x2F;\tau)}$$</p>
+<p>$$L &#x3D; KL(p_i\left|\right|q_i)&#x3D;\frac{1}{N}\sum_{i&#x3D;1}^{N}\sum_{j&#x3D;1}^{N}p_{i,j}log(\frac{p_{i,j}}{q_{i,j} + \epsilon }) \space\space s.t.q_{i,j} &#x3D; \frac{y_{i, j}}{\sum_{k&#x3D;1}^{n}y_{i,k} }$$</p>
+<p>&emsp;<del>这里和CMPM一样吗！</del></p>
+<p>$$L &#x3D; L_{irr} + L_{sdm} + L_{id}$$</p>
+<h2 id="ViLEM-Visual-Language-Error-Modeling-for-Image-Text-Retrieval-ICCV23"><a href="#ViLEM-Visual-Language-Error-Modeling-for-Image-Text-Retrieval-ICCV23" class="headerlink" title="ViLEM: Visual-Language Error Modeling for Image-Text Retrieval ICCV23"></a><a href="https://openaccess.thecvf.com/content/CVPR2023/papers/Chen_ViLEM_Visual-Language_Error_Modeling_for_Image-Text_Retrieval_CVPR_2023_paper.pdf">ViLEM: Visual-Language Error Modeling for Image-Text Retrieval</a> ICCV23</h2><h3 id="主要目的-1"><a href="#主要目的-1" class="headerlink" title="主要目的"></a>主要目的</h3><p>粗粒度的全局对齐忽略了图像和文本之间的详细语义关联。<strong>提出了一个新的代理任务，命名为视觉语言错误建模（ViLEM）</strong>，注入详细的图像-文本关联到“双编码器”模型，通过“校对”文本中的每个单词对相应的图像，提出了一个多粒度的交互框架来执行ViLEM通过交互文本功能与全局和局部的图像功能。</p>
+<p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127172058773.png" alt="image-20231127172058773"></p>
+<h3 id="问题与解决-1"><a href="#问题与解决-1" class="headerlink" title="问题与解决"></a>问题与解决</h3><p>1.对比目标只针对图像和文本的全局特征，导致对图像和文本的局部语义的开发不足。因为用全局信息进行对比</p>
+<p>2.其中一部分单词被随机掩蔽，并且模型被训练以恢复具有全局视觉特征的掩蔽单词。这些工作忽略了局部文本语义和局部视觉信息之间的关联，阻碍了细粒度的图像-文本对齐的学习。这里是提出了2.1中掩码学习的缺点。这篇文章是生成看似合理，但是和视觉不对应的错误信息。关于同义词的问题，实验时影响不大。</p>
+<h3 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h3><p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127173013408.png" alt="image-20231127173013408"></p>
+<p>$$L &#x3D; L_{align}+ \alpha_1 L_{EML} + \alpha_2 L_{EMG}$$</p>
+<h2 id="CLIP-Driven-Fine-grained-Text-Image-Person-Reidentification"><a href="#CLIP-Driven-Fine-grained-Text-Image-Person-Reidentification" class="headerlink" title="CLIP-Driven Fine-grained Text-Image Person Reidentification"></a><a href="https://arxiv.org/abs/2210.10276">CLIP-Driven Fine-grained Text-Image Person Reidentification</a></h2><h3 id="主要目的-2"><a href="#主要目的-2" class="headerlink" title="主要目的"></a>主要目的</h3><p>&emsp;模态之间的巨大差距，现有的方法将原始模态特征嵌入到同一个潜在空间中进行跨模态对齐,挖掘模态内的判别线索和模态间的对应关系。多粒度的全局特征学习（MGF）模块，跨粒度特征细化（CFR）和细粒度对应发现（FCD）模块。</p>
+<p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127204736234.png" alt="image-20231127204736234"></p>
+<h3 id="问题与解决-2"><a href="#问题与解决-2" class="headerlink" title="问题与解决"></a>问题与解决</h3><p>&emsp;有的方法通过单模态预训练的模型参数初始化网络，忽略了多模态对应信息。此外，从上述初始化的网络中提取的图像和文本嵌入过度挖掘单个模态内的信息，这增加了跨模态对齐和网络优化的难度。</p>
+<h3 id="方法-2"><a href="#方法-2" class="headerlink" title="方法"></a>方法</h3><p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127205410624.png" alt="image-20231127205410624"></p>
+<p>&emsp;CLip模型在Bert模型的最后，使用投射层将764维的向量投射为512，22年的论文有研究这会导致精度下降。</p>
+<p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127210545591.png" alt="image-20231127210545591"></p>
+<p>&emsp;全局特征由所有局部特征支配，这种同时考虑所有局部特征的方式减少了一些重要局部特征的影响。</p>
+<p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127212303700.png" alt="image-20231127212303700"></p>
+<p><strong>Diversity Regularization</strong>:多样性正则化，没听过。对不同粒度的特征施加多样性约束$L_{div}$以避免信息冗余</p>
+<p>$$L_d &#x3D; \sum\nolimits_{i\in [l,m,h]}\sum{j\in[l,m,h]}(\frac{v_i\cdot v_j}{|v_i|_2|v_j|_2 }+\frac{t_i\cdot t_j}{|t_i|_2|t_j|_2})   $$</p>
+<p>$$L&#x3D;L_{cm} + \alpha_c L_{c} + \alpha_d L_d$$</p>
+<h1 id="训练结构"><a href="#训练结构" class="headerlink" title="训练结构"></a>训练结构</h1><h2 id="Text-Based-Person-Search-with-Limite"><a href="#Text-Based-Person-Search-with-Limite" class="headerlink" title="Text-Based Person Search with Limite"></a><a href="https://arxiv.org/abs/2110.10807">Text-Based Person Search with Limite</a></h2><p>&emsp;利用MoCo的方法进行训练</p>
+<p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127214644686.png" alt="image-20231127214644686"></p>
+<h2 id="TinyCLIP-CLIP-Distillation-via-Affinity-Mimicking-and-Weight-Inheritance-ICCV23"><a href="#TinyCLIP-CLIP-Distillation-via-Affinity-Mimicking-and-Weight-Inheritance-ICCV23" class="headerlink" title="TinyCLIP: CLIP Distillation via Affinity Mimicking and Weight Inheritance ICCV23"></a><a href="https://arxiv.org/abs/2309.12314">TinyCLIP: CLIP Distillation via Affinity Mimicking and Weight Inheritance</a> ICCV23</h2><p><strong>说实话训练方法我没怎么看懂</strong></p>
+<h3 id="主要目的-3"><a href="#主要目的-3" class="headerlink" title="主要目的"></a>主要目的</h3><p>提出了一种新的跨模态蒸馏方法，用于大规模语言图像预训练模型。亲和力模仿探索在蒸馏过程中模态之间的相互作用，使学生模型能够模仿教师在视觉语言亲和力空间中学习跨模态特征对齐的行为。</p>
+<h3 id="经验"><a href="#经验" class="headerlink" title="经验"></a>经验</h3><p>1.从教师模型中简单地手动选择k维或k层权重可以为CLIP蒸馏产生令人满意的结果。</p>
+<p>2.将继承分为多个阶段，允许每个阶段的学生模型与前任教师共享更相似的结构，并逐步继承权重。</p>
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127220709301.png" alt="image-20231127220709301"></p>
+<p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127221224160.png" alt="image-20231127221224160"></p>
+<p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127221500507.png" alt="image-20231127221500507"></p>
+<p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127221543789.png" alt="image-20231127221543789"></p>
 ]]></content>
       <categories>
-        <category>论文精读</category>
+        <category>组会</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
-        <tag>对比学习</tag>
-        <tag>MoCo</tag>
-        <tag>SimCLR</tag>
+        <tag>Clip</tag>
+        <tag>多模态</tag>
+        <tag>检索</tag>
+        <tag>图文检索</tag>
       </tags>
   </entry>
   <entry>
-    <title>论文精读-视频理解综述-2021</title>
-    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/</url>
-    <content><![CDATA[<h1 id="0-综述"><a href="#0-综述" class="headerlink" title="0. 综述"></a>0. <a href="https://arxiv.org/abs/2012.06567">综述</a></h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/17419fc1a483496b95d7c3befa1e09f2.png"></p>
-<h1 id="1-Hand-Crafted-CNN"><a href="#1-Hand-Crafted-CNN" class="headerlink" title="1. Hand-Crafted- &gt;CNN"></a>1. Hand-Crafted- &gt;CNN</h1><h2 id="1-1-DeepVideo"><a href="#1-1-DeepVideo" class="headerlink" title="1.1 DeepVideo"></a>1.1 <a href="http://vision.stanford.edu/pdf/karpathy14.pdf">DeepVideo</a></h2><p> **&emsp;**探索可以用在视频上使用的各种神经网络：各种方法都差不多，第四种方法好些</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/356339da9c9342fd9a7310b4f66b5472.png"></p>
-<p><strong>&emsp;开始讲故事</strong></p>
-<p> <strong>&emsp;多分辨率神经网络</strong>：两个权值共享的网络，一个处理低分辨率的图像，一个处理高分辨率的图像（图片的中心区域），人为提高了注意力</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/0c5ae0bbb1ab4b4988b6b2888fa716cc.png"></p>
-<h1 id="2-Two-Stream"><a href="#2-Two-Stream" class="headerlink" title="2. Two-Stream"></a>2. Two-Stream</h1><p>&emsp;双流网络在这里指的是同时使用光流抽取的特征和图片（视频帧）本身的特征进行网络训练；经测试这种方法可以很大地提高网络捕捉动态效果的能力</p>
-<h2 id="2-1-Two-Stream-Networks"><a href="#2-1-Two-Stream-Networks" class="headerlink" title="2.1 Two-Stream Networks"></a>2.1 <a href="https://arxiv.org/abs/1406.2199">Two-Stream Networks</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/cfad261fe34944ceb7ce2a679ed6c198.png"></p>
-<p>&emsp;late fusion-&gt;early fusion; AlexNet-&gt;Resnet Vgg;  加入</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.2" alt="image-20230811154121029"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.3" alt="image-20230811154214236"></p>
-<h2 id="2-2-Beyond-Short-Snippets"><a href="#2-2-Beyond-Short-Snippets" class="headerlink" title="2.2 Beyond Short Snippets"></a>2.2 <a href="https://arxiv.org/abs/1503.08909">Beyond Short Snippets</a></h2><p>&emsp;想办法适应更长时间的视频、动作特征的提取等等。<strong>Pooling ，Lstm提取时序信息</strong>，但是LSTM效果不明显，可能是一个短的时序信息变化不大，内容相似，Lstm学习不到有用的信息，需要长视频&#x2F;变化大</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/e2cd961902be4bc9bb8a3bf3912cd0f5.png"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.2.2" alt="image-20230811154751109"></p>
-<h2 id="2-3-Convolutional-Fusion"><a href="#2-3-Convolutional-Fusion" class="headerlink" title="2.3 Convolutional Fusion"></a>2.3 <a href="https://arxiv.org/abs/1604.06573">Convolutional Fusion</a></h2><p>&emsp;当有时间流和空间流两个网路之后，如何保证时间和空间的特征图在同样的位置上他们产生的通道respones是差不多能联系起来的。</p>
-<p>通常对于一个具有三个维度特征的数据而言我们有很多的探究方向：</p>
-<ol>
-<li>Spatial fusion ： 空间特征融合</li>
-<li>Time fusion ： 时间维度特征融合</li>
-<li>在网络的一层进行特征融合</li>
-</ol>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.1" alt="image-20230811155528639"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.3" alt="image-20230812093737912"></p>
-<p>&emsp;时间维度上的融合</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.2" alt="image-20230811155626303"></p>
-<p>&emsp;蓝：空间 绿：时间</p>
-<h2 id="2-4-TSN"><a href="#2-4-TSN" class="headerlink" title="2.4 TSN"></a>2.4 <a href="https://arxiv.org/abs/1608.00859">TSN</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.4.1" alt="image-20230811155948188"></p>
-<p><strong>步骤</strong></p>
-<ol>
-<li>将视频分为多个段，从每段中抽取一帧的RGB图片，然后对这个图片进行光流计算</li>
-<li>重复工作，对不同段进行相同工作</li>
-<li>如果段分得比较小，那么抽取的特征在理论上是描述的同一个物体的运动特征</li>
-<li>最后进行一个特征融合，进行分类工作</li>
-</ol>
-<p><strong>技巧：</strong></p>
-<ol>
-<li>视频分段 </li>
-<li>ImageNet训练的模型应用到光流</li>
-<li>partial BN</li>
-<li>数据增强 专门对边角裁剪 改变长宽比 {256 224 192 168}</li>
-</ol>
-<h1 id="3-3D-ConvNet"><a href="#3-3D-ConvNet" class="headerlink" title="3. 3D ConvNet"></a>3. 3D ConvNet</h1><h2 id="3-1-C3D"><a href="#3-1-C3D" class="headerlink" title="3.1 C3D"></a>3.1 <a href="https://arxiv.org/abs/1412.0767v3">C3D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.1.1" alt="image-20230811161145952"></p>
-<p>&emsp;C3D主要是提供了一种抽取特征做其他任务的方法（因为训练一个大型的3D网络非常昂贵，很多研究者无法训练），C3D作者将训练好的模型的接口提供给其他人，其他人只需要输入视频就可以得到抽取的特征（4096序列），这样就可以根据抽取的特征进行后续处理了。</p>
-<h2 id="3-2-I3D-Inflated"><a href="#3-2-I3D-Inflated" class="headerlink" title="3.2 I3D-Inflated"></a>3.2 <a href="https://arxiv.org/abs/1705.07750">I3D-Inflated</a></h2><p><strong>贡献：</strong></p>
-<ol>
-<li>可以方便地将2D网络扩张到3D之中-直接复制权重，可以用巧妙的方法利用预训练模型</li>
-<li>提出了kinetics数据集</li>
-</ol>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.1" alt="image-20230811161448871"></p>
-<p>&emsp;Two-Stream 3D-ConvNet效果最好</p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.2" alt="image-20230811161620887"></p>
-<p>&emsp;<strong>在空间、时间和网络深度上对感受野的增长进行调整：对于图片的两个空间维度，我们通常使用相同的卷积长度&#x2F;池化长度，但是在时间维度上并不相同，时间维度的kernel长度取决于帧率和图片大小。如果在时域内变化太块，它可能会混淆不同物体的边缘，破坏早期的特征检测，而如果它增长得太慢，它可能无法很好地捕捉场景的动态。动态性。</strong></p>
-<h2 id="3-3-Non-local"><a href="#3-3-Non-local" class="headerlink" title="3.3 Non-local"></a>3.3 <a href="https://arxiv.org/abs/1711.07971">Non-local</a></h2><p>&emsp;<strong>加入自注意力</strong>，<strong>即插即用</strong></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.1" alt="image-20230811162201101"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.2" alt="image-20230811162305487"></p>
-<h2 id="3-4-R2-1D"><a href="#3-4-R2-1D" class="headerlink" title="3.4 R2+1D"></a>3.4 <a href="https://openaccess.thecvf.com/content_cvpr_2018/CameraReady/2648.pdf">R2+1D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.1" alt="image-20230811163007150"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.2" alt="image-20230811163038972"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.3" alt="image-20230811163124035"></p>
-<h2 id="3-5-SlowFast"><a href="#3-5-SlowFast" class="headerlink" title="3.5 SlowFast"></a>3.5 <a href="https://arxiv.org/abs/1812.03982">SlowFast</a></h2><p>&emsp;讲故事：慢的分支网络学习视频中的静态特征，快分支学习视频中的动态特征。</p>
-<ul>
-<li>慢分支使用小输入，大网络</li>
-<li>快分支使用大输入，小网络</li>
-<li>中间使用natural connection进行特征融合</li>
-</ul>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.1" alt="image-20230811163321352"></p>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.2" alt="image-20230811163354776"></p>
-<h1 id="4-Video-Transformer"><a href="#4-Video-Transformer" class="headerlink" title="4. Video Transformer"></a>4. Video Transformer</h1><h2 id="4-1-Space-Time-Attention"><a href="#4-1-Space-Time-Attention" class="headerlink" title="4.1 Space-Time Attention"></a>4.1 <a href="https://arxiv.org/abs/2102.05095">Space-Time Attention</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.1.1" alt="image-20230811163530398"></p>
-<ul>
-<li>直接将Attention应用到图片的方法迁移到视频之中（空间注意力）</li>
-<li>在时间上和空间上分别做三个自注意力机制，进行融合</li>
-<li><strong>拆分为空间和时间上分别进行注意力机制计算（时间-&gt; 空间）</strong>文章提出</li>
-<li>local global拆分（在局部进行注意力计算）</li>
-<li>沿着特定的轴进行注意力计算（将三维拆分为三个一维进行注意力机制计算）</li>
-</ul>
-<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.2.1" alt="image-20230811163643822"></p>
-<p>&emsp;想法简单、效果好、容易迁移、可以用于处理超过1min的视频</p>
-<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/5.1"></p>
-<p><strong>对于时间和空间相结合的一些策略可以借鉴</strong></p>
-<ol>
-<li>3D卷积怎么做：最新的方法都是做一些拆分，将3D卷积分为时间和空间分别的卷积</li>
-<li>特征融合的方法：early fusion、latent fusion</li>
-<li>三维网络中一些关键层（如BN）如何设置：只要第一层的BN？</li>
-<li>3D网络中的时间维度尽量不要做下采样</li>
-<li>Vision Transformer降维打击，提高精度、减小计算消耗、加大处理时长（看到更长的时序信息)</li>
-</ol>
+    <title>10-11月进度总结 检索方面</title>
+    <url>/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h1 id="Video-Retrieval"><a href="#Video-Retrieval" class="headerlink" title="Video Retrieval"></a>Video Retrieval</h1><p>&emsp;主要解决的是如何利用CLip（等）从时间维度融合</p>
+<h2 id="X-Pool-2022"><a href="#X-Pool-2022" class="headerlink" title="X-Pool(2022)"></a>X-Pool(2022)</h2><p><strong>Cross-Modal Language-Video Attention for Text-Video Retrieval</strong></p>
+<p>&emsp;选择与文本相关的文本Token相近的视觉Token</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100200730.png" alt="image-20231118100200730"></p>
+<h2 id="X-Clip-2022"><a href="#X-Clip-2022" class="headerlink" title="X-Clip(2022)"></a>X-Clip(2022)</h2><p><strong>Expanding Language-Image Pretrained Models for General Video Recognition</strong></p>
+<p>&emsp;时间维度融合的新方法，先融合到时间维度再利用融合后的特征返回和图像维度融合</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100600504.png" alt="image-20231118100600504"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100630051.png" alt="image-20231118100630051"></p>
+<h2 id="TS2-Net"><a href="#TS2-Net" class="headerlink" title="TS2-Net"></a>TS2-Net</h2><p><strong>TS2-Net: Token Shift and Selection Transformer for Text-Video Retrieval</strong></p>
+<p>&emsp;时间维度融合，利用Token之间的平移捕捉变动差别</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100927351.png" alt="image-20231118100927351"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100942559.png" alt="image-20231118100942559"></p>
+<h2 id="EMCL-2022"><a href="#EMCL-2022" class="headerlink" title="EMCL(2022)"></a>EMCL(2022)</h2><p><strong>Expectation-Maximization Contrastive Learning for Compact Video-and-Language Representations</strong></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101102419.png" alt="image-20231118101102419"></p>
+<h2 id="DRL-2022"><a href="#DRL-2022" class="headerlink" title="DRL(2022)"></a>DRL(2022)</h2><p><strong>Disentangled Representation Learning for Text-Video Retrieval</strong></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101328656.png" alt="image-20231118101328656"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101340854.png" alt="image-20231118101340854"></p>
+<h2 id="CLIP4Clip-2021"><a href="#CLIP4Clip-2021" class="headerlink" title="CLIP4Clip(2021)"></a>CLIP4Clip(2021)</h2><p><strong>An Empirical Study of CLIP for End to End Video Clip Retrieval</strong></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101514862.png" alt="image-20231118101514862"></p>
+<h2 id="CenterCLIP-2022"><a href="#CenterCLIP-2022" class="headerlink" title="CenterCLIP(2022)"></a>CenterCLIP(2022)</h2><p><strong>Token Clustering for Efficient Text-Video Retrieval</strong></p>
+<p>&emsp;去除冗余信息 </p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101632756.png" alt="image-20231118101632756"></p>
+<h2 id="Prompt-Switch-2023"><a href="#Prompt-Switch-2023" class="headerlink" title="Prompt Switch(2023)"></a>Prompt Switch(2023)</h2><p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101724910.png" alt="image-20231118101724910"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101753781.png" alt="image-20231118101753781"></p>
+<h2 id="Cap4Video-2023"><a href="#Cap4Video-2023" class="headerlink" title="Cap4Video(2023)"></a>Cap4Video(2023)</h2><p><strong>Cap4Video What Can Auxiliary Captions Do for Text-Video Retrieval</strong></p>
+<p>&emsp;利用</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102034385.png" alt="image-20231118102034385"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102051534.png" alt="image-20231118102051534"></p>
+<h2 id="UATVR-2023"><a href="#UATVR-2023" class="headerlink" title="UATVR(2023)"></a>UATVR(2023)</h2><p> <strong>UATVR: Uncertainty-Adaptive Text-Video Retrieval</strong></p>
+<p>&emsp;粗细粒度的偏重就有不确定性，本文针对这一问题，提出了不确定性的自适应检索方法</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118112636621.png" alt="image-20231118112636621"></p>
+<h2 id="UCOFIA-2023"><a href="#UCOFIA-2023" class="headerlink" title="UCOFIA(2023)"></a>UCOFIA(2023)</h2><p><strong>Unified Coarse-to-Fine Alignment for Video-Text Retrieval</strong></p>
+<p>&emsp;如何规范的利用视频和文本进行粗细粒度对齐，减轻不想关信息的影响</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118113036134.png" alt="image-20231118113036134"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118113204634.png" alt="image-20231118113204634"></p>
+<h1 id="General-Methods"><a href="#General-Methods" class="headerlink" title="General Methods"></a>General Methods</h1><h2 id="Cross-Modal-Retrieval-with-Querybank-Normalisation"><a href="#Cross-Modal-Retrieval-with-Querybank-Normalisation" class="headerlink" title="Cross Modal Retrieval with Querybank Normalisation"></a>Cross Modal Retrieval with Querybank Normalisation</h2><p>&emsp;主要解决的是检索中某一个样本对大部分相似度过高的情况</p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102559410.png" alt="image-20231118102559410"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102620534.png" alt="image-20231118102620534"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102640705.png" alt="image-20231118102640705"></p>
+<h1 id="Image-Retrieval"><a href="#Image-Retrieval" class="headerlink" title="Image Retrieval"></a>Image Retrieval</h1><h2 id="Exploring-a-Fine-Grained-Multiscale-Method-for-Cross-Modal-Remote-Sensing-Image-Retrieval"><a href="#Exploring-a-Fine-Grained-Multiscale-Method-for-Cross-Modal-Remote-Sensing-Image-Retrieval" class="headerlink" title="Exploring a Fine-Grained Multiscale Method for Cross-Modal Remote Sensing Image Retrieval"></a>Exploring a Fine-Grained Multiscale Method for Cross-Modal Remote Sensing Image Retrieval</h2><p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103213139.png" alt="image-20231118103213139"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103233612.png" alt="image-20231118103233612"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103259193.png" alt="image-20231118103259193"></p>
+<h2 id="A-Lightweight-Multi-Scale-Crossmodal-Text-Image-Retrieval-Method-in-Remote-Sensing"><a href="#A-Lightweight-Multi-Scale-Crossmodal-Text-Image-Retrieval-Method-in-Remote-Sensing" class="headerlink" title="A Lightweight Multi-Scale Crossmodal Text-Image Retrieval Method in Remote Sensing"></a>A Lightweight Multi-Scale Crossmodal Text-Image Retrieval Method in Remote Sensing</h2><p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103006857.png" alt="image-20231118103006857"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103016724.png" alt="image-20231118103016724"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103027602.png" alt="image-20231118103027602"></p>
 ]]></content>
       <categories>
-        <category>论文精读</category>
+        <category>每月总结</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
-        <tag>视频理解</tag>
-        <tag>3D卷积</tag>
-        <tag>双流网络</tag>
+        <tag>Clip</tag>
         <tag>Transformer</tag>
+        <tag>Video Retrieval</tag>
+        <tag>Image Retrieval</tag>
+        <tag>多模态</tag>
       </tags>
   </entry>
   <entry>
@@ -1151,66 +967,6 @@
       </tags>
   </entry>
   <entry>
-    <title>10-11月进度总结 检索方面</title>
-    <url>/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h1 id="Video-Retrieval"><a href="#Video-Retrieval" class="headerlink" title="Video Retrieval"></a>Video Retrieval</h1><p>&emsp;主要解决的是如何利用CLip（等）从时间维度融合</p>
-<h2 id="X-Pool-2022"><a href="#X-Pool-2022" class="headerlink" title="X-Pool(2022)"></a>X-Pool(2022)</h2><p><strong>Cross-Modal Language-Video Attention for Text-Video Retrieval</strong></p>
-<p>&emsp;选择与文本相关的文本Token相近的视觉Token</p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100200730.png" alt="image-20231118100200730"></p>
-<h2 id="X-Clip-2022"><a href="#X-Clip-2022" class="headerlink" title="X-Clip(2022)"></a>X-Clip(2022)</h2><p><strong>Expanding Language-Image Pretrained Models for General Video Recognition</strong></p>
-<p>&emsp;时间维度融合的新方法，先融合到时间维度再利用融合后的特征返回和图像维度融合</p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100600504.png" alt="image-20231118100600504"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100630051.png" alt="image-20231118100630051"></p>
-<h2 id="TS2-Net"><a href="#TS2-Net" class="headerlink" title="TS2-Net"></a>TS2-Net</h2><p><strong>TS2-Net: Token Shift and Selection Transformer for Text-Video Retrieval</strong></p>
-<p>&emsp;时间维度融合，利用Token之间的平移捕捉变动差别</p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100927351.png" alt="image-20231118100927351"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100942559.png" alt="image-20231118100942559"></p>
-<h2 id="EMCL-2022"><a href="#EMCL-2022" class="headerlink" title="EMCL(2022)"></a>EMCL(2022)</h2><p><strong>Expectation-Maximization Contrastive Learning for Compact Video-and-Language Representations</strong></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101102419.png" alt="image-20231118101102419"></p>
-<h2 id="DRL-2022"><a href="#DRL-2022" class="headerlink" title="DRL(2022)"></a>DRL(2022)</h2><p><strong>Disentangled Representation Learning for Text-Video Retrieval</strong></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101328656.png" alt="image-20231118101328656"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101340854.png" alt="image-20231118101340854"></p>
-<h2 id="CLIP4Clip-2021"><a href="#CLIP4Clip-2021" class="headerlink" title="CLIP4Clip(2021)"></a>CLIP4Clip(2021)</h2><p><strong>An Empirical Study of CLIP for End to End Video Clip Retrieval</strong></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101514862.png" alt="image-20231118101514862"></p>
-<h2 id="CenterCLIP-2022"><a href="#CenterCLIP-2022" class="headerlink" title="CenterCLIP(2022)"></a>CenterCLIP(2022)</h2><p><strong>Token Clustering for Efficient Text-Video Retrieval</strong></p>
-<p>&emsp;去除冗余信息 </p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101632756.png" alt="image-20231118101632756"></p>
-<h2 id="Prompt-Switch-2023"><a href="#Prompt-Switch-2023" class="headerlink" title="Prompt Switch(2023)"></a>Prompt Switch(2023)</h2><p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101724910.png" alt="image-20231118101724910"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101753781.png" alt="image-20231118101753781"></p>
-<h2 id="Cap4Video-2023"><a href="#Cap4Video-2023" class="headerlink" title="Cap4Video(2023)"></a>Cap4Video(2023)</h2><p><strong>Cap4Video What Can Auxiliary Captions Do for Text-Video Retrieval</strong></p>
-<p>&emsp;利用</p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102034385.png" alt="image-20231118102034385"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102051534.png" alt="image-20231118102051534"></p>
-<h2 id="UATVR-2023"><a href="#UATVR-2023" class="headerlink" title="UATVR(2023)"></a>UATVR(2023)</h2><p> <strong>UATVR: Uncertainty-Adaptive Text-Video Retrieval</strong></p>
-<p>&emsp;粗细粒度的偏重就有不确定性，本文针对这一问题，提出了不确定性的自适应检索方法</p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118112636621.png" alt="image-20231118112636621"></p>
-<h2 id="UCOFIA-2023"><a href="#UCOFIA-2023" class="headerlink" title="UCOFIA(2023)"></a>UCOFIA(2023)</h2><p><strong>Unified Coarse-to-Fine Alignment for Video-Text Retrieval</strong></p>
-<p>&emsp;如何规范的利用视频和文本进行粗细粒度对齐，减轻不想关信息的影响</p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118113036134.png" alt="image-20231118113036134"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118113204634.png" alt="image-20231118113204634"></p>
-<h1 id="General-Methods"><a href="#General-Methods" class="headerlink" title="General Methods"></a>General Methods</h1><h2 id="Cross-Modal-Retrieval-with-Querybank-Normalisation"><a href="#Cross-Modal-Retrieval-with-Querybank-Normalisation" class="headerlink" title="Cross Modal Retrieval with Querybank Normalisation"></a>Cross Modal Retrieval with Querybank Normalisation</h2><p>&emsp;主要解决的是检索中某一个样本对大部分相似度过高的情况</p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102559410.png" alt="image-20231118102559410"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102620534.png" alt="image-20231118102620534"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102640705.png" alt="image-20231118102640705"></p>
-<h1 id="Image-Retrieval"><a href="#Image-Retrieval" class="headerlink" title="Image Retrieval"></a>Image Retrieval</h1><h2 id="Exploring-a-Fine-Grained-Multiscale-Method-for-Cross-Modal-Remote-Sensing-Image-Retrieval"><a href="#Exploring-a-Fine-Grained-Multiscale-Method-for-Cross-Modal-Remote-Sensing-Image-Retrieval" class="headerlink" title="Exploring a Fine-Grained Multiscale Method for Cross-Modal Remote Sensing Image Retrieval"></a>Exploring a Fine-Grained Multiscale Method for Cross-Modal Remote Sensing Image Retrieval</h2><p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103213139.png" alt="image-20231118103213139"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103233612.png" alt="image-20231118103233612"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103259193.png" alt="image-20231118103259193"></p>
-<h2 id="A-Lightweight-Multi-Scale-Crossmodal-Text-Image-Retrieval-Method-in-Remote-Sensing"><a href="#A-Lightweight-Multi-Scale-Crossmodal-Text-Image-Retrieval-Method-in-Remote-Sensing" class="headerlink" title="A Lightweight Multi-Scale Crossmodal Text-Image Retrieval Method in Remote Sensing"></a>A Lightweight Multi-Scale Crossmodal Text-Image Retrieval Method in Remote Sensing</h2><p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103006857.png" alt="image-20231118103006857"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103016724.png" alt="image-20231118103016724"></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118103027602.png" alt="image-20231118103027602"></p>
-]]></content>
-      <categories>
-        <category>每月总结</category>
-      </categories>
-      <tags>
-        <tag>Clip</tag>
-        <tag>Transformer</tag>
-        <tag>Video Retrieval</tag>
-        <tag>Image Retrieval</tag>
-        <tag>多模态</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>论文精读-多模态综述-2023</title>
     <url>/2023/08/31/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/2023/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%A4%9A%E6%A8%A1%E6%80%81%E7%BB%BC%E8%BF%B0-2023/</url>
     <content><![CDATA[<h1 id="多模态表征学习的下游任务"><a href="#多模态表征学习的下游任务" class="headerlink" title="多模态表征学习的下游任务"></a>多模态表征学习的下游任务</h1><ol>
@@ -1397,12 +1153,326 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>对比学习</tag>
         <tag>Transformer</tag>
+        <tag>对比学习</tag>
         <tag>多模态</tag>
         <tag>Bert</tag>
         <tag>MAE</tag>
         <tag>特征融合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>论文精读-DELL·E2-2022</title>
+    <url>/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/</url>
+    <content><![CDATA[<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><h2 id="GANs"><a href="#GANs" class="headerlink" title="GANs"></a><a href="https://arxiv.org/abs/1406.2661">GANs</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/2e470107269d4e44a8e352fc87dd49ce.png"></p>
+<p>   生成器<code>G</code>从给定噪声中（一般是指均匀分布或者正态分布）采样来合成数据，判别器<code>D</code>用于判别样本是真实样本还是G生成的样本。<code>G</code>的目标就是尽量生成真实的图片去欺骗判别网络<code>D</code>，使<code>D</code>犯错；而<code>D</code>的目标就是尽量把<code>G</code>生成的图片和真实的图片分别开来</p>
+<p>局限性：</p>
+<ol>
+<li>训练不够稳定</li>
+<li>GANs生成的多样性不够好</li>
+<li>GANs是隐式生成，不够优美</li>
+</ol>
+<h2 id="AE（Autoencoder）和-DAE-Denoising-Autoencoder"><a href="#AE（Autoencoder）和-DAE-Denoising-Autoencoder" class="headerlink" title="AE（Autoencoder）和 DAE(Denoising Autoencoder)"></a><a href="https://paperswithcode.com/method/autoencoder">AE（Autoencoder）</a>和 DAE(Denoising Autoencoder)</h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/60fd506454ac4280a0d015385d25944a.png"></p>
+<p><code>  DAE</code>（Denoising Autoencoder），就是先把原图$x$进行一定程度的打乱</p>
+<h2 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a><a href="https://paperswithcode.com/paper/auto-encoding-variational-bayes">VAE</a></h2><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0879f80567c94e0892037517d797b997.png" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/v2-df06f2d1471615dae76b1e09488091b5_720w.webp" alt="img"></p>
+<p>​      VAE（Variational Auto-Encoder-变分自编码器）就是借助了这种encoder-decoder的结构去做生成，和AE最主要的区别就是不再去学习中间的bottleneck特征了，而是去学习一种分布。</p>
+<p>  作者假设中间的分布是一个高斯分布（用均值μ 和方差σ 来描述）。具体来说，就是将输入x进行编码得到特征之后，再接一些FC层，去预测中间分布的μ 和σ 。</p>
+<p>  μ 和σ 训练好之后，就可以扔掉encoder了。推理时直接从训练好的分布去采样一些z 出来（ $z&#x3D;\mu +\sigma \cdot \varepsilon$），然后进行解码，这样VAE就可以用来做生成了</p>
+<p><a href="https://spaces.ac.cn/archives/5253">变分自编码器（一）：原来是这么一回事</a></p>
+<h2 id="VQ-VAE"><a href="#VQ-VAE" class="headerlink" title="VQ-VAE"></a>VQ-VAE</h2><h3 id="VQ-VAE-1"><a href="#VQ-VAE-1" class="headerlink" title="VQ-VAE"></a><a href="https://paperswithcode.com/paper/neural-discrete-representation-learning">VQ-VAE</a></h3><p>​    如果还是之前VAE的模式，就不好把模型做大，分布也不好学。取而代之的不是去直接预测分布z，而是用一个codebook代替。codebook可以理解为聚类的中心，大小一般是K*D（K&#x3D;8192，Dim&#x3D;512&#x2F;768），也就是有8192个长为D的向量（聚类中心）</p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE" alt="image-20230824173457718"></p>
+<p>​     $x$输入编码器得到高宽分别为$( h , w )$ 的特征图f，然后计算特征图里的向量和codebook里的向量（聚类中心）的相似性。接着把和特征图最接近的聚类中心向量的编号（1-8192）存到矩阵z里面。训练完成之后，不再需要编码特征f ff，而是取出矩阵z中的编号对应的codebook里面的向量，生成一个新的特征图q（量化特征quantised feature）。最后和之前一样，使用q解码重构原图。此时这个量化特征就非常可控了，因为它们永远都是从codebook里面来的，而非随机生成，这样优化起来相对容易。</p>
+<p>​    编码器输出$z ( x )$ 会mapped到最相近（nearest）的点$e 2$ 。红色线的梯度$\triangledown _{z}$L，迫使encoder在下一次forword时改变其输出（参数更新）</p>
+<p>​    VQ-VAE也可以用来做CV领域的自监督学习，比如BEIT就是把<strong>DALL·E训练好的codebook拿来用。将图片经过上面同样的过程quantise成的特征图作为ground truth</strong>，自监督模型来训练一个网络。后续还有VL-BEIT（vision language BEIT）的工作，也是类似的思路，只不过是用一个Transformer编码器来做多模态的任务。</p>
+<p><strong>局限性：</strong></p>
+<p> 如果想让VA-VAE做生成，就需要单独训练一个<code>prior</code>网络，在论文里，作者就是训练了一个<code>pixcl-CNN</code>（利用训练好的codebook去做生成）。</p>
+<h3 id="VQ-VAE-2"><a href="#VQ-VAE-2" class="headerlink" title="VQ-VAE 2"></a><a href="https://paperswithcode.com/paper/190600446">VQ-VAE 2</a></h3><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/VQ-VAE-2" alt="image-20230824173625860"></p>
+<p>​    本身是对VQ-VAE的简单改进，是一个层级式的结构。VQ-VAE2不仅做局部的建模，而且还做全局的建模（加入attention），所以模型的表达能力更强了。同时根据codebook学了一个prior，所以生成的效果非常好。总体来说VQ-VAE2是一个两阶段的过程：</p>
+<ul>
+<li><p>训练编解码器，使其能够很好的复现图像</p>
+</li>
+<li><p>训练PixelCNN自回归模型，使其能够拟合编码表分布，从而通过随机采样，生成图片</p>
+</li>
+</ul>
+<p>​    stage1：训练一个分层的VQ-VAE用于图像编码到离散隐空间</p>
+<p>​    输入图像 x，通过编码器生成向量$E ( x )$ ，然后采用最近邻重构，将$E ( x )$ 替换为codebook的中的一个nearest prototype vector。codebook可以理解为离散的编码表，举一张人脸图像为例codebook就包括头发颜色，脸型，表情和肤色等等。因此，量化就是通过编码表，把自编码器生成的向量$E ( x ) $离散化：</p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/9a09c6f4ab7c42d6b1fafd9695559e2e.png" alt="在这里插入图片描述"></p>
+<p>​    stage2：在离散隐空间上拟合一个PixelCNN先验</p>
+<ul>
+<li>经过Stage1，将图片编码为了整数矩阵，所以在Stage2用自回归模型PixelCNN，来对编码矩阵进行拟合（即建模先验分布）</li>
+<li>通过PixelCNN得到编码分布后，就可以随机生成一个新的编码矩阵，然后通过编码表E EE映射为浮点数矩阵，最后经过deocder重构得到一张图片</li>
+</ul>
+<p>​    原文中还有再加<code>middle level</code>，实验结果表明加了middle level之后，生成的图像清晰度更高）</p>
+<p><a href="https://spaces.ac.cn/archives/6760">VQ-VAE的简明介绍：量子化自编码器</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/461693342">生成模型之PixelCNN</a></p>
+<h2 id="扩散模型"><a href="#扩散模型" class="headerlink" title="扩散模型"></a>扩散模型</h2><p>扩散模型包含两个过程：前向扩散过程（forword）和反向生成过程（reverse）：</p>
+<ul>
+<li>前向扩散过程：对数据逐渐增加高斯噪音直至数据变成随机噪音的过程（噪音化）</li>
+<li>反向生成过程：从随机噪音开始逐步去噪音直至生成一张图像（去噪）</li>
+</ul>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/0a6a0f3f2ab54c1ca4df14d14c0a4fbc.png" alt="在这里插入图片描述"></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/316d832ce0a14e518e0aea30c5afee0b.png" alt="在这里插入图片描述"></p>
+<p><strong>BackBone（大部分扩散模型选用<code>U-Net</code>）</strong></p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/441e5fb6708b405183fbda1ad3b64c01.png" alt="在这里插入图片描述"></p>
+<p>​    <code>  U-Net</code>里还有一些<code>skip connection</code>的操作，可以直接将前面的信息传递给后面，以恢复更多的细节。后续还有一些改进，比如在<code>U-Net</code>里加一些attention操作，可以使图像生成的更好，共享参数。</p>
+<p><strong>局限性：</strong>训练推理慢</p>
+<h3 id="DDPM"><a href="#DDPM" class="headerlink" title="DDPM"></a><a href="https://paperswithcode.com/paper/denoising-diffusion-probabilistic-models">DDPM</a></h3><p><strong>贡献 ：</strong></p>
+<ol>
+<li><p>从预测转换图像改进为预测噪声，每次直接从$x_{t}$预测$x_{t-1}$，这种图像到图像的转化不太好优化。所以作者考虑直接去预测从$x_{t}$<br>到$x_{t-1}$ 这一步所添加的噪声$\varepsilon$，这样就简化了问题。</p>
+</li>
+<li><p>time embedding：U-Net模型输入，除了当前时刻的$x_{t}$ ，还有一个输入time embedding（类似transformer里的正弦位置编码），主要用于告诉 U-Net模型，现在到了反向过程的第几步。</p>
+</li>
+<li><p>目标函数：DDPM采用了一个U-Net 结构的Autoencoder来对t时刻的高斯噪声z进行预测。训练目标即希望预测的噪声和真实的噪声一致，所以目标函数为预测噪声和z 的L1 Loss：</p>
+<p>$p(\mathbf{x}<em>{t-1} \vert \mathbf{x}<em>t)&#x3D;\left | f</em>{\theta}(x</em>{t},t) \right|$， t为时间</p>
+</li>
+<li><p>只预测正态分布的均值</p>
+<p>正态分布由均值和方差决定。作者在这里发现，其实模型不需要学方差，只需要学习均值就行。</p>
+</li>
+</ol>
+<h3 id="Improved-DDPM"><a href="#Improved-DDPM" class="headerlink" title="Improved DDPM"></a><a href="https://arxiv.org/abs/2102.09672">Improved DDPM</a></h3><p>​    <code>improved DDPM</code>作者就觉得如果方差效果应该会更好，改了之后果然取样和生成效果都好了很多。</p>
+<p><code>DDPM</code>添加噪声时采用的线性的<code>variance schedule</code>改为余弦schedule，效果更好（类似学习率从线性改为余弦）</p>
+<h3 id="ADM-Nets"><a href="#ADM-Nets" class="headerlink" title="ADM Nets"></a><a href="https://paperswithcode.com/paper/diffusion-models-beat-gans-on-image-synthesis">ADM Nets</a></h3><ul>
+<li><p>使用大模型：加大加宽网络、使用更多的自注意力头attention head，加大自注意力scale（single-scale attention改为multi-scale attention）</p>
+</li>
+<li><p>提出了新的归一化方式——<code>Adaptive Group Normalization</code>，在文章就是根据步数进行<strong>自适应的归一化</strong>。这个方法是对group归一化的一个改进：</p>
+<p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/8bad0b6ededd4d8f8149d4bd0881c514.png" alt="在这里插入图片描述"></p>
+<p>$AdaGN(h,y&#x3D;[y_s,y_b])&#x3D;y_s*GroupNorm(h)+y_b$</p>
+<p>上面公式中的$h$是残差块激活函数的输出，$y$是一个线性层对时步和后面用到的类别信息的嵌入。组归一化是对输入的通道方向进行分组归一化的归一化方法.</p>
+</li>
+<li><p>使用<code>classifier guidance</code>的方法，引导模型进行采样和生成。这样不仅使生成的图片更逼真，而且加速了反向采样过程。论文中，只需要25次采样，就可以从噪声生成图片。</p>
+<ul>
+<li>训练一个简单是图片分类器</li>
+<li>CLIP guidance：将简单的分类器换成CLIP之后，文本和图像就联系起来了</li>
+<li>image侧引导：除了利用图像重建进行像素级别的引导，还可以做图像特征和风格层面的引导，只需要一个gram matrix就行。</li>
+<li>text侧：可以用训练好的NLP大模型做引导</li>
+</ul>
+</li>
+</ul>
+<p>更新后的损失 ： $p(x_{t−1}∣x_t)&#x3D;∥z−f_θ*(x_t,t,y)∥$</p>
+<h3 id="Classifier-free-guidance"><a href="#Classifier-free-guidance" class="headerlink" title="Classifier free guidance"></a><a href="https://arxiv.org/abs/2207.12598">Classifier free guidance</a></h3><p>​    classifier free guidance的方式，只是改变了模型输入的内容，除了 conditional输入外（随机高斯噪声输入加引导信息）还有 unconditional 的 采样输入。两种输入都会被送到同一个 diffusion model 从而让其能够具有无条件和有条件生成的能力。得到有条件输出$f_{\theta }(x_{t},t,y)$和无条件输出$f_{\theta }(x_{t},t,\phi )$f后，就可以用前者监督后者，来引导扩散模型进行训练了。最后反向扩散做生成时，我们用无条件的生成,然后加上之前训练的偏移，也能达到类似有条件生成的效果。这样一来就摆脱了分类器的限制</p>
+<h1 id="DALL·E2"><a href="#DALL·E2" class="headerlink" title="DALL·E2"></a><a href="https://arxiv.org/abs/2204.13807">DALL·E2</a></h1><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/image-20230820125542764.png" alt="image-20230820125542764"></p>
+<p>​    prior：先验模型$P(z_i|y)$ ,根据标题$y$生成CLIP的图像特征$z_i$。</p>
+<p>​    decoder ：解码器$P(x|z_i,y)$，生成以CLIP图像特征$z_i$ （和可选的文本标题 $y$）为条件的图像$x$</p>
+<p>​    跟上面讲的一样，prior模型的输入就是CLIP编码的文本特征，其ground truth就是CLIP编码的图片特征，因为是图文对输入模型，CLIP是都能编码的。</p>
+<h2 id="decoder"><a href="#decoder" class="headerlink" title="decoder"></a>decoder</h2><p>​     decoder就是使用扩散模型，生成以CLIP图形特征（和可选标题$y$）为条件的图像，这部分就是在GLIDE基础上改进的。利用了<code>CLIP guidance</code>和<code>classifier-free guidance</code></p>
+<p>​     其次，为了提高分辨率，DALL·E2还用了层级式的生成，也就是训练了两个上采样扩散模型。一个将图像的分辨率从64×64上采样到256×256，另一个接着上采样的1024×1024。同时，为了提高上采样器的鲁棒性，还添加了噪声（第一个上采样阶段使用高斯模糊，对于第二个阶段，使用更多样化的BSR退化）。</p>
+<h2 id="prior"><a href="#prior" class="headerlink" title="prior"></a>prior</h2><p>​    <code>   prior</code>用于从文本特征生成图像特征，这部分作者试验了两种模型，两种模型都用了classifier-free guidance，因 为效果好。</p>
+<ul>
+<li>AR（自回归模型）</li>
+<li>扩散模型：使用的是<code>Transformer decoder</code>处理序列。因为这里输入输出都是embedding序列，所以使用U-Net不太合适。</li>
+</ul>
+<h1 id="总结：大力出奇迹"><a href="#总结：大力出奇迹" class="headerlink" title="总结：大力出奇迹"></a>总结：大力出奇迹</h1><p><img src="/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/IMG_20230827_111312.jpg" alt="IMG_20230827_111312"></p>
+<p>  图像生成这一块的技巧很多，经常连一个模型总览图都很难画出来。但是讲完这么多之后，会发现这些技巧有的时候有用，有的时候没用。</p>
+<ul>
+<li>DDPM提出将直接预测图像改为预测噪声，可以简化优化过程。但是DALL·E2这里又没有沿袭这种预测噪声的做法。</li>
+<li>DALL·E2提出如果有显式的生成图片特征的过程，模型效果会好很多，所以采用了两阶段生成方式。但是Imagen直接上一个U-Net就解决了，更简单，效果也很好。</li>
+<li>CLIP和DALL·E2都说自回归模型训练太贵了，训练太不高效了。但是在7月左右，谷歌又推出了Parti，用pathways模型做自回归的文本图像生成，效果直接超越了DALL·E2和Imagen。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>论文精读</category>
+      </categories>
+      <tags>
+        <tag>扩散模型</tag>
+        <tag>论文精读</tag>
+        <tag>自编码器</tag>
+        <tag>Clip</tag>
+        <tag>生成图像</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>论文精读-视频理解综述-2021</title>
+    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/</url>
+    <content><![CDATA[<h1 id="0-综述"><a href="#0-综述" class="headerlink" title="0. 综述"></a>0. <a href="https://arxiv.org/abs/2012.06567">综述</a></h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/17419fc1a483496b95d7c3befa1e09f2.png"></p>
+<h1 id="1-Hand-Crafted-CNN"><a href="#1-Hand-Crafted-CNN" class="headerlink" title="1. Hand-Crafted- &gt;CNN"></a>1. Hand-Crafted- &gt;CNN</h1><h2 id="1-1-DeepVideo"><a href="#1-1-DeepVideo" class="headerlink" title="1.1 DeepVideo"></a>1.1 <a href="http://vision.stanford.edu/pdf/karpathy14.pdf">DeepVideo</a></h2><p> **&emsp;**探索可以用在视频上使用的各种神经网络：各种方法都差不多，第四种方法好些</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/356339da9c9342fd9a7310b4f66b5472.png"></p>
+<p><strong>&emsp;开始讲故事</strong></p>
+<p> <strong>&emsp;多分辨率神经网络</strong>：两个权值共享的网络，一个处理低分辨率的图像，一个处理高分辨率的图像（图片的中心区域），人为提高了注意力</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/0c5ae0bbb1ab4b4988b6b2888fa716cc.png"></p>
+<h1 id="2-Two-Stream"><a href="#2-Two-Stream" class="headerlink" title="2. Two-Stream"></a>2. Two-Stream</h1><p>&emsp;双流网络在这里指的是同时使用光流抽取的特征和图片（视频帧）本身的特征进行网络训练；经测试这种方法可以很大地提高网络捕捉动态效果的能力</p>
+<h2 id="2-1-Two-Stream-Networks"><a href="#2-1-Two-Stream-Networks" class="headerlink" title="2.1 Two-Stream Networks"></a>2.1 <a href="https://arxiv.org/abs/1406.2199">Two-Stream Networks</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/cfad261fe34944ceb7ce2a679ed6c198.png"></p>
+<p>&emsp;late fusion-&gt;early fusion; AlexNet-&gt;Resnet Vgg;  加入</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.2" alt="image-20230811154121029"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.1.3" alt="image-20230811154214236"></p>
+<h2 id="2-2-Beyond-Short-Snippets"><a href="#2-2-Beyond-Short-Snippets" class="headerlink" title="2.2 Beyond Short Snippets"></a>2.2 <a href="https://arxiv.org/abs/1503.08909">Beyond Short Snippets</a></h2><p>&emsp;想办法适应更长时间的视频、动作特征的提取等等。<strong>Pooling ，Lstm提取时序信息</strong>，但是LSTM效果不明显，可能是一个短的时序信息变化不大，内容相似，Lstm学习不到有用的信息，需要长视频&#x2F;变化大</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/e2cd961902be4bc9bb8a3bf3912cd0f5.png"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.2.2" alt="image-20230811154751109"></p>
+<h2 id="2-3-Convolutional-Fusion"><a href="#2-3-Convolutional-Fusion" class="headerlink" title="2.3 Convolutional Fusion"></a>2.3 <a href="https://arxiv.org/abs/1604.06573">Convolutional Fusion</a></h2><p>&emsp;当有时间流和空间流两个网路之后，如何保证时间和空间的特征图在同样的位置上他们产生的通道respones是差不多能联系起来的。</p>
+<p>通常对于一个具有三个维度特征的数据而言我们有很多的探究方向：</p>
+<ol>
+<li>Spatial fusion ： 空间特征融合</li>
+<li>Time fusion ： 时间维度特征融合</li>
+<li>在网络的一层进行特征融合</li>
+</ol>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.1" alt="image-20230811155528639"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.3" alt="image-20230812093737912"></p>
+<p>&emsp;时间维度上的融合</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.3.2" alt="image-20230811155626303"></p>
+<p>&emsp;蓝：空间 绿：时间</p>
+<h2 id="2-4-TSN"><a href="#2-4-TSN" class="headerlink" title="2.4 TSN"></a>2.4 <a href="https://arxiv.org/abs/1608.00859">TSN</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/2.4.1" alt="image-20230811155948188"></p>
+<p><strong>步骤</strong></p>
+<ol>
+<li>将视频分为多个段，从每段中抽取一帧的RGB图片，然后对这个图片进行光流计算</li>
+<li>重复工作，对不同段进行相同工作</li>
+<li>如果段分得比较小，那么抽取的特征在理论上是描述的同一个物体的运动特征</li>
+<li>最后进行一个特征融合，进行分类工作</li>
+</ol>
+<p><strong>技巧：</strong></p>
+<ol>
+<li>视频分段 </li>
+<li>ImageNet训练的模型应用到光流</li>
+<li>partial BN</li>
+<li>数据增强 专门对边角裁剪 改变长宽比 {256 224 192 168}</li>
+</ol>
+<h1 id="3-3D-ConvNet"><a href="#3-3D-ConvNet" class="headerlink" title="3. 3D ConvNet"></a>3. 3D ConvNet</h1><h2 id="3-1-C3D"><a href="#3-1-C3D" class="headerlink" title="3.1 C3D"></a>3.1 <a href="https://arxiv.org/abs/1412.0767v3">C3D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.1.1" alt="image-20230811161145952"></p>
+<p>&emsp;C3D主要是提供了一种抽取特征做其他任务的方法（因为训练一个大型的3D网络非常昂贵，很多研究者无法训练），C3D作者将训练好的模型的接口提供给其他人，其他人只需要输入视频就可以得到抽取的特征（4096序列），这样就可以根据抽取的特征进行后续处理了。</p>
+<h2 id="3-2-I3D-Inflated"><a href="#3-2-I3D-Inflated" class="headerlink" title="3.2 I3D-Inflated"></a>3.2 <a href="https://arxiv.org/abs/1705.07750">I3D-Inflated</a></h2><p><strong>贡献：</strong></p>
+<ol>
+<li>可以方便地将2D网络扩张到3D之中-直接复制权重，可以用巧妙的方法利用预训练模型</li>
+<li>提出了kinetics数据集</li>
+</ol>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.1" alt="image-20230811161448871"></p>
+<p>&emsp;Two-Stream 3D-ConvNet效果最好</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.2.2" alt="image-20230811161620887"></p>
+<p>&emsp;<strong>在空间、时间和网络深度上对感受野的增长进行调整：对于图片的两个空间维度，我们通常使用相同的卷积长度&#x2F;池化长度，但是在时间维度上并不相同，时间维度的kernel长度取决于帧率和图片大小。如果在时域内变化太块，它可能会混淆不同物体的边缘，破坏早期的特征检测，而如果它增长得太慢，它可能无法很好地捕捉场景的动态。动态性。</strong></p>
+<h2 id="3-3-Non-local"><a href="#3-3-Non-local" class="headerlink" title="3.3 Non-local"></a>3.3 <a href="https://arxiv.org/abs/1711.07971">Non-local</a></h2><p>&emsp;<strong>加入自注意力</strong>，<strong>即插即用</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.1" alt="image-20230811162201101"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.3.2" alt="image-20230811162305487"></p>
+<h2 id="3-4-R2-1D"><a href="#3-4-R2-1D" class="headerlink" title="3.4 R2+1D"></a>3.4 <a href="https://openaccess.thecvf.com/content_cvpr_2018/CameraReady/2648.pdf">R2+1D</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.1" alt="image-20230811163007150"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.2" alt="image-20230811163038972"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.4.3" alt="image-20230811163124035"></p>
+<h2 id="3-5-SlowFast"><a href="#3-5-SlowFast" class="headerlink" title="3.5 SlowFast"></a>3.5 <a href="https://arxiv.org/abs/1812.03982">SlowFast</a></h2><p>&emsp;讲故事：慢的分支网络学习视频中的静态特征，快分支学习视频中的动态特征。</p>
+<ul>
+<li>慢分支使用小输入，大网络</li>
+<li>快分支使用大输入，小网络</li>
+<li>中间使用natural connection进行特征融合</li>
+</ul>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.1" alt="image-20230811163321352"></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/3.5.2" alt="image-20230811163354776"></p>
+<h1 id="4-Video-Transformer"><a href="#4-Video-Transformer" class="headerlink" title="4. Video Transformer"></a>4. Video Transformer</h1><h2 id="4-1-Space-Time-Attention"><a href="#4-1-Space-Time-Attention" class="headerlink" title="4.1 Space-Time Attention"></a>4.1 <a href="https://arxiv.org/abs/2102.05095">Space-Time Attention</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.1.1" alt="image-20230811163530398"></p>
+<ul>
+<li>直接将Attention应用到图片的方法迁移到视频之中（空间注意力）</li>
+<li>在时间上和空间上分别做三个自注意力机制，进行融合</li>
+<li><strong>拆分为空间和时间上分别进行注意力机制计算（时间-&gt; 空间）</strong>文章提出</li>
+<li>local global拆分（在局部进行注意力计算）</li>
+<li>沿着特定的轴进行注意力计算（将三维拆分为三个一维进行注意力机制计算）</li>
+</ul>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/4.2.1" alt="image-20230811163643822"></p>
+<p>&emsp;想法简单、效果好、容易迁移、可以用于处理超过1min的视频</p>
+<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E8%A7%86%E9%A2%91%E7%90%86%E8%A7%A3%E7%BB%BC%E8%BF%B0-2021/5.1"></p>
+<p><strong>对于时间和空间相结合的一些策略可以借鉴</strong></p>
+<ol>
+<li>3D卷积怎么做：最新的方法都是做一些拆分，将3D卷积分为时间和空间分别的卷积</li>
+<li>特征融合的方法：early fusion、latent fusion</li>
+<li>三维网络中一些关键层（如BN）如何设置：只要第一层的BN？</li>
+<li>3D网络中的时间维度尽量不要做下采样</li>
+<li>Vision Transformer降维打击，提高精度、减小计算消耗、加大处理时长（看到更长的时序信息)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>论文精读</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>视频理解</tag>
+        <tag>3D卷积</tag>
+        <tag>双流网络</tag>
+        <tag>Transformer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>论文精读 对比学习综述 2021</title>
+    <url>/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/</url>
+    <content><![CDATA[<h1 id="1-百花齐放"><a href="#1-百花齐放" class="headerlink" title="1. 百花齐放"></a>1. 百花齐放</h1><p>&emsp;在第一阶段上，方法模型都没有统一，目标函数,代理任务也没有统一，所以说是一个百花齐放的年代</p>
+<h2 id="1-1-InstDisc"><a href="#1-1-InstDisc" class="headerlink" title="1.1 InstDisc"></a>1.1 <a href="https://arxiv.org/pdf/1805.01978.pdf">InstDisc</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.1" alt="image-20230731101249802"></p>
+<p>&emsp;<strong>基本思想：</strong>图片聚集在一起的原因，并不是这些图片有相似的语义标签信息，而是因为这些图片长得比较像。通过一个卷积神经网络来将图片进行编码成一个低维特征，然后使得这些特征在特征空间上都尽可能的区分开，因为个体判别认为每张图片都是自成一类，<strong>提出了个体判别任务</strong>。</p>
+<p>&emsp;<strong>Forward：</strong>假设模型的batchsize是256，有256张图片进入CNN网络，将256张图片编码为128维的向量。因为batchsize是256，因此有256个正样本。负样本来自memory bank，每次从memory bank中随机采样出4096个负数样本，利用 InfoNCE loss去更新CNN的参数。本次更新结束后，会将CNN编码得到的向量替换掉memory bank中原有的存储。就这样循环往复的更新CNN和memory bank，最后让模型收敛，就训练好一个CNN encoder了。</p>
+<h2 id="1-2-InvaSpread"><a href="#1-2-InvaSpread" class="headerlink" title="1.2 InvaSpread"></a>1.2 <a href="https://arxiv.org/pdf/1904.03436.pdf">InvaSpread</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.2" alt="image-20230731103807221"></p>
+<p>&emsp;<strong>基本思想：</strong>用mini batch中的数据作为负样本，使用一个编码器进行端到端的学习，所选取的字典长度不够大。</p>
+<p>&emsp;<strong>Forward：</strong>首先利用数据增广，将每个图片增广一次，也就是将256张图片变为512个图片了。之后将512张图片通过CNN编码为向量，并使用一个全连接层将数据的维度降低。之后将$x{i}$和其经过增广后的图$\widetilde{x}{i}$作为正样本，其余的512-2张图片都认为是负样本。所以总计有256个正例，有2×（256-1）张负例。之后的在特征空间中$x{i}$ 与$\widetilde{x}{i}$的距离应该尽可能相近，而$x{i}$与$\widetilde{x}_{j}$的距离应该尽可能相远。</p>
+<p>&emsp;<strong>以上两篇工作都是使用个体判别 Instance Discrimination 作为代理任务的</strong></p>
+<h2 id="1-3-CPC"><a href="#1-3-CPC" class="headerlink" title="1.3 CPC"></a>1.3 <a href="https://arxiv.org/pdf/1807.03748.pdf">CPC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.3" alt="image-20230731112441320"></p>
+<p>&emsp;<strong>基本思想：</strong>有一个持续的序列，把之前时刻的输入喂给编码器，返回的特征再喂给一个自回归模型gar（auto-regressive，一般的自回归模型是RNN或LSTM），然后得到一个context representation，这是一个代表上下文的特征表示。如果context representation足够好，那么其应该可以做出一些合理的预测，所以可以用$c_{t}$预测未来时刻的特征输出$z_{t+i}$</p>
+<p>&emsp;<strong>生成式的代理任务</strong></p>
+<h2 id="1-4-CMC"><a href="#1-4-CMC" class="headerlink" title="1.4 CMC"></a>1.4 <a href="https://arxiv.org/pdf/1906.05849.pdf">CMC</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/1.4" alt="image-20230731113140008"></p>
+<p>&emsp;<strong>基本思想：</strong>CMC想学一个非常强大的特征，其具有视角的不变性（不管是看见了一只狗，还是听到了狗叫声，都能判断出这是个狗）。所以，CMC的工作目的就是去增大这个互信息，就是所有视角之间的互信息。如果能学到一种特征，能够抓住所有视角下的这个关键的因素，那么这个特征就比较好。<strong>最大化互信息</strong></p>
+<p>&emsp;<strong>方法：</strong>输入view来自于不同的传感器，或者说是不同的模态，但是这些所有的输入其实对应的都是一整的图片，一个东西，那么它们就应该互为正样本，相互配对。而这些相互配对的视角在特征空间中应该尽可能的相近，而与其他的视角尽可能的远离。Teacher和student编码得到的相同图片的向量互为正例，不同图片得到的输出作为负例，利用对比学习的思路进行知识蒸馏。</p>
+<p>&emsp;<strong>问题：</strong>在于multi view的工作可能需要多个编码器进行编码，训练代价可能有点高。比如CLIP，就是用大型的语言编码器BERT对语言模型进行编码，用视觉模型VIT对视觉信息进行编码。</p>
+<p>InfoMin是CMC的作者做的一个分析型的延伸性工作，要是提出了一个InfoMin的原则，InfoMin的本意是不能一味的最大化这个互信息，而是要不多不少刚刚好，去选择合适的数据增强与合适的对比学习的视角。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>&emsp;可以看到以上的工作代理任务不尽相同，其中有个体判别，有预测未来，还有多视角多模态。使用的目标函数也不尽相同，有NCE，infoNCE以及其变体。使用的模型也可以是不同的，比如InvaSpread使用的是相同的编码器对key和query进行编码，CMC对key和query使用的是不同的编码，是百花齐放的。</p>
+<h1 id="2-CV双雄"><a href="#2-CV双雄" class="headerlink" title="2. CV双雄"></a>2. CV双雄</h1><h2 id="2-1-MoCo-v1"><a href="#2-1-MoCo-v1" class="headerlink" title="2.1 MoCo v1"></a>2.1 <a href="https://arxiv.org/pdf/1911.05722.pdf">MoCo v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1" alt="image-20230731142805835"></p>
+<p>&emsp;<strong>基本思想：</strong>将一系列的对比学习方法归纳为一个字典查询的问题building dynamic dictionaries。将负样本图片通过编码器后所得的输出看成是一个特征key，将正样本图片通过另外一个编码器所得到的输出看成是一个query。对比学习本质上，就是希望在字典中找到与query最匹配的那个key，而这个key是正样本通过一些列的数据增强变化获得，所以语义信息应该相同，在特征空间上也应该类似，而与其他的负样本的特征key应该尽可能的远离，损失函数InfoNEC</p>
+<p>&emsp;<strong>贡献：</strong></p>
+<ol>
+<li>queue 数据结构</li>
+<li>Momentum Encoder  $θ_k←mθ{_k}+(1−m)θq$</li>
+<li>Shuffling BN -　BN可能导致信息泄露</li>
+</ol>
+<p><strong>对比：</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.1-2" alt="image-20230731144205429"></p>
+<p><strong>方法：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Algorithm 1 Pseudocode of MoCo in a PyTorch-like style</span></span><br><span class="line"><span class="comment"># f_q, f_k: encoder networks for query and key</span></span><br><span class="line"><span class="comment"># queue: dictionary as a queue of K keys (CxK)</span></span><br><span class="line"><span class="comment"># m: momentum</span></span><br><span class="line"><span class="comment"># t: temperature</span></span><br><span class="line">f_k.params = f_q.params <span class="comment"># initialize</span></span><br><span class="line">	<span class="keyword">for</span> x <span class="keyword">in</span> loader: 	<span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">		x_q = aug(x)		<span class="comment"># a randomly augmented version</span></span><br><span class="line">		x_k = aug(x)		<span class="comment"># another randomly augmented version</span></span><br><span class="line">	</span><br><span class="line">	q = f_q.forward(x_q) 	<span class="comment"># queries: NxC (256x128)</span></span><br><span class="line">	k = f_k.forward(x_k) 	<span class="comment"># keys: NxC (256x128)</span></span><br><span class="line">	k = k.detach() 			<span class="comment"># no gradient to keys</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># positive logits: Nx1 (256x1)</span></span><br><span class="line">	l_pos = bmm(q.view(N,<span class="number">1</span>,C), k.view(N,C,<span class="number">1</span>))	<span class="comment"># q·k+</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># negative logits: NxK (256x65536)</span></span><br><span class="line">	l_neg = mm(q.view(N,C), queue.view(C,K))	<span class="comment"># sum q·ki</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># logits: Nx(1+K) (256x65537)</span></span><br><span class="line">	logits = cat([l_pos, l_neg], dim=<span class="number">1</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># contrastive loss, Eqn.(1)</span></span><br><span class="line">	labels = zeros(N) <span class="comment"># positives are the 0-th；利用pytorch函数特性</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/t, labels)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># SGD update: query network</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	update(f_q.params)</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># momentum update: key network</span></span><br><span class="line">	f_k.params = m * f_k.params+(<span class="number">1</span>-m) * f_q.params</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># update dictionary</span></span><br><span class="line">	enqueue(queue, k) 	<span class="comment"># enqueue the current minibatch</span></span><br><span class="line">	dequeue(queue) 		<span class="comment"># dequeue the earliest minibatch</span></span><br><span class="line"><span class="comment"># bmm: batch matrix multiplication; mm: matrix multiplication; cat: concatenation.</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-SimCLR-v1"><a href="#2-2-SimCLR-v1" class="headerlink" title="2.2 SimCLR v1"></a>2.2 <a href="https://arxiv.org/pdf/2002.05709.pdf">SimCLR v1</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2" alt="image-20230731144944108"></p>
+<p>&emsp;<strong>思路：</strong>假如有一个minibatch的图片，对整个minibatch的所有图片做数据增强，对图片x xx做不同的数据增强就会得$x_{i}$和$x_{j}$ 同一个图片延申得到的两个图片就是正样本，比如batchSize是n的话，那么正样本就是n，这个batchsize剩下的所有的样本以及其经过数据增强后得到的都是负样本，也就是2(n-1)。有了正负样本之后，对其进行编码，通过一个编码器$f ( ⋅ )$得到正负样本的编码结。SimCLR的创新点就是在得到数据的编码之后在后面加了一个编码层$g ( ⋅ )$函数，就是一个MLP层，得到较低维度的特征$z_{i}$和 $z_{j}$ ，用其进行对比学习，拉近正例之间的距离，拉远负例之间的距离。但是需要注意的一点就是投影函数仅仅在训练的时候才使用，在测试的时候是不使用的，测试的时候仅仅使用编码器$f(·)$ 。加上投影函数的目的也仅仅是想让模型训练的更好。</p>
+<p><strong>与InvaSpread相比：</strong></p>
+<ol>
+<li><p>SimCLR使用了更多的数据增强 其中随机的裁剪以及随机的色彩变换最重要</p>
+</li>
+<li><p>加入了投影的$g ( ⋅ )$ 函数</p>
+</li>
+<li><p>就是SimCLR用了更大的batchsize，且训练的时间更久</p>
+</li>
+</ol>
+<p>&emsp;<strong>损失函数：</strong>the normalized temperature-scaled cross entropy loss</p>
+<p><strong>方法：</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.2-2" alt="image-20230731152831099"></p>
+<h2 id="2-3-MoCo-v2"><a href="#2-3-MoCo-v2" class="headerlink" title="2.3 MoCo v2"></a>2.3 <a href="https://arxiv.org/pdf/2003.04297.pdf">MoCo v2</a></h2><p><strong>改进：</strong></p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.3" alt="image-20230731153325242"></p>
+<p>更省钱！！</p>
+<h2 id="2-4-SimCLR-v2"><a href="#2-4-SimCLR-v2" class="headerlink" title="2.4 SimCLR v2"></a>2.4 <a href="https://arxiv.org/pdf/2006.10029.pdf">SimCLR v2</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.4" alt="image-20230731153856595"></p>
+<h2 id="2-5-SWaV"><a href="#2-5-SWaV" class="headerlink" title="2.5 SWaV"></a>2.5 <a href="https://arxiv.org/pdf/2006.09882.pdf">SWaV</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/2.5" alt="image-20230731154140013"></p>
+<p>&emsp;<strong>基本思想：</strong>给定同样的一张图片，如果去生成不同的视角（views），希望可以用一个视角得到的特征去预测另外一个视角的得到的特征，因为所有的这些视角的特征按道理来说都应该是非常接近的。然后SWaV将对比学习和之前的聚类的方法合在的一起，这样做也不是偶然，因为聚类也是无监督特征表示学习的方法，而且它也希望相似的物体都聚集在一个聚类中心附近，不相似的物体推到别的聚类中心</p>
+<p>&emsp;<strong>方法：</strong>聚类中心C CC就是Prototypes，作为一个矩阵维度是$d $$ *k$（d是特征的维度128维，k是聚类中心的数目3000）SwAV前向过程依旧是一个实例x通过两次数据增强变为 $x_{1}$ 和$x_{2}$ ，之后利用编码器对其进行编码，从而得到嵌入向量$z_{1}$ 和$z_{2}$ 。但是有了$z_{1}$和$z_{2}$ 之后，并不是直接在特征上去做对比学习的loss，而且让 $z_{1}$和$z_{2}$和聚类中心C进行聚类，从而得到ground truth的标签$Q_{1}$ 和$Q_{2}$ 。如果说两个特征比较相似或者是含有等量的信息，按道理来说应该是可以相互预测的。也就是说，用$z_{1}$ 和C作点乘按道理是可以去预测$Q_{2}$的，反过来用$z_{2}$ 和C作点乘按道理是可以去预测$Q_{1}$ 的，SwAV通过这种换位交叉预测的方法来对模型进行训练更新参数。</p>
+<p><strong>keys:</strong></p>
+<ol>
+<li>Multi-crop：两个160×160的crop去注意全局特征，选择四个96×96的crop去注意局部特征</li>
+<li>聚类</li>
+</ol>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>&emsp;到了第二阶段，其实很多细节都趋于统一了，比如目标函数都是使用infoNCE，模型都归一为用一个encoder+projection head了，大家都采用了一个更强的数据增强，都想用一个动量编码器，也都尝试训练更久，最后在ImageNet上的准确度也逐渐逼近于有监督的基线模型。</p>
+<h1 id="3-不用负样本"><a href="#3-不用负样本" class="headerlink" title="3. 不用负样本"></a>3. 不用负样本</h1><h2 id="3-1-BYOL"><a href="#3-1-BYOL" class="headerlink" title="3.1 BYOL"></a>3.1 <a href="https://arxiv.org/pdf/2006.07733.pdf">BYOL</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.1" alt="image-20230731161241934"></p>
+<p>&emsp;在之前的对比学习工作中，是让$z_{\theta}$和$z_{\xi}^{‘}$尽可能的相似，而在BYOL这里，又加了一层predictor的全连接层$q_{\theta}$ ，$q_{\theta}$ 的网络结构和$g_{\theta}$ 的网络结构是完全一样的$z_{\theta}$ 通过$q_{\theta}$又得到了一个新的特征$q_{\theta}(z_{\theta})$现在的目的是想让特征$q_{\theta}(z_{\theta})$与$z_{\xi}^{‘}$</p>
+<p>&emsp;图中的sg表示<code>stop gradient</code>，这里是没有梯度的。模型的上一支相当于<code>query</code>编码器，下面一支相当于<code>key</code>编码器，而<code>key</code>编码器都是通过<code>query</code>编码器来动量更新。不同是代理任务不一样，BYOL相当于是自己一个视角的特征去预测另外一个视角的特征，通过这种预测性的任务来完成模型的训练。</p>
+<p>&emsp;<strong>损失函数：</strong>MSE</p>
+<h2 id="3-2-SimSiam"><a href="#3-2-SimSiam" class="headerlink" title="3.2 SimSiam"></a>3.2 <a href="https://arxiv.org/pdf/2011.10566.pdf">SimSiam</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2" alt="image-20230731163008906"></p>
+<p>&emsp;<strong>基本思想：</strong>实例x xx经过数据增强变为$x_{1}$ 和$x_{2}$ ，之后经过孪生的编码器$f ( ⋅ )$ ，得到嵌入$z_{1}$和$z_{2}$  ，之后经过预测层得到$p_{1}$ 和$p_{2}$ ，之后让$p_{1}$ 预测$z_{2}$，用$ p_{2}$去预测$z_{1}$，进行模型的训练。</p>
+<p><strong>伪代码：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f: backbone + projection mlp</span></span><br><span class="line"><span class="comment"># h: prediction mlp</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># random augmentation</span></span><br><span class="line">	z1, z2 = f(x1), f(x2) <span class="comment"># projections, n-by-d</span></span><br><span class="line">	p1, p2 = h(z1), h(z2) <span class="comment"># predictions, n-by-d</span></span><br><span class="line">	</span><br><span class="line">	L = D(p1, z2)/<span class="number">2</span> + D(p2, z1)/<span class="number">2</span> <span class="comment"># loss</span></span><br><span class="line">	</span><br><span class="line">	L.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	update(f, h) <span class="comment"># SGD update</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">D</span>(<span class="params">p, z</span>): <span class="comment"># negative cosine similarity   负余弦相似性</span></span><br><span class="line">	z = z.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	</span><br><span class="line">	p = normalize(p, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	z = normalize(z, dim=<span class="number">1</span>) <span class="comment"># l2-normalize</span></span><br><span class="line">	<span class="keyword">return</span> -(p*z).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;SimSiam能够成功训练的原因，不会发生模型坍塌，主要就是因为有<code>stop gradient</code>这个操作的存在。由于<code>stop gradient</code>，可以将SimSiam的结构看成是一个EM算法，相当于是在解决两个子问题，而模型更新也在交替进行，相当于不断的更新聚类中心。</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/3.2-2" alt="image-20230731164336674"></p>
+<h1 id="4-Transformer"><a href="#4-Transformer" class="headerlink" title="4. Transformer"></a>4. Transformer</h1><p>&emsp;在vision transformer之后，因为其大大提升了encoder的效果，所以很多对比学习任务打算使用vision transformer作为backbone进行对比学习，涌现出了两篇工作，分别是MoCov3和DINO。</p>
+<h2 id="4-1-MoCo-v3"><a href="#4-1-MoCo-v3" class="headerlink" title="4.1 MoCo v3"></a>4.1 <a href="https://arxiv.org/pdf/2104.02057.pdf">MoCo v3</a></h2><p>骨干网络从ResNet 替换为 ViT</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># f_q: encoder: backbone + proj mlp + pred mlp</span></span><br><span class="line"><span class="comment"># f_k: momentum encoder: backbone + proj mlp</span></span><br><span class="line"><span class="comment"># m: momentum coefficient</span></span><br><span class="line"><span class="comment"># tau: temperature</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with N samples</span></span><br><span class="line">	x1, x2 = aug(x), aug(x) <span class="comment"># augmentation</span></span><br><span class="line">	q1, q2 = f_q(x1), f_q(x2) <span class="comment"># queries: [N, C] each</span></span><br><span class="line">	k1, k2 = f_k(x1), f_k(x2) <span class="comment"># keys: [N, C] each</span></span><br><span class="line">	</span><br><span class="line">	loss = ctr(q1, k2) + ctr(q2, k1) <span class="comment"># symmetrized</span></span><br><span class="line">	loss.backward()</span><br><span class="line">	</span><br><span class="line">	update(f_q) <span class="comment"># optimizer update: f_q</span></span><br><span class="line">	f_k = m*f_k + (<span class="number">1</span>-m)*f_q <span class="comment"># momentum update: f_k</span></span><br><span class="line">	</span><br><span class="line"><span class="comment"># contrastive loss</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ctr</span>(<span class="params">q, k</span>):</span><br><span class="line">	logits = mm(q, k.t()) <span class="comment"># [N, N] pairs</span></span><br><span class="line">	labels = <span class="built_in">range</span>(N) <span class="comment"># positives are in diagonal</span></span><br><span class="line">	loss = CrossEntropyLoss(logits/tau, labels)</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span> * tau * loss</span><br><span class="line">	</span><br><span class="line"><span class="comment"># Notes: mm is matrix multiplication. k.t() is k’s transpose. The prediction head is excluded from f k (and thus the momentum update).</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>第一阶段的Patch投影时冻住，有效解决梯度波动问题</p>
+<h2 id="4-2-DINO"><a href="#4-2-DINO" class="headerlink" title="4.2 DINO"></a>4.2 <a href="https://arxiv.org/pdf/2104.14294.pdf">DINO</a></h2><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.1" alt="image-20230731165738061"></p>
+<p>&emsp;这里想表达的意思是一个完全不用任何标签信息训练出来的Vision Transformers，如果将其自注意力图拿出来进行可视化，可以发现其可以非常准确的抓住每个物体的轮廓，这个效果甚至可以直接匹配对这个物体作语义分割。</p>
+<p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/4.2" alt="image-20230731165935686"></p>
+<p>&emsp;DINO的前向过程都是类似的，当有一个图片x的两个视角$x_{1}$和$x_{2}$之后，$ x_{1}$和$x_{2}$分别通过学生网络编码器$g_{\theta s}$和教师网络编码器$g_{\theta t}$得到两个特征$p_{1}$和$p_{2}$，其中编码器结构中同样包含projection head和prediction head。而为了避免模型的坍塌，DINO做了一个额外的工作centering，这个操作就是把整个batch里的样本都算一个均值，然后减掉这个均值其实就是centering。最后也是有一个stop gradient的操作，然后用$p_{1}$预测$p_{2}$ </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># gs, gt: student and teacher networks</span></span><br><span class="line"><span class="comment"># C: center (K)</span></span><br><span class="line"><span class="comment"># tps, tpt: student and teacher temperatures</span></span><br><span class="line"><span class="comment"># l, m: network and center momentum rates</span></span><br><span class="line"></span><br><span class="line">gt.params = gs.params</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> loader: <span class="comment"># load a minibatch x with n samples</span></span><br><span class="line">	x1, x2 = augment(x), augment(x) <span class="comment"># random views</span></span><br><span class="line">	</span><br><span class="line">	s1, s2 = gs(x1), gs(x2) <span class="comment"># student output n-by-K</span></span><br><span class="line">	t1, t2 = gt(x1), gt(x2) <span class="comment"># teacher output n-by-K</span></span><br><span class="line">	</span><br><span class="line">	loss = H(t1, s2)/<span class="number">2</span> + H(t2, s1)/<span class="number">2</span></span><br><span class="line">	loss.backward() <span class="comment"># back-propagate</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment"># student, teacher and center updates</span></span><br><span class="line">	update(gs) <span class="comment"># SGD</span></span><br><span class="line">	gt.params = l*gt.params + (<span class="number">1</span>-l)*gs.params</span><br><span class="line">	C = m*C + (<span class="number">1</span>-m)*cat([t1, t2]).mean(dim=<span class="number">0</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">H</span>(<span class="params">t, s</span>):</span><br><span class="line">	t = t.detach() <span class="comment"># stop gradient</span></span><br><span class="line">	s = softmax(s / tps, dim=<span class="number">1</span>)</span><br><span class="line">	t = softmax((t - C) / tpt, dim=<span class="number">1</span>) <span class="comment"># center + sharpen</span></span><br><span class="line">	<span class="keyword">return</span> - (t * log(s)).<span class="built_in">sum</span>(dim=<span class="number">1</span>).mean()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h1><p><img src="/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/5" alt="image-20230731222419004"></p>
+]]></content>
+      <categories>
+        <category>论文精读</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>对比学习</tag>
+        <tag>MoCo</tag>
+        <tag>SimCLR</tag>
       </tags>
   </entry>
 </search>
