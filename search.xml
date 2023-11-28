@@ -27,8 +27,9 @@
     <url>/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/</url>
     <content><![CDATA[<h1 id="预备知识："><a href="#预备知识：" class="headerlink" title="预备知识："></a>预备知识：</h1><p><a href="https://openaccess.thecvf.com/content_ECCV_2018/papers/Ying_Zhang_Deep_Cross-Modal_Projection_ECCV_2018_paper.pdf">Deep Cross-Modal Projection Learning for Image-Text Matching</a>大工卢老师 ECCV14</p>
 <h2 id="跨模态投影匹配-CMPM"><a href="#跨模态投影匹配-CMPM" class="headerlink" title="跨模态投影匹配 (CMPM)"></a>跨模态投影匹配 (CMPM)</h2><p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127150805835.png" alt="image-20231127150805835"></p>
-<p>$$\left { (x_i, z_j), y_{i,j} \right }_{j&#x3D;1}^n$$, $y&#x3D;1 | y&#x3D;0$</p>
-<p>$$p_{i,j} &#x3D; \frac{exp(x^T_i \bar{z_j)}}{\sum_{k&#x3D;1}^{n}  exp(x^T_i \bar{z_k})}  s.t.\bar{z_j}&#x3D;\frac{z_j}{\parallel z_j \parallel } $$</p>
+<p>$${ (x_i, z_j), y_{i,j} }_{j&#x3D;1}^n$$</p>
+<p> $$y&#x3D;1 | y&#x3D;0$$</p>
+<p>$$p_{i,j} &#x3D; \frac{exp(x^T_i \bar{z_j)}}{\sum_{k&#x3D;1}^{n}  exp(x^T_i \bar{z_k})}  s.t.\bar{z_j}&#x3D;\frac{z_j}{|z_j |} $$</p>
 <p><img src="/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/image-20231127151546043.png" alt="image-20231127151546043"></p>
 <p>$$q_{i,j} &#x3D; \frac{y_{i, j}}{\sum_{k&#x3D;1}^{n}y_{i,k} }$$</p>
 <p>$$L_i &#x3D; \sum_{j&#x3D;1}^{n}p_{i,j} log\frac{p_{i,j}}{q_{i,k} + \epsilon } &#x3D;KL(p_i|q_i)$$</p>
@@ -87,8 +88,8 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>多模态</tag>
         <tag>检索</tag>
+        <tag>多模态</tag>
         <tag>图文检索</tag>
       </tags>
   </entry>
@@ -147,9 +148,9 @@
       <tags>
         <tag>Clip</tag>
         <tag>Transformer</tag>
+        <tag>多模态</tag>
         <tag>Video Retrieval</tag>
         <tag>Image Retrieval</tag>
-        <tag>多模态</tag>
       </tags>
   </entry>
   <entry>
