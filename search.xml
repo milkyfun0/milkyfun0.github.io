@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2023年RSITMD数据集情况</title>
+    <url>/2023/11/30/%E7%BB%84%E4%BC%9A/RSITMD-2023/</url>
+    <content><![CDATA[<h1 id="Tiny-CLIP"><a href="#Tiny-CLIP" class="headerlink" title="Tiny CLIP"></a>Tiny CLIP</h1><p><img src="/2023/11/30/%E7%BB%84%E4%BC%9A/RSITMD-2023/image-20231130204837292.png" alt="image-20231130204837292"></p>
+<h1 id="Parameter-Efficient-Transfer-Learning-for-Remote-Sensing-Image–Text-Retrieval-3090-24G"><a href="#Parameter-Efficient-Transfer-Learning-for-Remote-Sensing-Image–Text-Retrieval-3090-24G" class="headerlink" title="Parameter-Efficient Transfer Learning for Remote Sensing Image–Text Retrieval 3090(24G)"></a>Parameter-Efficient Transfer Learning for Remote Sensing Image–Text Retrieval 3090(24G)</h1><p><img src="/2023/11/30/%E7%BB%84%E4%BC%9A/RSITMD-2023/image-20231130204936739.png" alt="image-20231130204936739"></p>
+<h1 id="Interacting-Enhancing-Feature-Transformer-for-Cross-Modal-Remote-Sensing-Image-and-Text-Retrieval-A6000-48G"><a href="#Interacting-Enhancing-Feature-Transformer-for-Cross-Modal-Remote-Sensing-Image-and-Text-Retrieval-A6000-48G" class="headerlink" title="Interacting-Enhancing Feature Transformer for Cross-Modal Remote-Sensing Image and Text Retrieval A6000(48G)"></a>Interacting-Enhancing Feature Transformer for Cross-Modal Remote-Sensing Image and Text Retrieval A6000(48G)</h1><p><img src="/2023/11/30/%E7%BB%84%E4%BC%9A/RSITMD-2023/image-20231130205232029.png" alt="image-20231130205232029"></p>
+<p>100M</p>
+]]></content>
+  </entry>
+  <entry>
     <title>更新计划</title>
     <url>/2023/08/22/hello-world/</url>
     <content><![CDATA[<ul>
@@ -88,8 +97,8 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>多模态</tag>
         <tag>检索</tag>
+        <tag>多模态</tag>
         <tag>图文检索</tag>
       </tags>
   </entry>
@@ -148,9 +157,9 @@
       <tags>
         <tag>Clip</tag>
         <tag>Transformer</tag>
+        <tag>多模态</tag>
         <tag>Video Retrieval</tag>
         <tag>Image Retrieval</tag>
-        <tag>多模态</tag>
       </tags>
   </entry>
   <entry>
@@ -1153,10 +1162,10 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>对比学习</tag>
         <tag>Clip</tag>
         <tag>Transformer</tag>
         <tag>多模态</tag>
+        <tag>对比学习</tag>
         <tag>Bert</tag>
         <tag>MAE</tag>
         <tag>特征融合</tag>
@@ -1275,8 +1284,8 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
         <tag>扩散模型</tag>
+        <tag>论文精读</tag>
         <tag>自编码器</tag>
         <tag>Clip</tag>
         <tag>生成图像</tag>
@@ -1470,8 +1479,8 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>对比学习</tag>
         <tag>论文精读</tag>
+        <tag>对比学习</tag>
         <tag>MoCo</tag>
         <tag>SimCLR</tag>
       </tags>
