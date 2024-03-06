@@ -50,6 +50,9 @@
 <p><img src="/2023/11/30/%E7%BB%84%E4%BC%9A/RSITMD-2023/image-20240306184606870.png" alt="image-20240306184606870"></p>
 <p><img src="/2023/11/30/%E7%BB%84%E4%BC%9A/RSITMD-2023/image-20240306184635037.png" alt="image-20240306184635037"></p>
 ]]></content>
+      <tags>
+        <tag>图文检索</tag>
+      </tags>
   </entry>
   <entry>
     <title>2023.11.28 组会内容</title>
@@ -117,8 +120,8 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>多模态</tag>
         <tag>检索</tag>
+        <tag>多模态</tag>
         <tag>图文检索</tag>
       </tags>
   </entry>
@@ -177,9 +180,9 @@
       <tags>
         <tag>Clip</tag>
         <tag>Transformer</tag>
+        <tag>多模态</tag>
         <tag>Video Retrieval</tag>
         <tag>Image Retrieval</tag>
-        <tag>多模态</tag>
       </tags>
   </entry>
   <entry>
@@ -1183,8 +1186,8 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>对比学习</tag>
         <tag>Transformer</tag>
+        <tag>对比学习</tag>
         <tag>多模态</tag>
         <tag>Bert</tag>
         <tag>MAE</tag>
