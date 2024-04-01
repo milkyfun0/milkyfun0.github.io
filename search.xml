@@ -23,6 +23,48 @@
 ]]></content>
   </entry>
   <entry>
+    <title>近两年的图像检索</title>
+    <url>/2024/04/01/imageRetrieval/</url>
+    <content><![CDATA[<h1 id="CVPR2023"><a href="#CVPR2023" class="headerlink" title="CVPR2023"></a>CVPR2023</h1><p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Lee_Revisiting_Self-Similarity_Structural_Embedding_for_Image_Retrieval_CVPR_2023_paper.html">Revisiting Self-Similarity: Structural Embedding for Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Sain_CLIP_for_All_Things_Zero-Shot_Sketch-Based_Image_Retrieval_Fine-Grained_or_CVPR_2023_paper.html">CLIP for All Things Zero-Shot Sketch-Based Image Retrieval, Fine-Grained or Not</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Chaudhuri_Data-Free_Sketch-Based_Image_Retrieval_CVPR_2023_paper.html">Data-Free Sketch-Based Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Saito_Pic2Word_Mapping_Pictures_to_Words_for_Zero-Shot_Composed_Image_Retrieval_CVPR_2023_paper.html">Pic2Word: Mapping Pictures to Words for Zero-Shot Composed Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Pan_Boundary-Aware_Backward-Compatible_Representation_via_Adversarial_Learning_in_Image_Retrieval_CVPR_2023_paper.html">Boundary-Aware Backward-Compatible Representation via Adversarial Learning in Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Lin_Zero-Shot_Everything_Sketch-Based_Image_Retrieval_and_in_Explainable_Style_CVPR_2023_paper.html">Zero-Shot Everything Sketch-Based Image Retrieval, and in Explainable Style</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wu_Asymmetric_Feature_Fusion_for_Image_Retrieval_CVPR_2023_paper.html">Asymmetric Feature Fusion for Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Xie_Towards_a_Smaller_Student_Capacity_Dynamic_Distillation_for_Efficient_Image_CVPR_2023_paper.html">Towards a Smaller Student: Capacity Dynamic Distillation for Efficient Image Retrieval</a></p>
+<h1 id="CVPR2022"><a href="#CVPR2022" class="headerlink" title="CVPR2022"></a>CVPR2022</h1><p><a href="https://openaccess.thecvf.com/content/CVPR2022/html/Wu_Contextual_Similarity_Distillation_for_Asymmetric_Image_Retrieval_CVPR_2022_paper.html">Contextual Similarity Distillation for Asymmetric Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2022/html/Lee_Correlation_Verification_for_Image_Retrieval_CVPR_2022_paper.html">Correlation Verification for Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2022/html/Baldrati_Effective_Conditioned_and_Composed_Image_Retrieval_Combining_CLIP-Based_Features_CVPR_2022_paper.html">Effective Conditioned and Composed Image Retrieval Combining CLIP-Based Features</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2022/html/Bhunia_Sketching_Without_Worrying_Noise-Tolerant_Sketch-Based_Image_Retrieval_CVPR_2022_paper.html">Sketching Without Worrying: Noise-Tolerant Sketch-Based Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2022/html/Shi_Beyond_Cross-View_Image_Retrieval_Highly_Accurate_Vehicle_Localization_Using_Satellite_CVPR_2022_paper.html">Beyond Cross-View Image Retrieval: Highly Accurate Vehicle Localization Using Satellite Image</a></p>
+<h1 id="ICCV-2023"><a href="#ICCV-2023" class="headerlink" title="ICCV　2023"></a>ICCV　2023</h1><p><a href="https://openaccess.thecvf.com/content/ICCV2023/html/Zhang_Learning_Spatial-context-aware_Global_Visual_Feature_Representation_for_Instance_Image_Retrieval_ICCV_2023_paper.html">Learning Spatial-context-aware Global Visual Feature Representation for Instance Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/ICCV2023/html/Pal_FashionNTM_Multi-turn_Fashion_Image_Retrieval_via_Cascaded_Memory_ICCV_2023_paper.html">FashionNTM: Multi-turn Fashion Image Retrieval via Cascaded Memory</a></p>
+<p><a href="https://openaccess.thecvf.com/content/ICCV2023/html/Baldrati_Zero-Shot_Composed_Image_Retrieval_with_Textual_Inversion_ICCV_2023_paper.html">Zero-Shot Composed Image Retrieval with Textual Inversion</a></p>
+<p><a href="https://openaccess.thecvf.com/content/ICCV2023/html/Hu_Unsupervised_Feature_Representation_Learning_for_Domain-generalized_Cross-domain_Image_Retrieval_ICCV_2023_paper.html">Unsupervised Feature Representation Learning for Domain-generalized Cross-domain Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/ICCV2023/html/Chen_Fan-Beam_Binarization_Difference_Projection_FB-BDP_A_Novel_Local_Object_Descriptor_ICCV_2023_paper.html">Fan-Beam Binarization Difference Projection (FB-BDP): A Novel Local Object Descriptor for Fine-Grained Leaf Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/ICCV2023/html/Shao_Global_Features_are_All_You_Need_for_Image_Retrieval_and_ICCV_2023_paper.html">Global Features are All You Need for Image Retrieval and Reranking</a></p>
+<p><a href="https://openaccess.thecvf.com/content/ICCV2023/html/Zhu_Coarse-to-Fine_Learning_Compact_Discriminative_Representation_for_Single-Stage_Image_Retrieval_ICCV_2023_paper.html">Coarse-to-Fine: Learning Compact Discriminative Representation for Single-Stage Image Retrieval</a></p>
+<p><a href="https://openaccess.thecvf.com/content/ICCV2023/html/Yang_Prototypical_Mixing_and_Retrieval-Based_Refinement_for_Label_Noise-Resistant_Image_Retrieval_ICCV_2023_paper.html">Prototypical Mixing and Retrieval-Based Refinement for Label Noise-Resistant Image Retrieval</a></p>
+<h1 id="ECCV-2022"><a href="#ECCV-2022" class="headerlink" title="ECCV　2022"></a>ECCV　2022</h1><p><a href="https://arxiv.org/abs/2207.01723">Adaptive Fine-Grained Sketch-Based Image Retrieval</a></p>
+<p><a href="https://arxiv.org/abs/2207.09721">Feature Representation Learning for Unsupervised Cross-domain Image Retrieval</a></p>
+<p><a href="https://arxiv.org/abs/2207.04873">Hierarchical Average Precision Training for Pertinent Image Retrieval</a></p>
+<p>Deep Hash Distillation for Image Retrieval</p>
+<p>Granularity-aware Adaptation for Image Retrieval over Multiple Tasks</p>
+<p>SEMICON: A Learning-to-hash Solution for Large-scale Fine-grained Image Retrieval</p>
+<p>Conditional Stroke Recovery for Fine-Grained Sketch-Based Image Retrieval</p>
+<p>A Sketch Is Worth a Thousand Words:Image Retrieval with Text and Sketch</p>
+<p>Reliability-Aware Prediction via Uncertainty Learning for Person Image Retrieval</p>
+]]></content>
+      <categories>
+        <category>论文记录</category>
+      </categories>
+      <tags>
+        <tag>图像检索</tag>
+        <tag>论文导读</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2023年RSITMD数据集情况</title>
     <url>/2023/11/30/%E7%BB%84%E4%BC%9A/RSITMD-2023/</url>
     <content><![CDATA[<h1 id="Tiny-CLIP"><a href="#Tiny-CLIP" class="headerlink" title="Tiny CLIP"></a>Tiny CLIP</h1><p><img src="/2023/11/30/%E7%BB%84%E4%BC%9A/RSITMD-2023/image-20231130204837292.png" alt="image-20231130204837292"></p>
@@ -120,8 +162,8 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>检索</tag>
         <tag>多模态</tag>
+        <tag>检索</tag>
         <tag>图文检索</tag>
       </tags>
   </entry>
@@ -180,9 +222,9 @@
       <tags>
         <tag>Clip</tag>
         <tag>Transformer</tag>
-        <tag>多模态</tag>
         <tag>Video Retrieval</tag>
         <tag>Image Retrieval</tag>
+        <tag>多模态</tag>
       </tags>
   </entry>
   <entry>
@@ -1186,8 +1228,8 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>Transformer</tag>
         <tag>对比学习</tag>
+        <tag>Transformer</tag>
         <tag>多模态</tag>
         <tag>Bert</tag>
         <tag>MAE</tag>
