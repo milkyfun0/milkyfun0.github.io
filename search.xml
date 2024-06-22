@@ -194,8 +194,8 @@
       </categories>
       <tags>
         <tag>Clip</tag>
-        <tag>检索</tag>
         <tag>多模态</tag>
+        <tag>检索</tag>
         <tag>图文检索</tag>
       </tags>
   </entry>
@@ -285,9 +285,9 @@
       <tags>
         <tag>Clip</tag>
         <tag>Transformer</tag>
-        <tag>多模态</tag>
         <tag>Video Retrieval</tag>
         <tag>Image Retrieval</tag>
+        <tag>多模态</tag>
       </tags>
   </entry>
   <entry>
@@ -376,9 +376,9 @@
       <tags>
         <tag>Clip</tag>
         <tag>Transformer</tag>
-        <tag>多模态</tag>
         <tag>Video Retrieval</tag>
         <tag>Image Retrieval</tag>
+        <tag>多模态</tag>
       </tags>
   </entry>
   <entry>
@@ -1381,8 +1381,8 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>对比学习</tag>
         <tag>Clip</tag>
+        <tag>对比学习</tag>
         <tag>Transformer</tag>
         <tag>多模态</tag>
         <tag>Bert</tag>
@@ -1503,8 +1503,8 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
         <tag>扩散模型</tag>
+        <tag>论文精读</tag>
         <tag>自编码器</tag>
         <tag>Clip</tag>
         <tag>生成图像</tag>
@@ -1698,8 +1698,8 @@
         <category>论文精读</category>
       </categories>
       <tags>
-        <tag>对比学习</tag>
         <tag>论文精读</tag>
+        <tag>对比学习</tag>
         <tag>MoCo</tag>
         <tag>SimCLR</tag>
       </tags>
