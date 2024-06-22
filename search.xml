@@ -227,7 +227,7 @@
 <h2 id="TS2-Net-ECCV-2022"><a href="#TS2-Net-ECCV-2022" class="headerlink" title="TS2-Net(ECCV 2022)"></a>TS2-Net(ECCV 2022)</h2><p><strong>TS2-Net: Token Shift and Selection Transformer for Text-Video Retrieval</strong></p>
 <p>&emsp;时间维度融合，利用Token之间的平移捕捉变动差别</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100927351.png" alt="image-20231118100927351"></p>
-<p><img src="/../../../../AppData/Roaming/Typora/typora-user-images/image-20240623003309770.png" alt="image-20240623003309770"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623003309770.png" alt="image-20240623003309770"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100942559.png" alt="image-20231118100942559"></p>
 <h2 id="EMCL-NeurIPS-2022"><a href="#EMCL-NeurIPS-2022" class="headerlink" title="EMCL(NeurIPS 2022)"></a>EMCL(NeurIPS 2022)</h2><p><a href="https://arxiv.org/abs/2211.11427"><strong>Expectation-Maximization Contrastive Learning for Compact Video-and-Language Representations</strong></a></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101102419.png" alt="image-20231118101102419"></p>
@@ -273,6 +273,7 @@
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623010321544.png" alt="image-20240623010321544"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623010421388.png" alt="image-20240623010421388"></p>
 <h1 id="CLIP"><a href="#CLIP" class="headerlink" title="CLIP"></a>CLIP</h1><h2 id="A-Picture-is-Worth-More-Than-77-Text-Tokens-Evaluating-CLIP-Style-Models-on-Dense-Captions-CVPR-2024"><a href="#A-Picture-is-Worth-More-Than-77-Text-Tokens-Evaluating-CLIP-Style-Models-on-Dense-Captions-CVPR-2024" class="headerlink" title="A Picture is Worth More Than 77 Text Tokens: Evaluating CLIP-Style Models on Dense Captions(CVPR 2024)"></a>A Picture is Worth More Than 77 Text Tokens: Evaluating CLIP-Style Models on Dense Captions(CVPR 2024)</h2><p><a href="https://arxiv.org/abs/2312.08578">A Picture is Worth More Than 77 Text Tokens: Evaluating CLIP-Style Models on Dense Captions</a></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623011600066.png" alt="image-20240623011600066"></p>
 <h1 id="General-Methods"><a href="#General-Methods" class="headerlink" title="General Methods"></a>General Methods</h1><h2 id="Cross-Modal-Retrieval-with-Querybank-Normalisation-CVPR-2022"><a href="#Cross-Modal-Retrieval-with-Querybank-Normalisation-CVPR-2022" class="headerlink" title="Cross Modal Retrieval with Querybank Normalisation(CVPR 2022)"></a>Cross Modal Retrieval with Querybank Normalisation(CVPR 2022)</h2><p><a href="https://arxiv.org/abs/2112.12777">Cross Modal Retrieval with Querybank Normalisation</a></p>
 <p>&emsp;主要解决的是检索中某一个样本对大部分相似度过高的情况</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102559410.png" alt="image-20231118102559410"></p>
