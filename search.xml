@@ -23,38 +23,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>知识蒸馏方法</title>
-    <url>/2024/04/01/KnowledgeDistill/</url>
-    <content><![CDATA[<h1 id="CVPR2023"><a href="#CVPR2023" class="headerlink" title="CVPR2023"></a>CVPR2023</h1><p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Du_Minimizing_the_Accumulated_Trajectory_Error_To_Improve_Dataset_Distillation_CVPR_2023_paper.html">Minimizing the Accumulated Trajectory Error To Improve Dataset Distillation</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Song_EcoTTA_Memory-Efficient_Continual_Test-Time_Adaptation_via_Self-Distilled_Regularization_CVPR_2023_paper.html">EcoTTA: Memory-Efficient Continual Test-Time Adaptation via Self-Distilled Regularization</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Ju_Distilling_Vision-Language_Pre-Training_To_Collaborate_With_Weakly-Supervised_Temporal_Action_Localization_CVPR_2023_paper.html">Distilling Vision-Language Pre-Training To Collaborate With Weakly-Supervised Temporal Action Localization</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Cho_itKD_Interchange_Transfer-Based_Knowledge_Distillation_for_3D_Object_Detection_CVPR_2023_paper.html">itKD: Interchange Transfer-Based Knowledge Distillation for 3D Object Detection</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Bai_Masked_Autoencoders_Enable_Efficient_Knowledge_Distillers_CVPR_2023_paper.html">Masked Autoencoders Enable Efficient Knowledge Distillers</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Ren_TinyMIM_An_Empirical_Study_of_Distilling_MIM_Pre-Trained_Models_CVPR_2023_paper.html">TinyMIM: An Empirical Study of Distilling MIM Pre-Trained Models</a></p>
-<p><strong><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_DaFKD_Domain-Aware_Federated_Knowledge_Distillation_CVPR_2023_paper.html">DaFKD: Domain-Aware Federated Knowledge Distillation</a></strong></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wei_MMANet_Margin-Aware_Distillation_and_Modality-Aware_Regularization_for_Incomplete_Multimodal_Learning_CVPR_2023_paper.html">MMANet: Margin-Aware Distillation and Modality-Aware Regularization for Incomplete Multimodal Learning</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Jin_Multi-Level_Logit_Distillation_CVPR_2023_paper.html">Multi-Level Logit Distillation</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhu_ScaleKD_Distilling_Scale-Aware_Knowledge_in_Small_Object_Detector_CVPR_2023_paper.html">ScaleKD: Distilling Scale-Aware Knowledge in Small Object Detector</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhang_Accelerating_Dataset_Distillation_via_Model_Augmentation_CVPR_2023_paper.html">Accelerating Dataset Distillation via Model Augmentation</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_Object-Aware_Distillation_Pyramid_for_Open-Vocabulary_Object_Detection_CVPR_2023_paper.html">Object-Aware Distillation Pyramid for Open-Vocabulary Object Detection</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Mahmoud_Self-Supervised_Image-to-Point_Distillation_via_Semantically_Tolerant_Contrastive_Loss_CVPR_2023_paper.html">Self-Supervised Image-to-Point Distillation via Semantically Tolerant Contrastive Loss</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Shang_Incrementer_Transformer_for_Class-Incremental_Semantic_Segmentation_With_Knowledge_Distillation_Focusing_CVPR_2023_paper.html">Incrementer: Transformer for Class-Incremental Semantic Segmentation With Knowledge Distillation Focusing on Old Class</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Tan_Distilling_Neural_Fields_for_Real-Time_Articulated_Shape_Reconstruction_CVPR_2023_paper.html">Distilling Neural Fields for Real-Time Articulated Shape Reconstruction</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_Masked_Video_Distillation_Rethinking_Masked_Feature_Modeling_for_Self-Supervised_Video_CVPR_2023_paper.html">Masked Video Distillation: Rethinking Masked Feature Modeling for Self-Supervised Video Representation Learning</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Guo_Class_Attention_Transfer_Based_Knowledge_Distillation_CVPR_2023_paper.html">Class Attention Transfer Based Knowledge Distillation</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhang_Efficient_RGB-T_Tracking_via_Cross-Modality_Distillation_CVPR_2023_paper.html">Efficient RGB-T Tracking via Cross-Modality Distillation</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Shen_StructVPR_Distill_Structural_Knowledge_With_Weighting_Samples_for_Visual_Place_CVPR_2023_paper.html">StructVPR: Distill Structural Knowledge With Weighting Samples for Visual Place Recognition</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhao_Few-Shot_Class-Incremental_Learning_via_Class-Aware_Bilateral_Distillation_CVPR_2023_paper.html">Few-Shot Class-Incremental Learning via Class-Aware Bilateral Distillation</a></p>
-]]></content>
-      <categories>
-        <category>论文记录</category>
-      </categories>
-      <tags>
-        <tag>知识蒸馏</tag>
-        <tag>论文导读</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>近两年的图像检索</title>
     <url>/2024/04/01/imageRetrieval/</url>
     <content><![CDATA[<h1 id="CVPR2023"><a href="#CVPR2023" class="headerlink" title="CVPR2023"></a>CVPR2023</h1><p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Lee_Revisiting_Self-Similarity_Structural_Embedding_for_Image_Retrieval_CVPR_2023_paper.html">Revisiting Self-Similarity: Structural Embedding for Image Retrieval</a></p>
@@ -92,8 +60,40 @@
         <category>论文记录</category>
       </categories>
       <tags>
-        <tag>论文导读</tag>
         <tag>图像检索</tag>
+        <tag>论文导读</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>知识蒸馏方法</title>
+    <url>/2024/04/01/KnowledgeDistill/</url>
+    <content><![CDATA[<h1 id="CVPR2023"><a href="#CVPR2023" class="headerlink" title="CVPR2023"></a>CVPR2023</h1><p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Du_Minimizing_the_Accumulated_Trajectory_Error_To_Improve_Dataset_Distillation_CVPR_2023_paper.html">Minimizing the Accumulated Trajectory Error To Improve Dataset Distillation</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Song_EcoTTA_Memory-Efficient_Continual_Test-Time_Adaptation_via_Self-Distilled_Regularization_CVPR_2023_paper.html">EcoTTA: Memory-Efficient Continual Test-Time Adaptation via Self-Distilled Regularization</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Ju_Distilling_Vision-Language_Pre-Training_To_Collaborate_With_Weakly-Supervised_Temporal_Action_Localization_CVPR_2023_paper.html">Distilling Vision-Language Pre-Training To Collaborate With Weakly-Supervised Temporal Action Localization</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Cho_itKD_Interchange_Transfer-Based_Knowledge_Distillation_for_3D_Object_Detection_CVPR_2023_paper.html">itKD: Interchange Transfer-Based Knowledge Distillation for 3D Object Detection</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Bai_Masked_Autoencoders_Enable_Efficient_Knowledge_Distillers_CVPR_2023_paper.html">Masked Autoencoders Enable Efficient Knowledge Distillers</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Ren_TinyMIM_An_Empirical_Study_of_Distilling_MIM_Pre-Trained_Models_CVPR_2023_paper.html">TinyMIM: An Empirical Study of Distilling MIM Pre-Trained Models</a></p>
+<p><strong><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_DaFKD_Domain-Aware_Federated_Knowledge_Distillation_CVPR_2023_paper.html">DaFKD: Domain-Aware Federated Knowledge Distillation</a></strong></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wei_MMANet_Margin-Aware_Distillation_and_Modality-Aware_Regularization_for_Incomplete_Multimodal_Learning_CVPR_2023_paper.html">MMANet: Margin-Aware Distillation and Modality-Aware Regularization for Incomplete Multimodal Learning</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Jin_Multi-Level_Logit_Distillation_CVPR_2023_paper.html">Multi-Level Logit Distillation</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhu_ScaleKD_Distilling_Scale-Aware_Knowledge_in_Small_Object_Detector_CVPR_2023_paper.html">ScaleKD: Distilling Scale-Aware Knowledge in Small Object Detector</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhang_Accelerating_Dataset_Distillation_via_Model_Augmentation_CVPR_2023_paper.html">Accelerating Dataset Distillation via Model Augmentation</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_Object-Aware_Distillation_Pyramid_for_Open-Vocabulary_Object_Detection_CVPR_2023_paper.html">Object-Aware Distillation Pyramid for Open-Vocabulary Object Detection</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Mahmoud_Self-Supervised_Image-to-Point_Distillation_via_Semantically_Tolerant_Contrastive_Loss_CVPR_2023_paper.html">Self-Supervised Image-to-Point Distillation via Semantically Tolerant Contrastive Loss</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Shang_Incrementer_Transformer_for_Class-Incremental_Semantic_Segmentation_With_Knowledge_Distillation_Focusing_CVPR_2023_paper.html">Incrementer: Transformer for Class-Incremental Semantic Segmentation With Knowledge Distillation Focusing on Old Class</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Tan_Distilling_Neural_Fields_for_Real-Time_Articulated_Shape_Reconstruction_CVPR_2023_paper.html">Distilling Neural Fields for Real-Time Articulated Shape Reconstruction</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_Masked_Video_Distillation_Rethinking_Masked_Feature_Modeling_for_Self-Supervised_Video_CVPR_2023_paper.html">Masked Video Distillation: Rethinking Masked Feature Modeling for Self-Supervised Video Representation Learning</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Guo_Class_Attention_Transfer_Based_Knowledge_Distillation_CVPR_2023_paper.html">Class Attention Transfer Based Knowledge Distillation</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhang_Efficient_RGB-T_Tracking_via_Cross-Modality_Distillation_CVPR_2023_paper.html">Efficient RGB-T Tracking via Cross-Modality Distillation</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Shen_StructVPR_Distill_Structural_Knowledge_With_Weighting_Samples_for_Visual_Place_CVPR_2023_paper.html">StructVPR: Distill Structural Knowledge With Weighting Samples for Visual Place Recognition</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhao_Few-Shot_Class-Incremental_Learning_via_Class-Aware_Bilateral_Distillation_CVPR_2023_paper.html">Few-Shot Class-Incremental Learning via Class-Aware Bilateral Distillation</a></p>
+]]></content>
+      <categories>
+        <category>论文记录</category>
+      </categories>
+      <tags>
+        <tag>论文导读</tag>
+        <tag>知识蒸馏</tag>
       </tags>
   </entry>
   <entry>
@@ -202,7 +202,7 @@
   <entry>
     <title>10-11月进度总结 检索方面</title>
     <url>/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h1 id="Video-Retrieval"><a href="#Video-Retrieval" class="headerlink" title="Video Retrieval"></a>Video Retrieval</h1><h2 id="Space-Time-Attention-基本框架-ICML-2021"><a href="#Space-Time-Attention-基本框架-ICML-2021" class="headerlink" title="Space-Time Attention(基本框架  ICML 2021)"></a>Space-Time Attention(基本框架  ICML 2021)</h2><p><strong><a href="(https://arxiv.org/abs/2102.05095)">Is Space-Time Attention All You Need for Video Understanding?</a></strong></p>
+    <content><![CDATA[<h1 id="Video-Retrieval"><a href="#Video-Retrieval" class="headerlink" title="Video Retrieval"></a>Video Retrieval</h1><h2 id="Space-Time-Attention-基本框架-ICML-2021-happy"><a href="#Space-Time-Attention-基本框架-ICML-2021-happy" class="headerlink" title="Space-Time Attention(基本框架  ICML 2021:happy:)"></a>Space-Time Attention(基本框架  ICML 2021:happy:)</h2><p><strong><a href="(https://arxiv.org/abs/2102.05095)">Is Space-Time Attention All You Need for Video Understanding?</a></strong></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/4.1.1.png" alt="image-20230811163530398"></p>
 <ul>
 <li>直接将Attention应用到图片的方法迁移到视频之中（空间注意力）</li>
@@ -213,66 +213,109 @@
 </ul>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/4.2.1.png" alt="image-20230811163643822"></p>
 <p>&emsp;想法简单、效果好、容易迁移、可以用于处理超过1min的视频</p>
-<h2 id="CLIP4Clip-2021"><a href="#CLIP4Clip-2021" class="headerlink" title="CLIP4Clip(2021)"></a>CLIP4Clip(2021)</h2><p><a href="https://arxiv.org/abs/2104.08860"><strong>An Empirical Study of CLIP for End to End Video Clip Retrieval</strong></a></p>
+<h2 id="CLIP4Clip-2021-happy"><a href="#CLIP4Clip-2021-happy" class="headerlink" title="CLIP4Clip(2021 :happy:)"></a>CLIP4Clip(2021 :happy:)</h2><p><a href="https://arxiv.org/abs/2104.08860"><strong>An Empirical Study of CLIP for End to End Video Clip Retrieval</strong></a></p>
+<p><strong>背景：</strong>CLIP模型的提出，探究图像特征是否足够用于视频-文本检索、对视频帧之间的时间依赖性建模的实用机制是什么？</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101514862.png" alt="image-20231118101514862"></p>
 <h2 id="FT-ICCV-2021"><a href="#FT-ICCV-2021" class="headerlink" title="FT(ICCV 2021)"></a>FT(ICCV 2021)</h2><p><a href="https://arxiv.org/abs/2104.00650">Frozen in Time: A Joint Video and Image Encoder for End-to-End Retrieval</a></p>
+<p><strong>工作：</strong>视频和文本的联合嵌入，<strong>旨在利用大规模图像和视频字幕数据集</strong>。可用于图像和视频，可以处理不同长度的输入，提出了新的数据集</p>
+<p><strong>损失函数：</strong> InfoNCE</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623003403700.png" alt="image-20240623003403700"></p>
 <h2 id="X-Pool-CVPR-2022"><a href="#X-Pool-CVPR-2022" class="headerlink" title="X-Pool(CVPR 2022)"></a>X-Pool(CVPR 2022)</h2><p><a href="https://arxiv.org/abs/2203.15086"><strong>Cross-Modal Language-Video Attention for Text-Video Retrieval</strong></a></p>
-<p>&emsp;选择与文本相关的文本Token相近的视觉Token</p>
+<p><strong>背景：</strong>视频和文本信息不对等，文本通常捕获整个视频的子区域，并且在语义上与视频中的某些帧最为相似。</p>
+<p><strong>工作：</strong>选择与文本相关的文本Token相近的视觉Token，不直接挑选Top-K而直接注意力软性选择</p>
+<p><strong>损失：</strong> InfoNCE</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100200730.png" alt="image-20231118100200730"></p>
-<h2 id="X-Clip-ECCV-2022"><a href="#X-Clip-ECCV-2022" class="headerlink" title="X-Clip(ECCV 2022)"></a>X-Clip(ECCV 2022)</h2><p><a href="https://arxiv.org/abs/2208.02816"><strong>Expanding Language-Image Pretrained Models for General Video Recognition</strong></a></p>
-<p>&emsp;时间维度融合的新方法，先融合到时间维度再利用融合后的特征返回和图像维度融合</p>
+<h2 id="X-Clip-ECCV-2022-happy"><a href="#X-Clip-ECCV-2022-happy" class="headerlink" title="X-Clip(ECCV 2022 :happy:)"></a>X-Clip(ECCV 2022 :happy:)</h2><p><a href="https://arxiv.org/abs/2208.02816"><strong>Expanding Language-Image Pretrained Models for General Video Recognition</strong></a></p>
+<p><strong>背景：</strong>CLIP很好用，要将语言 - 图像预训练模型拓展到通用视频识别的方法；还有如何利用视频类别标签中的文本信息</p>
+<p><strong>工作：</strong>时间维度融合的新方法，先融合到时间维度再利用融合后的特征返回和图像维度融合；视频自适应的提示学习</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100600504.png" alt="image-20231118100600504"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100630051.png" alt="image-20231118100630051"></p>
-<h2 id="TS2-Net-ECCV-2022"><a href="#TS2-Net-ECCV-2022" class="headerlink" title="TS2-Net(ECCV 2022)"></a>TS2-Net(ECCV 2022)</h2><p><strong>TS2-Net: Token Shift and Selection Transformer for Text-Video Retrieval</strong></p>
-<p>&emsp;时间维度融合，利用Token之间的平移捕捉变动差别</p>
+<h2 id="TS2-Net-ECCV-2022"><a href="#TS2-Net-ECCV-2022" class="headerlink" title="TS2-Net(ECCV 2022)"></a>TS2-Net(ECCV 2022)</h2><p><a href="https://arxiv.org/abs/2207.07852"><strong>TS2-Net: Token Shift and Selection Transformer for Text-Video Retrieval</strong></a></p>
+<p><strong>背景：</strong>现有的框架都是预训练，对细粒度的时空视频表示学习不太好</p>
+<p><strong>工作：</strong>时间维度融合，利用Token之间的平移捕捉变动差别；通过Token的选择好的Token同时减少计算量</p>
+<p>损失：InfoNCE</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100927351.png" alt="image-20231118100927351"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623003309770.png" alt="image-20240623003309770"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118100942559.png" alt="image-20231118100942559"></p>
 <h2 id="EMCL-NeurIPS-2022"><a href="#EMCL-NeurIPS-2022" class="headerlink" title="EMCL(NeurIPS 2022)"></a>EMCL(NeurIPS 2022)</h2><p><a href="https://arxiv.org/abs/2211.11427"><strong>Expectation-Maximization Contrastive Learning for Compact Video-and-Language Representations</strong></a></p>
+<p><strong>背景：</strong>视频和文本的嵌入空间之间的差距无法消除</p>
+<p><strong>工作：</strong>利用EM算法优化嵌入空间</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101102419.png" alt="image-20231118101102419"></p>
-<h2 id="DRL-2022"><a href="#DRL-2022" class="headerlink" title="DRL(2022)"></a>DRL(2022)</h2><p><a href="https://arxiv.org/abs/2203.07111"><strong>Disentangled Representation Learning for Text-Video Retrieval</strong></a></p>
-<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623004337676.png" alt="image-20240623004337676"></p>
+<h2 id="DRL-技术报告-2022"><a href="#DRL-技术报告-2022" class="headerlink" title="DRL(技术报告 2022)"></a>DRL(技术报告 2022)</h2><p><a href="https://arxiv.org/abs/2203.07111"><strong>Disentangled Representation Learning for Text-Video Retrieval</strong></a></p>
+<p><strong>背景：</strong>很少有人对模态间的交互进行研究</p>
+<p><strong>工作：</strong>出了一个分离的框架来捕获顺序和层次表示。WTI适应性生成相关度，CDCR减低冗余度</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623003827210.png" alt="image-20231118101328656"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623004337676.png" alt="image-20240623004337676"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101340854.png" alt="image-20231118101340854"></p>
 <h2 id="CenterCLIP-SIGIR-2022"><a href="#CenterCLIP-SIGIR-2022" class="headerlink" title="CenterCLIP(SIGIR 2022)"></a>CenterCLIP(SIGIR 2022)</h2><p><a href="https://arxiv.org/abs/2205.00823"><strong>Token Clustering for Efficient Text-Video Retrieval</strong></a></p>
+<p><strong>背景：</strong>在视频的提取中有连续和相似帧的冗余</p>
+<p><strong>工作：</strong>减少冗余Token，设计不同的聚类算法，有效聚类</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623004241975.png" alt="image-20240623004241975"></p>
 <p>&emsp;去除冗余信息 </p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101632756.png" alt="image-20231118101632756"></p>
 <h2 id="TMVPM-NIPS-2022"><a href="#TMVPM-NIPS-2022" class="headerlink" title="TMVPM(NIPS 2022)"></a>TMVPM(NIPS 2022)</h2><p><a href="https://arxiv.org/abs/2209.13307">Text-Adaptive Multiple Visual Prototype Matching for Video-Text Retrieval</a></p>
+<p><strong>背景：</strong>视频信息多，文本信息少，需要缓解视频和文本对应的歧义问题</p>
+<p><strong>工作：</strong>自适应地聚合视频标记特征来自动捕获多个Prototype来描述视频，进行文本的自适应匹配</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623004410389.png" alt="image-20240623004410389"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623004905507.png" alt="image-20240623004905507"></p>
 <h2 id="CLIP-bnl-ACMMM-2022"><a href="#CLIP-bnl-ACMMM-2022" class="headerlink" title="CLIP-bnl(ACMMM 2022)"></a>CLIP-bnl(ACMMM 2022)</h2><p><a href="https://arxiv.org/abs/2205.00132">Learn to Understand Negation in Video Retrieval</a></p>
+<p><strong>背景：</strong>常见的模型对于否定的查询关注度低，导致检索效果不好</p>
+<p><strong>工作：</strong>提出了构建否定数据集的新方法，提出了新的数据集</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623005007065.png" alt="image-20240623005007065"></p>
 <h2 id="Prompt-Switch-ICCV-2023"><a href="#Prompt-Switch-ICCV-2023" class="headerlink" title="Prompt Switch(ICCV 2023)"></a>Prompt Switch(ICCV 2023)</h2><p><a href="https://arxiv.org/abs/2308.07648">Prompt Switch: Efficient CLIP Adaptation for Text-Video Retrieval</a></p>
+<p><strong>背景：</strong>如何使用CLIP捕捉视频中的丰富的语义，而将文本融合到图像中效率低</p>
+<p><strong>工作：</strong>引用时空Prompt Cube 将青荃路视频语义融合到帧表示中</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101724910.png" alt="image-20231118101724910"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623005105355.png" alt="image-20240623005105355"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118101753781.png" alt="image-20231118101753781"></p>
 <h2 id="Cap4Video-CVPR-2023"><a href="#Cap4Video-CVPR-2023" class="headerlink" title="Cap4Video(CVPR 2023)"></a>Cap4Video(CVPR 2023)</h2><p><a href="https://arxiv.org/abs/2301.00184"><strong>Cap4Video What Can Auxiliary Captions Do for Text-Video Retrieval</strong></a></p>
-<p>&emsp;利用</p>
+<p><strong>背景：</strong>现在的检索，只考虑Query文本，在现实世界的场景中，在线视频往往伴随着相关的文本信息，</p>
+<p><strong>工作：</strong>利用额外的文本信息增强视频表示</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102034385.png" alt="image-20231118102034385"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118102051534.png" alt="image-20231118102051534"></p>
-<h2 id="UATVR-ICCV-2023"><a href="#UATVR-ICCV-2023" class="headerlink" title="UATVR(ICCV 2023)"></a>UATVR(ICCV 2023)</h2><p><a href="https://arxiv.org/abs/2301.06309"> <strong>UATVR: Uncertainty-Adaptive Text-Video Retrieval</strong></a></p>
-<p>&emsp;粗细粒度的偏重就有不确定性，本文针对这一问题，提出了不确定性的自适应检索方法</p>
+<h2 id="UATVR-ICCV-2023-happy"><a href="#UATVR-ICCV-2023-happy" class="headerlink" title="UATVR(ICCV 2023 :happy:)"></a>UATVR(ICCV 2023 :happy:)</h2><p><a href="https://arxiv.org/abs/2301.06309"> <strong>UATVR: Uncertainty-Adaptive Text-Video Retrieval</strong></a>、</p>
+<p><strong>背景：</strong>目前对于跨模态的检索，往往把他们嵌入到相同的空间，但是由于信息量不对等，无法自适应汇聚多粒度语义</p>
+<p><strong>工作：</strong>粗细粒度的偏重就有不确定性，本文针对这一问题，将视频文本表示为概率分布，提出了不确定性的自适应检索方法</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118112636621.png" alt="image-20231118112636621"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623133544688.png" alt="image-20240623133544688"></p>
 <h2 id="UCOFIA-ICCV-2023"><a href="#UCOFIA-ICCV-2023" class="headerlink" title="UCOFIA(ICCV 2023)"></a>UCOFIA(ICCV 2023)</h2><p><a href="https://arxiv.org/abs/2309.10091"><strong>Unified Coarse-to-Fine Alignment for Video-Text Retrieval</strong></a></p>
-<p>&emsp;如何规范的利用视频和文本进行粗细粒度对齐，减轻不想关信息的影响</p>
+<p><strong>背景：</strong>觉信息和文本信息之间的粗粒度或细粒度对齐之间的规范不明</p>
+<p><strong>工作：</strong>如何规范的利用视频和文本进行粗细粒度对齐，ISA减轻不想关信息的影响</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118113036134.png" alt="image-20231118113036134"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20231118113204634.png" alt="image-20231118113204634"></p>
 <h2 id="ProST-ICCV-2023"><a href="#ProST-ICCV-2023" class="headerlink" title="ProST(ICCV 2023)"></a>ProST(ICCV 2023)</h2><p><a href="https://openaccess.thecvf.com/content/ICCV2023/papers/Li_Progressive_Spatio-Temporal_Prototype_Matching_for_Text-Video_Retrieval_ICCV_2023_paper.pdf">Progressive Spatio-Temporal Prototype Matching for Text-Video Retrieval</a></p>
+<p><strong>背景：</strong>还是视频和文本信息不对等，常见的方法视频与文本之间的内在关系，即文本描述只对应于视频的时空部分。匹配过程应该同时考虑细粒度的空间内容和各种时间语义事件。</p>
+<p><strong>工作：</strong>将匹配的过程拆分成了短语原型匹配和事件匹配</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623005421731.png" alt="image-20240623005421731"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623005517179.png" alt="image-20240623005517179"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623135707900.png" alt="image-20240623135707900"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623135721384.png" alt="image-20240623135721384"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623135831654.png" alt="image-20240623135831654"></p>
 <h2 id="DiCoSA-IJCAI-2023"><a href="#DiCoSA-IJCAI-2023" class="headerlink" title="DiCoSA(IJCAI 2023)"></a>DiCoSA(IJCAI 2023)</h2><p><a href="https://arxiv.org/abs/2305.12218">Text-Video Retrieval with Disentangled Conceptualization and Set-to-Set</a></p>
+<p><strong>背景：</strong>视频和文本细粒度对齐框架不好用</p>
+<p><strong>工作：</strong>一种自适应汇集方法来聚合语义概念以解决部分匹配问题，在几个维度设置独立编码</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623005931675.png" alt="image-20240623005931675"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623010014920.png" alt="image-20240623010014920"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623140516340.png" alt="image-20240623140516340"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623140539436.png" alt="image-20240623140539436"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623140549391.png" alt="image-20240623140549391"></p>
 <h2 id="SViTT-CVPR-2023"><a href="#SViTT-CVPR-2023" class="headerlink" title="SViTT(CVPR 2023)"></a>SViTT(CVPR 2023)</h2><p><a href="https://arxiv.org/abs/2304.08809">SViTT: Temporal Learning of Sparse Video-Text Transformers</a></p>
+<p><strong>背景：</strong>视频文本检索需要平衡时空建模的开销，和帧数的控制</p>
+<p><strong>工作：</strong>一种执行多帧推理的稀疏视频-文本体系结构，其中文中边稀疏性是的是减少Token之间的相似度计算，点稀疏性指的是Token的数目</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623010054378.png" alt="image-20240623010054378"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623010142798.png" alt="image-20240623010142798"></p>
-<h2 id="Text-Is-MASS-CVPR-2024"><a href="#Text-Is-MASS-CVPR-2024" class="headerlink" title="Text Is MASS(CVPR 2024)"></a>Text Is MASS(CVPR 2024)</h2><p><a href="https://arxiv.org/abs/2403.17998">Text Is MASS: Modeling as Stochastic Embedding for Text-Video Retrieval</a></p>
+<h2 id="Text-Is-MASS-CVPR-2024-happy"><a href="#Text-Is-MASS-CVPR-2024-happy" class="headerlink" title="Text Is MASS(CVPR 2024:happy:)"></a>Text Is MASS(CVPR 2024:happy:)</h2><p><a href="https://arxiv.org/abs/2403.17998">Text Is MASS: Modeling as Stochastic Embedding for Text-Video Retrieval</a></p>
+<p><strong>背景：</strong>视频文本语义不对等，现有数据集中的文本内容一般都很简短，很难完全描述视频的冗余语义。</p>
+<p><strong>工作：</strong>提出了一种新的随机文本建模方法T-MASS，即将文本建模为随机嵌入，以丰富文本嵌入的灵活和弹性的语义范围，入了一个相似性感知半径模块来根据给定的文本-视频对来调整文本质量的大小。</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623010258465.png" alt="image-20240623010258465"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623010321544.png" alt="image-20240623010321544"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623142503413.png" alt="image-20240623142503413"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623142449529.png" alt="image-20240623142449529"></p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623010421388.png" alt="image-20240623010421388"></p>
+<p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623142641712.png" alt="image-20240623142641712"></p>
 <h1 id="CLIP"><a href="#CLIP" class="headerlink" title="CLIP"></a>CLIP</h1><h2 id="A-Picture-is-Worth-More-Than-77-Text-Tokens-Evaluating-CLIP-Style-Models-on-Dense-Captions-CVPR-2024"><a href="#A-Picture-is-Worth-More-Than-77-Text-Tokens-Evaluating-CLIP-Style-Models-on-Dense-Captions-CVPR-2024" class="headerlink" title="A Picture is Worth More Than 77 Text Tokens: Evaluating CLIP-Style Models on Dense Captions(CVPR 2024)"></a>A Picture is Worth More Than 77 Text Tokens: Evaluating CLIP-Style Models on Dense Captions(CVPR 2024)</h2><p><a href="https://arxiv.org/abs/2312.08578">A Picture is Worth More Than 77 Text Tokens: Evaluating CLIP-Style Models on Dense Captions</a></p>
+<p><strong>背景：</strong>即使是最高质量的精选字幕也太短了，无法捕捉到图像中丰富的视觉细节。</p>
+<p><strong>工作：</strong>我们收集了密集标题图像(DCI)数据集，</p>
 <p><img src="/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E7%BB%93/image-20240623011600066.png" alt="image-20240623011600066"></p>
 <h1 id="General-Methods"><a href="#General-Methods" class="headerlink" title="General Methods"></a>General Methods</h1><h2 id="Cross-Modal-Retrieval-with-Querybank-Normalisation-CVPR-2022"><a href="#Cross-Modal-Retrieval-with-Querybank-Normalisation-CVPR-2022" class="headerlink" title="Cross Modal Retrieval with Querybank Normalisation(CVPR 2022)"></a>Cross Modal Retrieval with Querybank Normalisation(CVPR 2022)</h2><p><a href="https://arxiv.org/abs/2112.12777">Cross Modal Retrieval with Querybank Normalisation</a></p>
 <p>&emsp;主要解决的是检索中某一个样本对大部分相似度过高的情况</p>
