@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>更新计划</title>
-    <url>/2023/08/22/hello-world/</url>
+    <url>/2024/11/30/hello-world/</url>
     <content><![CDATA[<ul>
 <li><p><strong>20230916</strong></p>
 <p>综述文章 多模态综述</p>
@@ -21,6 +21,38 @@
 </li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>知识蒸馏方法</title>
+    <url>/2024/04/01/KnowledgeDistill/</url>
+    <content><![CDATA[<h1 id="CVPR2023"><a href="#CVPR2023" class="headerlink" title="CVPR2023"></a>CVPR2023</h1><p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Du_Minimizing_the_Accumulated_Trajectory_Error_To_Improve_Dataset_Distillation_CVPR_2023_paper.html">Minimizing the Accumulated Trajectory Error To Improve Dataset Distillation</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Song_EcoTTA_Memory-Efficient_Continual_Test-Time_Adaptation_via_Self-Distilled_Regularization_CVPR_2023_paper.html">EcoTTA: Memory-Efficient Continual Test-Time Adaptation via Self-Distilled Regularization</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Ju_Distilling_Vision-Language_Pre-Training_To_Collaborate_With_Weakly-Supervised_Temporal_Action_Localization_CVPR_2023_paper.html">Distilling Vision-Language Pre-Training To Collaborate With Weakly-Supervised Temporal Action Localization</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Cho_itKD_Interchange_Transfer-Based_Knowledge_Distillation_for_3D_Object_Detection_CVPR_2023_paper.html">itKD: Interchange Transfer-Based Knowledge Distillation for 3D Object Detection</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Bai_Masked_Autoencoders_Enable_Efficient_Knowledge_Distillers_CVPR_2023_paper.html">Masked Autoencoders Enable Efficient Knowledge Distillers</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Ren_TinyMIM_An_Empirical_Study_of_Distilling_MIM_Pre-Trained_Models_CVPR_2023_paper.html">TinyMIM: An Empirical Study of Distilling MIM Pre-Trained Models</a></p>
+<p><strong><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_DaFKD_Domain-Aware_Federated_Knowledge_Distillation_CVPR_2023_paper.html">DaFKD: Domain-Aware Federated Knowledge Distillation</a></strong></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wei_MMANet_Margin-Aware_Distillation_and_Modality-Aware_Regularization_for_Incomplete_Multimodal_Learning_CVPR_2023_paper.html">MMANet: Margin-Aware Distillation and Modality-Aware Regularization for Incomplete Multimodal Learning</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Jin_Multi-Level_Logit_Distillation_CVPR_2023_paper.html">Multi-Level Logit Distillation</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhu_ScaleKD_Distilling_Scale-Aware_Knowledge_in_Small_Object_Detector_CVPR_2023_paper.html">ScaleKD: Distilling Scale-Aware Knowledge in Small Object Detector</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhang_Accelerating_Dataset_Distillation_via_Model_Augmentation_CVPR_2023_paper.html">Accelerating Dataset Distillation via Model Augmentation</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_Object-Aware_Distillation_Pyramid_for_Open-Vocabulary_Object_Detection_CVPR_2023_paper.html">Object-Aware Distillation Pyramid for Open-Vocabulary Object Detection</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Mahmoud_Self-Supervised_Image-to-Point_Distillation_via_Semantically_Tolerant_Contrastive_Loss_CVPR_2023_paper.html">Self-Supervised Image-to-Point Distillation via Semantically Tolerant Contrastive Loss</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Shang_Incrementer_Transformer_for_Class-Incremental_Semantic_Segmentation_With_Knowledge_Distillation_Focusing_CVPR_2023_paper.html">Incrementer: Transformer for Class-Incremental Semantic Segmentation With Knowledge Distillation Focusing on Old Class</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Tan_Distilling_Neural_Fields_for_Real-Time_Articulated_Shape_Reconstruction_CVPR_2023_paper.html">Distilling Neural Fields for Real-Time Articulated Shape Reconstruction</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_Masked_Video_Distillation_Rethinking_Masked_Feature_Modeling_for_Self-Supervised_Video_CVPR_2023_paper.html">Masked Video Distillation: Rethinking Masked Feature Modeling for Self-Supervised Video Representation Learning</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Guo_Class_Attention_Transfer_Based_Knowledge_Distillation_CVPR_2023_paper.html">Class Attention Transfer Based Knowledge Distillation</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhang_Efficient_RGB-T_Tracking_via_Cross-Modality_Distillation_CVPR_2023_paper.html">Efficient RGB-T Tracking via Cross-Modality Distillation</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Shen_StructVPR_Distill_Structural_Knowledge_With_Weighting_Samples_for_Visual_Place_CVPR_2023_paper.html">StructVPR: Distill Structural Knowledge With Weighting Samples for Visual Place Recognition</a></p>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhao_Few-Shot_Class-Incremental_Learning_via_Class-Aware_Bilateral_Distillation_CVPR_2023_paper.html">Few-Shot Class-Incremental Learning via Class-Aware Bilateral Distillation</a></p>
+]]></content>
+      <categories>
+        <category>论文记录</category>
+      </categories>
+      <tags>
+        <tag>知识蒸馏</tag>
+        <tag>论文导读</tag>
+      </tags>
   </entry>
   <entry>
     <title>近两年的图像检索</title>
@@ -60,40 +92,8 @@
         <category>论文记录</category>
       </categories>
       <tags>
+        <tag>论文导读</tag>
         <tag>图像检索</tag>
-        <tag>论文导读</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>知识蒸馏方法</title>
-    <url>/2024/04/01/KnowledgeDistill/</url>
-    <content><![CDATA[<h1 id="CVPR2023"><a href="#CVPR2023" class="headerlink" title="CVPR2023"></a>CVPR2023</h1><p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Du_Minimizing_the_Accumulated_Trajectory_Error_To_Improve_Dataset_Distillation_CVPR_2023_paper.html">Minimizing the Accumulated Trajectory Error To Improve Dataset Distillation</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Song_EcoTTA_Memory-Efficient_Continual_Test-Time_Adaptation_via_Self-Distilled_Regularization_CVPR_2023_paper.html">EcoTTA: Memory-Efficient Continual Test-Time Adaptation via Self-Distilled Regularization</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Ju_Distilling_Vision-Language_Pre-Training_To_Collaborate_With_Weakly-Supervised_Temporal_Action_Localization_CVPR_2023_paper.html">Distilling Vision-Language Pre-Training To Collaborate With Weakly-Supervised Temporal Action Localization</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Cho_itKD_Interchange_Transfer-Based_Knowledge_Distillation_for_3D_Object_Detection_CVPR_2023_paper.html">itKD: Interchange Transfer-Based Knowledge Distillation for 3D Object Detection</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Bai_Masked_Autoencoders_Enable_Efficient_Knowledge_Distillers_CVPR_2023_paper.html">Masked Autoencoders Enable Efficient Knowledge Distillers</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Ren_TinyMIM_An_Empirical_Study_of_Distilling_MIM_Pre-Trained_Models_CVPR_2023_paper.html">TinyMIM: An Empirical Study of Distilling MIM Pre-Trained Models</a></p>
-<p><strong><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_DaFKD_Domain-Aware_Federated_Knowledge_Distillation_CVPR_2023_paper.html">DaFKD: Domain-Aware Federated Knowledge Distillation</a></strong></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wei_MMANet_Margin-Aware_Distillation_and_Modality-Aware_Regularization_for_Incomplete_Multimodal_Learning_CVPR_2023_paper.html">MMANet: Margin-Aware Distillation and Modality-Aware Regularization for Incomplete Multimodal Learning</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Jin_Multi-Level_Logit_Distillation_CVPR_2023_paper.html">Multi-Level Logit Distillation</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhu_ScaleKD_Distilling_Scale-Aware_Knowledge_in_Small_Object_Detector_CVPR_2023_paper.html">ScaleKD: Distilling Scale-Aware Knowledge in Small Object Detector</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhang_Accelerating_Dataset_Distillation_via_Model_Augmentation_CVPR_2023_paper.html">Accelerating Dataset Distillation via Model Augmentation</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_Object-Aware_Distillation_Pyramid_for_Open-Vocabulary_Object_Detection_CVPR_2023_paper.html">Object-Aware Distillation Pyramid for Open-Vocabulary Object Detection</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Mahmoud_Self-Supervised_Image-to-Point_Distillation_via_Semantically_Tolerant_Contrastive_Loss_CVPR_2023_paper.html">Self-Supervised Image-to-Point Distillation via Semantically Tolerant Contrastive Loss</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Shang_Incrementer_Transformer_for_Class-Incremental_Semantic_Segmentation_With_Knowledge_Distillation_Focusing_CVPR_2023_paper.html">Incrementer: Transformer for Class-Incremental Semantic Segmentation With Knowledge Distillation Focusing on Old Class</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Tan_Distilling_Neural_Fields_for_Real-Time_Articulated_Shape_Reconstruction_CVPR_2023_paper.html">Distilling Neural Fields for Real-Time Articulated Shape Reconstruction</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Wang_Masked_Video_Distillation_Rethinking_Masked_Feature_Modeling_for_Self-Supervised_Video_CVPR_2023_paper.html">Masked Video Distillation: Rethinking Masked Feature Modeling for Self-Supervised Video Representation Learning</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Guo_Class_Attention_Transfer_Based_Knowledge_Distillation_CVPR_2023_paper.html">Class Attention Transfer Based Knowledge Distillation</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhang_Efficient_RGB-T_Tracking_via_Cross-Modality_Distillation_CVPR_2023_paper.html">Efficient RGB-T Tracking via Cross-Modality Distillation</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Shen_StructVPR_Distill_Structural_Knowledge_With_Weighting_Samples_for_Visual_Place_CVPR_2023_paper.html">StructVPR: Distill Structural Knowledge With Weighting Samples for Visual Place Recognition</a></p>
-<p><a href="https://openaccess.thecvf.com/content/CVPR2023/html/Zhao_Few-Shot_Class-Incremental_Learning_via_Class-Aware_Bilateral_Distillation_CVPR_2023_paper.html">Few-Shot Class-Incremental Learning via Class-Aware Bilateral Distillation</a></p>
-]]></content>
-      <categories>
-        <category>论文记录</category>
-      </categories>
-      <tags>
-        <tag>论文导读</tag>
-        <tag>知识蒸馏</tag>
       </tags>
   </entry>
   <entry>

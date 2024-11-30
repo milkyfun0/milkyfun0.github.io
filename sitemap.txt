@@ -3,7 +3,7 @@ https://milkyfun0.github.io/2023/11/18/11%E6%9C%88/%E8%BF%9B%E5%BA%A6%E6%80%BB%E
 https://milkyfun0.github.io/2024/04/01/KnowledgeDistill/
 https://milkyfun0.github.io/2024/04/01/imageRetrieval/
 https://milkyfun0.github.io/2023/11/30/%E7%BB%84%E4%BC%9A/RSITMD-2023/
-https://milkyfun0.github.io/2023/08/22/hello-world/
+https://milkyfun0.github.io/2024/11/30/hello-world/
 https://milkyfun0.github.io/2023/11/27/%E7%BB%84%E4%BC%9A/11%E6%9C%88%E7%AC%AC4%E6%AC%A1%E7%BB%84%E4%BC%9A/
 https://milkyfun0.github.io/2023/08/23/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0-2021/
 https://milkyfun0.github.io/2023/08/27/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB-DELL%C2%B7E2-2022/
@@ -17,9 +17,9 @@ https://milkyfun0.github.io/schedule/index.html
 https://milkyfun0.github.io/archives/index.html
 https://milkyfun0.github.io/home/index.html
 https://milkyfun0.github.io/
-https://milkyfun0.github.io/tags/%E5%9B%BE%E5%83%8F%E6%A3%80%E7%B4%A2/
-https://milkyfun0.github.io/tags/%E8%AE%BA%E6%96%87%E5%AF%BC%E8%AF%BB/
 https://milkyfun0.github.io/tags/%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/
+https://milkyfun0.github.io/tags/%E8%AE%BA%E6%96%87%E5%AF%BC%E8%AF%BB/
+https://milkyfun0.github.io/tags/%E5%9B%BE%E5%83%8F%E6%A3%80%E7%B4%A2/
 https://milkyfun0.github.io/tags/%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B/
 https://milkyfun0.github.io/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/
 https://milkyfun0.github.io/tags/%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8/
